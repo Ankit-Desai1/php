@@ -1,0 +1,361 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.header-container {
+    background-image: url("../image/Landing-Page-background-image.png");
+    height: auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.nav-item {
+    margin-left: 15px;
+}
+
+.navborder {
+    padding: 0px 5px 0px 5px;
+    border: 1px solid #FFFFFF;
+    border-radius: 20px;
+}
+
+.lorem-text {
+    margin-left: 5%;
+    padding-top: 178px;
+}
+
+.text-header {
+    font-size: 50px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+
+.text {
+    color: #FFFFFF;
+    font-size: 16px;
+    margin-top: 16px;
+}
+
+.button-for-booking {
+    border: 1px solid #FFFFFF;
+    border-radius: 27px;
+    padding: 13px 27px 13px 27px;
+    opacity: 1;
+    background-color: teal;
+    opacity: 1;
+    font-size: 18px;
+    color: white;
+}
+
+.process {
+    margin-top: 159px;
+    margin-left: 10%;
+}
+
+.process-text {
+    color: #FFFFFF;
+    font-size: 20px;
+    margin-top: 35px;
+}
+
+.down-arrow {
+    margin-top: 40px;
+    margin-bottom: 2%;
+}
+
+.why-title {
+    margin-top: 79px;
+    font-size: 40px;
+    color: #4F4F4F;
+    font-weight: 700;
+}
+
+.why-row {
+    margin-top: 82.5px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 2%;
+}
+
+.why-col {
+    padding: 3%;
+}
+
+.why-image {
+    max-height: 280px;
+    max-width: 280px;
+}
+
+.why-text-title {
+    margin-top: 32.5px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #565656;
+}
+
+.why-text {
+    color: #565656;
+    font-size: 17px;
+}
+
+.bloginfo {
+    background-image: url(../image/blog-left-bg.png), url(../image/blog-right-bg.png);
+    background-position: left, right;
+    background-repeat: no-repeat, no-repeat;
+    height: auto;
+}
+
+.info {
+    margin-top: 63px;
+    margin-left: 10%;
+}
+
+.info-title {
+    font-size: 30px;
+    color: #4F4F4F;
+    text-align: left;
+}
+
+.info-info {
+    font-size: 18px;
+    color: #4F4F4F;
+    text-align: left;
+}
+
+.imgmix {
+    margin-right: 10%;
+}
+
+.info-title-blog {
+    margin-top: 15px;
+    font-size: 40px;
+    font-weight: 700;
+    color: #4F4F4F;
+    text-align: left;
+}
+
+.card-container {
+    margin-top: 64px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.card-title {
+    text-align: left;
+    color: #3D4046;
+    opacity: 1;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.card-date {
+    text-align: left;
+    letter-spacing: 0px;
+    color: #A3A3A3;
+    opacity: 1;
+    font-size: 13px;
+}
+
+.card-text {
+    text-align: left;
+    color: #565656;
+    opacity: 1;
+    font-size: 16px;
+}
+
+.card-more {
+    text-align: left;
+    letter-spacing: 0px;
+    color: #4F4F4F;
+    opacity: 1;
+    font-size: 18px;
+}
+
+.customer-container {
+    background-color: #F4F5F8;
+    height: auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.customer-title {
+    padding-top: 58px;
+    color: #4F4F4F;
+    opacity: 1;
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.customer {
+    margin-top: 57px;
+    margin-left: 201px;
+    margin-right: 201px;
+}
+
+.customer-image {
+    margin-top: 43px;
+    margin-left: 38px;
+}
+
+.customer-name {
+    margin-top: 55.01px;
+    margin-left: 17.34px;
+    letter-spacing: 0px;
+    color: #4F4F4F;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.customer-city {
+    margin-left: 17.34px;
+    letter-spacing: 0px;
+    color: #8E8E8E;
+}
+
+.customer-info {
+    margin-top: 25.01px;
+    margin-left: 38px;
+    text-align: left;
+    letter-spacing: 0px;
+    color: #565656;
+    font-size: 16px;
+}
+
+.customer-more {
+    margin-left: 38px;
+    margin-top: 10px;
+    text-align: left;
+    letter-spacing: 0px;
+    color: #565656;
+    font-size: 18px;
+}
+
+.our-news-letter {
+    padding-bottom: 55px;
+    background: #F4F5F8;
+}
+
+.our-news-letter .container {
+    position: relative;
+    max-width: 1420px;
+}
+
+.our-news-letter a {
+    display: inline-block;
+}
+
+.our-news-letter .scroll-top {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    background: #525252;
+    border-radius: 50%;
+    left: 0;
+    line-height: 45px;
+}
+
+.our-news-letter .message-boat {
+    position: absolute;
+    width: 63px;
+    height: 63px;
+    right: 0;
+}
+
+.our-news-letter h5 {
+    color: #353548;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 50px;
+    margin-bottom: 16px;
+}
+
+.our-news-letter .form-row .form-control {
+    border-radius: 20px;
+    border: solid 1px #565656;
+    background-color: #f4f5f8;
+    color: #565656;
+    font-size: 14px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 22px;
+}
+
+.our-news-letter .btn-wrapper {
+    margin-left: 11px;
+}
+
+.submit {
+    background-color: #FF7B6D;
+    font-size: 14px;
+    line-height: 37px;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    color: #fff;
+    width: 88px;
+    transition: 0.3s all;
+}
+
+.footer {
+    background-color: #111111;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.footer .footer-menu {
+    margin-left: 5px;
+    margin-right: 5px;
+    color: #F1F1F1;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.footer .fb {
+    margin-top: 25px;
+    margin-right: 20px;
+}
+
+.footer .insta {
+    margin-top: 25px;
+    margin-right: 20px;
+}
+
+.footer .footer-end {
+    margin-top: 10px;
+    color: #9BA0A3;
+    font-size: 14px;
+    font-weight: 400;
+    padding-bottom: 5px;
+}
+
+.footer-policy {
+    background-color: #292929;
+    color: #F1F1F1;
+    font-size: 14px;
+}
+
+.btn-ok {
+    background-color: #EED507;
+    padding: 3px 15px 3px 15px;
+    border-radius: 20px;
+    color: #4F4F4F;
+    font-size: 16px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    margin-left: 100px;
+}
