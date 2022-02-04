@@ -7,23 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>about</title>
-    <link rel="stylesheet" href="../Asset/css/about_style.css">
+    <link rel="stylesheet" href="./Asset/css/about_style.css">
+    <?php $base_url='http://localhost/php/helperland/'; ?>
+    <script>
+  var config = {
+        routes: {
+            zone: "<?= $base_url ?>"
+        }
+    };
+  </script>
 
 
 </head>
 
 <body>
 <?php 
-include("header.php");
+include("navbar.php");
 ?>
     <section class="content">
         <div>
-            <img src="../Asset/image/hero-banner-img.png" class="img-fluid" alt="...">
+            <img src="./Asset/image/hero-banner-img.png" class="img-fluid" alt="...">
         </div>
 
         <div class="text-center">
             <h1 class="title">A Few words about us</h1>
-            <img src="../Asset/image/faq-seprator.png" class="img-fluid image-seprator" alt="...">
+            <img src="./Asset/image/faq-seprator.png" class="img-fluid image-seprator" alt="...">
             <p class="title-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie convallis tempor. Duis vestibulum vel risus condimentum dictum. <br> Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus quis
                 enim orci. Fusce risus lacus, <br> sollicitudin eu magna sed, pharetra sodales libero. Proin tincidunt vel erat id porttitor. Donec tristique est arcu, sed dignissim velit vulputate <br> ultricies. <br> <br> Interdum et malesuada fames
                 ac ante ipsum primis in faucibus. In hac habitasse platea dictumst. Vivamus eget mauris eget nisl euismod <br> volutpat sed sed libero. Quisque sit amet lectus ex. Ut semper ligula et mauris tincidunt hendrerit. Aenean ut rhoncus orci,
@@ -34,7 +42,7 @@ include("header.php");
 
         <div class="text-center">
             <h2 class="story-title">Our Story</h2>
-            <img src="../Asset/image/faq-seprator.png" class="img-fluid image-seprator" alt="...">
+            <img src="./Asset/image/faq-seprator.png" class="img-fluid image-seprator" alt="...">
             <p class="title-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie convallis tempor. Duis vestibulum vel risus condimentum dictum. <br> Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus quis
                 enim orci. Fusce risus lacus, <br> sollicitudin eu magna sed, pharetra sodales libero. Proin tincidunt vel erat id porttitor. Donec tristique est arcu, sed dignissim velit vulputate <br> ultricies. <br> <br> Interdum et malesuada fames
                 ac ante ipsum primis in faucibus. In hac habitasse platea dictumst. Vivamus eget mauris eget nisl euismod <br> volutpat sed sed libero. Quisque sit amet lectus ex. Ut semper ligula et mauris tincidunt hendrerit. <br> <br> Aenean ut rhoncus

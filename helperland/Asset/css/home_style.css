@@ -359,3 +359,46 @@ body {
     margin-bottom: 12px;
     margin-left: 100px;
 }
+
+.login_input {
+    border: 1px solid #c1c1c1;
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.login_icon {
+    padding: 10px;
+    color: #525252;
+}
+
+#loginform .form-control {
+    border-style: none;
+}
+
+.btn_login {
+    border-radius: 35px;
+    background-color: teal;
+    color: #FFFFFF;
+    padding-left: 35%;
+    padding-right: 35%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.btn_login:hover {
+    background-color: #29626D;
+    color: #FFFFFF;
+}
+
+#loginform h3,
+#forgotform h3 {
+    font-weight: 500;
+    color: #4F4F4F;
+}
+
+#loginform .form-text {
+    font-size: 16px;
+    margin: 0;
+}

@@ -2,23 +2,10 @@
 
 class Helperland {
 
-    /* Creates database connection */
-    // public function __construct() {
-    //     try {            
-    //          /* Properties */
-    //         $dsn = 'mysql:dbname=helperland_schema;host=localhost';
-    //         $user = 'root';
-    //         $password = '';
-    //         $this-> conn = new PDO($dsn, $user, $password);
-    //     } catch (PDOException $e) {
-    //         print "Error!: " . $e->getMessage() . "";
-    //         die();
-    //     }
-    // } 
 
     function __construct(){
         try{
-        //  $this->conn = new PDO("mysql:host=localhost:3306;dbname=event_mgt","root","");
+        //  $this->conn = new PDO("mysql:host=localhost;dbname=event_mgt","root","");
             $servername = "localhost";
             $dbname = "helperland_schema";
             $username = "root";
@@ -36,10 +23,28 @@ class Helperland {
        }
     }
     
-//     function insert($table,$array){
-//         $sql = "INSERT INTO $table(email,password) VALUES (:email, :pswd)";
-//         $stmt= $this->conn->prepare($sql);
-//         $stmt->execute($array);
-//         return $this->conn->lastInsertId();
-// }
-}   
+    function insert($table,$array){
+        $sql = "INSERT INTO $table(email,password) VALUES (:email, :pswd)";
+        $stmt= $this->conn->prepare($sql);
+        $stmt->execute($array);
+        return $this->conn->lastInsertId();
+    }
+
+    function contact($table,$array){
+        $sql = "INSERT INTO $table(Name,Email,SubjectType,PhoneNumber,Message,CreatedOn) VALUES (:firstname, :email, :subject, :phonenumber,:message,:createdon)";
+        $stmt= $this->conn->prepare($sql);
+        $stmt->execute($array);
+        return $this->conn->lastInsertId(); 
+    }
+
+    function check($email){
+        $sql= "SELECT * 
+        FROM user 
+        where Email = '$email'";
+        $stmt= $this->conn->prepare($sql);
+        $stmt->execute();
+        $res= $stmt->fetch(PDO::FETCH_ASSOC);
+        return $res;
+       
+    }
+}

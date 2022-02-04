@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,37 +8,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>contact</title>
-    <link rel="stylesheet" href="../Asset/css/contact_style.css">
-    
+    <link rel="stylesheet" href="./Asset/css/contact_style.css">
+    <?php $base_url='http://localhost/php/helperland/'; ?>
+    <script>
+  var config = {
+        routes: {
+            zone: "<?= $base_url ?>"
+        }
+    };
+  </script>
 </head>
 
 <body>
 
 <?php 
-include("header.php");
+include("navbar.php");
 ?>
 
     <div>
-        <img src="../Asset/image/group-16_2.png" class="img-fluid" alt="...">
+        <img src="./Asset/image/group-16_2.png" class="img-fluid" alt="...">
     </div>
 
     <section class="contact-us text-center">
         <h1 class="title">Contact us</h1>
-        <img src="../Asset/image/faq-seprator.png" class="img-fluid image-seprator" alt="...">
+        <img src="./Asset/image/faq-seprator.png" class="img-fluid image-seprator" alt="...">
         <div class="container contact">
             <div class="row g-3">
                 <div class="col-12 col-md-6 col-lg-4">
-                    <img src="../Asset/image/forma-1_2.png" alt="...">
+                    <img src="./Asset/image/forma-1_2.png" alt="...">
                     <p class="contact-info">1111 Lorem ipsum text 100, <br> Lorem ipsum AB</p>
                 </div>
 
                 <div class="col-12 col-md-6 col-lg-4">
-                    <img src="../Asset/image/phone-call.png" alt="...">
+                    <img src="./Asset/image/phone-call.png" alt="...">
                     <p class="contact-info">+49 (40) 123 56 7890 <br> +49 (40) 987 56 0000</p>
                 </div>
 
                 <div class="col-12 col-md-6 col-lg-4">
-                    <img src="../Asset/image/vector-smart-object.png" alt="...">
+                    <img src="./Asset/image/vector-smart-object.png" alt="...">
                     <p class="contact-info">info@helperland.com</p>
                 </div>
             </div>
@@ -53,13 +61,13 @@ include("header.php");
     </div>
 
     <section class="container">
-        <form class="contact-form text-center ">
+        <form class="contact-form text-center " action= "<?= $base_url.'?controller=Helperland&function=contact_us'?>" method="post">
             <div class="row mb-3 ">
                 <div class="col-lg-6 col-sm-12 mb-3">
-                    <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="First name" name="firstname">
                 </div>
                 <div class="col-lg-6 col-sm-12">
-                    <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+                    <input type="text" class="form-control" placeholder="Last name" name="lastname">
                 </div>
             </div>
             <div class="row mb-3">
@@ -67,25 +75,25 @@ include("header.php");
                     <label class="visually-hidden" for="mobile-number"></label>
                     <div class="input-group">
                         <div class="input-group-text">+49</div>
-                        <input type="text" class="form-control" id="mobile-number" placeholder="Mobile number">
+                        <input type="text" class="form-control" id="mobile-number" placeholder="Mobile number" name="phonenumber">
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-12">
-                    <input type="text" class="form-control" placeholder="Email address" area-label="email">
+                    <input type="text" class="form-control" placeholder="Email address" name="email">
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col">
-                    <select id="subject" class="form-select">
-                  <option selected>Subject</option>
-                  <option>subject2</option>
+                    <select id="subject" class="form-select" name="subject">
+                  <option selected value="subject">Subject</option>
+                  <option value="subject2">subject2</option>
                 </select>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    <textarea class="form-control" placeholder="Write something.." area-label="subject"></textarea>
+                    <textarea class="form-control" placeholder="Write something.." name="message"></textarea>
                 </div>
             </div>
             <button type="submit" class="btn border-btn">Submit</button>

@@ -8,57 +8,29 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>FAQ</title>
 
-    <link rel="stylesheet" href="../Asset/css/faq_style.css">
+    <link rel="stylesheet" href="./Asset/css/faq_style.css">
+    <?php $base_url='http://localhost/php/helperland/'; ?>
+    <script>
+  var config = {
+        routes: {
+            zone: "<?= $base_url ?>"
+        }
+    };
+  </script>
 
 
 </head>
 
 <body>
 
-    <div class="container-fluid" style="background-color: #A3A3A3;">
-        <nav class="navbar navbar-expand-lg navbar-light text-center">
-            <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="../Asset/image/logo-large.png" class="header-img" style="max-height:54px;" alt=""></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <div class="navbar-nav ms-auto">
-                        <ul class="navbar-nav">
-                            <li class="nav-item navborder">
-                                <a class="nav-link  text-white" aria-current="page" href="#">Book a Cleaner</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link text-white " href="prices.php">Prices</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link text-white " href="#">Our Guarantee</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link text-white " href="#">Blog</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link text-white " href="contact.php">Contact Us</a>
-                            </li>
-                            <li class="nav-item navborder ">
-                                <a class="nav-link text-white " href="#">Login</a>
-                            </li>
-                            <li class="nav-item navborder ">
-                                <a class="nav-link text-white " href="#">Become a Helper</a>
-                            </li>
-
-                        </ul>
-
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
+<?php 
+include("navbar.php");
+?>
 
     <section class="main-content">
 
         <div>
-            <img src="../Asset/image/faq-banner.png" class="img-fluid" alt="...">
+            <img src="./Asset/image/faq-banner.png" class="img-fluid" alt="...">
         </div>
         <div>
             <h1 class="title-faq text-center">FAQs</h1>
@@ -66,7 +38,7 @@
         </div>
 
         <div class="text-center">
-            <img src="../Asset/image/faq-seprator.png" class="img-fluid faq-image" alt="...">
+            <img src="./Asset/image/faq-seprator.png" class="img-fluid faq-image" alt="...">
         </div>
 
         <div>
@@ -89,7 +61,7 @@
         <div class="text-justify mt-5">
 
             <p class="faq-large-content text-center">
-                <img src="../Asset/image/right-arrow.png" alt="">
+                <img src="./Asset/image/right-arrow.png" alt="">
                 <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
             </a>
@@ -105,7 +77,7 @@
             </div>
 
             <p class="faq-large-content text-center">
-                <img src="../Asset/image/right-arrow.png" alt="">
+                <img src="./Asset/image/right-arrow.png" alt="">
                 <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
             </a>
@@ -122,7 +94,7 @@
 
 
             <p class="faq-large-content text-center">
-                <img src="../Asset/image/right-arrow.png" alt="">
+                <img src="./Asset/image/right-arrow.png" alt="">
                 <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
             </a>
@@ -140,7 +112,7 @@
 
 
             <p class="faq-large-content text-center">
-                <img src="../Asset/image/right-arrow.png" alt="">
+                <img src="./Asset/image/right-arrow.png" alt="">
                 <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
             </a>
@@ -158,7 +130,7 @@
 
 
             <p class="faq-large-content text-center">
-                <img src="../Asset/image/right-arrow.png" alt="">
+                <img src="./Asset/image/right-arrow.png" alt="">
                 <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
             </a>
@@ -176,7 +148,7 @@
 
 
             <p class="faq-large-content text-center">
-                <img src="../Asset/image/right-arrow.png" alt="">
+                <img src="./Asset/image/right-arrow.png" alt="">
                 <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample5" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
             </a>
@@ -194,7 +166,7 @@
 
 
             <p class="faq-large-content text-center">
-                <img src="../Asset/image/right-arrow.png" alt="">
+                <img src="./Asset/image/right-arrow.png" alt="">
                 <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample6" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
             </a>
@@ -212,7 +184,7 @@
 
 
             <p class="faq-large-content text-center">
-                <img src="../Asset/image/right-arrow.png" alt="">
+                <img src="./Asset/image/right-arrow.png" alt="">
                 <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample7" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
             </a>
@@ -230,7 +202,7 @@
 
 
             <p class="faq-large-content text-center">
-                <img src="../Asset/image/right-arrow.png" alt="">
+                <img src="./Asset/image/right-arrow.png" alt="">
                 <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample8" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
             </a>

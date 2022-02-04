@@ -10,8 +10,19 @@ body {
     font-weight: 400;
 }
 
+.header-img {
+    max-height: 54px;
+    padding: 0;
+}
+
 .nav-item {
     margin-left: 15px;
+}
+
+.navonlyborder {
+    padding: 0px 5px 0px 5px;
+    border: 1px solid #FFFFFF;
+    border-radius: 20px;
 }
 
 .navborder {
@@ -19,11 +30,6 @@ body {
     border: 1px solid #FFFFFF;
     border-radius: 20px;
     background-color: #29626D;
-}
-
-img .header-img {
-    max-height: 54px;
-    padding: 0;
 }
 
 .title-faq {
