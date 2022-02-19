@@ -101,7 +101,7 @@ body {
     border: solid 1px#B0C9CE;
 }
 
-.schedule .continue {
+.continue {
     padding: 6px 18px 6px 18px;
     border: 1px solid #1D7A8C;
     border-radius: 23px;
@@ -280,4 +280,99 @@ body {
     color: #9BA0A3;
     font-size: 14px;
     padding-bottom: 5px;
+}
+
+.radiobutton {
+    border: 1px solid #4F4F4F;
+    vertical-align: middle;
+    padding: 10px;
+    margin: 10px;
+}
+
+.add_address {
+    border: 2px solid #1D7A8C;
+    color: #1D7A8C;
+    border-radius: 23px;
+}
+
+.save {
+    color: #FFFFFF;
+    background-color: #1D7A8C;
+    border-radius: 23px;
+}
+
+.cancel {
+    color: #9BA0A3;
+    border: 1px solid #9BA0A3;
+    border-radius: 23px;
+    margin: 10px;
+}
+
+.address_form {
+    border: 1px solid #9BA0A3;
+    padding: 15px;
+    margin: 10px;
+    background-color: #ebf2f3;
+    display: none;
+}
+
+.make_payment h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #4F4F4F;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.apply-btn {
+    padding: 20px, 5px;
+    background: #00607200 0% 0% no-repeat padding-box;
+    border: 2px solid #2f6a71;
+    border-radius: 20px;
+    opacity: 1;
+    width: 100px;
+    height: 35px;
+    margin-left: 20px;
+}
+
+.checkavailability {
+    padding: 6px 18px 6px 18px;
+    border: 1px solid #1D7A8C;
+    border-radius: 23px;
+    background-color: #1D7A8C;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 10px;
+}
+
+.image_check input {
+    display: none;
+}
+
+.hiddencheckbox {
+    display: none;
+}
+
+:checked+label.btn {
+    border: 3px solid #1d7a8c !important;
+}
+
+label.btn:before {
+    background-color: #1d7a8c;
+    transform: scale(1);
+}
+
+label.btn img {
+    transform: scale(0.9);
+    z-index: -1;
+}
+
+@media (max-width:992px) {
+    .btnforcontent {
+        display: none;
+    }
+    button img {
+        padding-left: 30%;
+    }
 }
