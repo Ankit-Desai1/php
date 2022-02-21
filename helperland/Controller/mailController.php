@@ -20,5 +20,3 @@
 
 // echo'welcome'.$username .$id;
 // echo'your email is:'.$email ;
-
-?>

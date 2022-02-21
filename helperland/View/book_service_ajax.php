@@ -253,9 +253,9 @@
 
 
         if ($('#havepet').is(":checked")) {
-            pets = true;
+            pets = 1;
         } else {
-            pets = false;
+            pets = 0;
         }
         AddServiceRequest();
     });

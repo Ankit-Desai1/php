@@ -251,7 +251,7 @@ class HelperlandController
             ];
             $get_address = $this->model->get_selected_address($addressid);
             $result = $this->model->ADD_Service_request($array);
-
+            $serviceprovider = $this->model->Service_provider($zipcode);
             if ($result) {
                 $servicerequestid = $result;
 
@@ -280,6 +280,13 @@ class HelperlandController
                     'type' => $type,
                 ];
                 $service_address = $this->model->service_address($address);
+
+                if (count($serviceprovider)) {
+                    foreach ($serviceprovider as $row) {
+                        $email = $row['Email'];
+                        include('service_provided.php');
+                    }
+                }
             } else {
                 echo 0;
             }

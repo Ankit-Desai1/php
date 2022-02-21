@@ -148,4 +148,16 @@ class Helperland
         $result = $stmt->execute($address);
         return $result;
     }
+
+
+
+    public function Service_provider($zipcode)
+    {
+        $sql = "SELECT * FROM user WHERE UserTypeId = 1 AND ZipCode='$zipcode' ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
 }

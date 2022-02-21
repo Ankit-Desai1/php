@@ -62,7 +62,7 @@ if (isset($_SESSION['username'])) {
                 <div class="col-lg-8 col-md-12 clearfix">
 
                     <div class="tab">
-                        <button class="tablinks" onclick="set_service(event, 'form1')" id="defaultOpen"><img src="./Asset/image/setup-service.png" alt=".."> <span class="btnforcontent"> Setup service</span></button>
+                        <button class="tablinks" onclick="set_service(event, 'form1')" id="defaultopen"><img src="./Asset/image/setupservice.png" alt=".."> <span class="btnforcontent"> Setup service</span></button>
                         <button class="tablinks" onclick="set_service(event, 'form2')" id="tab2btn"><img src="./Asset/image/schedule.png" alt=".."><span class="btnforcontent"> Schedule & Plan</span></button>
                         <button class="tablinks" onclick="set_service(event, 'form3')" id="tab3btn"><img src="./Asset/image/details.png" alt=".."><span class="btnforcontent"> Your Details</span></button>
                         <button class="tablinks" onclick="set_service(event, 'form4')" id="tab4btn"><img src="./Asset/image/payment.png" alt=".."><span class="btnforcontent"> Make Payment</span></button>
@@ -228,25 +228,27 @@ if (isset($_SESSION['username'])) {
                         <div id="alladdress"></div>
                         <button class="btn add_address" id="add_address">+ Add New
                             Address</button>
-                        <form class="address_form" method="POST">
+                        <form class="address_form" method="POST" id="new_address">
                             <div class="row mb-3">
                                 <div class="col-md-6 col-sm-12">
                                     <label for="streetname" class="form-label">Street name</label>
-                                    <input type="text" class="form-control" name="streetname" placeholder="Street name" id="streetname" required />
+                                    <input type="text" class="form-control" name="streetname" placeholder="Street name" id="streetname" />
+                                    <div class="err-street"></div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <label for="housenumber" class="form-label">House number</label>
-                                    <input type="text" class="form-control" name="housenumber" placeholder="House number" id="housenumber" required />
+                                    <input type="text" class="form-control" name="housenumber" placeholder="House number" id="housenumber" />
+                                    <div class="err-houseno"></div>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6 col-sm-12">
                                     <label for="postalcode" class="form-label">Postal Code</label>
-                                    <input type="text" class="form-control" name="postalcode" placeholder="Postal Code" disabled id="pincode" required />
+                                    <input type="text" class="form-control" name="postalcode" placeholder="Postal Code" disabled id="pincode" />
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <label for="city" class="form-label">City</label>
-                                    <input type="text" class="form-control" name="city" placeholder="City" id="city" required />
+                                    <input type="text" class="form-control" name="city" placeholder="City" id="city" />
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -254,8 +256,9 @@ if (isset($_SESSION['username'])) {
                                     <label for="phonenumber" class="form-label">Phone number</label>
                                     <div class="input-group">
                                         <div class="input-group-text">+49</div>
-                                        <input type="text" class="form-control" name="phonenumber" placeholder="Mobile Number" id="phonenumber" required />
+                                        <input type="text" class="form-control" name="phonenumber" placeholder="Mobile Number" id="phonenumber" />
                                     </div>
+                                    <div class="err-mobile"></div>
                                 </div>
                             </div>
 
@@ -283,8 +286,10 @@ if (isset($_SESSION['username'])) {
                         </div>
                         <div class="promocode_error text-danger"></div>
                         <hr>
-                        <input type="checkbox" id="payment_term"> I accepted terms and conditions, the cancellation policy and the privacy policy. I confirm that Helperland starts to execute the contract before the expiry of the withdrawal period and I lose my right of withdrawal
-                        as a consumer with full performance of the contract.
+                        <div class="terms_check">
+                            <input type="checkbox" id="payment_term"> I accepted terms and conditions, the cancellation policy and the privacy policy. I confirm that Helperland starts to execute the contract before the expiry of the withdrawal period and I lose my right of withdrawal
+                            as a consumer with full performance of the contract.
+                        </div>
                         <hr>
                         <button class="continue" type="submit" id="complete_booking" data-bs-toggle="modal" data-bs-target="#confirmform">
                             Complete Booking

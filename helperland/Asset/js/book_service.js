@@ -13,12 +13,31 @@ function set_service(evt, level) {
     }
     tablinks = document.getElementsByClassName("tablinks");
     for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active");
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+        var tabImg = "";
+        tabImg = tablinks[i].children[0].src;
+        if (tabImg.includes("-")) {
+
+            var tabdashindex = tabImg.lastIndexOf("-");
+            var tabpath = tabImg.substring(tabdashindex + 1, tabImg.length);
+            tablinks[i].children[0].src = "";
+            tablinks[i].children[0].src = (" ./Asset/image/" + tabpath);
+        }
     }
+
+
     document.getElementById(level).style.display = "block";
     evt.currentTarget.className += " active";
+    var imgSrc = evt.currentTarget.children[0].src;
+    var slashindex = imgSrc.lastIndexOf("/");
+    var path = imgSrc.substring(slashindex + 1, imgSrc.length);
+
+    evt.currentTarget.children[0].src = "";
+    evt.currentTarget.children[0].src = ("./Asset/image/" + "white-" + path);
+
 }
-document.getElementById("defaultOpen").click();
+document.getElementById("defaultopen").click();
+
 
 $(document).ready(function() {
     $("#add_address").click(function() {
@@ -86,7 +105,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     var selectedtime = $("#selectedtime option:selected").text();
-    // alert(selectedtime);
+
     document.querySelector('#booking_time').innerHTML = selectedtime;
 
     $("#selectedtime").on("change", function() {
@@ -98,7 +117,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     var selectedbed = $("#selectedbed option:selected").val();
-    //alert(servicetime);
+
     document.querySelector('#booking_bed').innerHTML = selectedbed;
 
     $("#selectedbed").on("change", function() {
@@ -110,7 +129,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     var selectedbath = $("#selectedbath option:selected").val();
-    //alert(selectedtime);
+
     document.querySelector('#booking_bath').innerHTML = selectedbath;
 
     $("#selectedbath").on("change", function() {
@@ -119,6 +138,16 @@ $(document).ready(function() {
         //alert(selected);
     });
 });
+
+$('#complete_booking').prop("disabled", true);
+$('input:checkbox').click(function() {
+    if ($(this).is(':checked')) {
+        $('#complete_booking').prop("disabled", false);
+    } else {
+        $('#complete_booking').attr('disabled', true);
+    }
+});
+
 
 
 function extrabtnclick(id, i) {
@@ -155,3 +184,68 @@ function extrabtnclick(id, i) {
         document.getElementById("effective_price").innerHTML = total_payment;
     }
 }
+
+$(document).ready(function() {
+    // Street Validation
+    $('#streetname').on('input', function() {
+        var StreetName = $(this).val();
+        var validName = /^[a-zA-Z ]*$/;;
+        if (StreetName.length == 0) {
+            $('.err-street').addClass('invalid-msg').text("Street is required");
+            $(this).addClass('invalid-input').removeClass('valid-input');
+
+        } else if (!validName.test(StreetName)) {
+            $('.err-street').addClass('invalid-msg').text('Only alphabate allowed');
+            $(this).addClass('invalid-input').removeClass('valid-input');
+        } else {
+            $('.err-street').empty();
+            $(this).addClass('valid-input').removeClass('invalid-input');
+        }
+    });
+
+    //   Phone Number validation
+    $('#phonenumber').on('input', function() {
+        var mobileNum = $(this).val();
+        var validNumber = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+        if (mobileNum.length == 0) {
+            $('.err-mobile').addClass('invalid-msg').text('Mobile Number is required');
+            $(this).addClass('invalid-input').removeClass('valid-input');
+        } else if (!validNumber.test(mobileNum)) {
+            $('.err-mobile').addClass('invalid-msg').text('Invalid Mobile Number');
+            $(this).addClass('invalid-input').removeClass('valid-input');
+        } else {
+            $('.err-mobile').empty();
+            $(this).addClass('valid-input').removeClass('invalid-input');
+        }
+    });
+
+    //   Phone Number validation
+    $('#housenumber').on('input', function() {
+        var houseNum = $(this).val();
+        var validNumber = /^\d*$/;
+        if (houseNum.length == 0) {
+            $('.err-houseno').addClass('invalid-msg').text('House Number is required');
+            $(this).addClass('invalid-input').removeClass('valid-input');
+        } else if (!validNumber.test(houseNum)) {
+            $('.err-houseno').addClass('invalid-msg').text('Enter Valid House Number');
+            $(this).addClass('invalid-input').removeClass('valid-input');
+        } else {
+            $('.err-houseno').empty();
+            $(this).addClass('valid-input').removeClass('invalid-input');
+        }
+    });
+
+    // validation to submit the form
+    $('input').on('input', function(e) {
+
+        if ($('#new_address').find('.valid-input').length == 3) {
+            $('#address_save').removeAttr('disabled');
+            $('#address_save').css('cursor', 'pointer');
+        } else {
+            $('#address_save').attr('disabled', 'disabled');
+            $('#address_save').css('cursor', 'not-allowed');
+        }
+
+    });
+
+});
