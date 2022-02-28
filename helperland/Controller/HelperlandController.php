@@ -292,4 +292,392 @@ class HelperlandController
             }
         }
     }
+
+
+    public function customer_data()
+    {
+        if (isset($_POST)) {
+
+            //echo "hilo";
+            $userid = 17;
+            // $userid = $_POST['userid'];
+            // echo $userid;
+            // $record_per_page = 5;
+            $output = '';
+            if (isset($_POST["page"])) {
+                $page = $_POST["page"];
+            } else {
+                $page = 1;
+            }
+            if (isset($_POST["no"])) {
+                $record_per_page = $_POST["no"];
+            } else {
+                $record_per_page = 5;
+            }
+
+            //echo $record_per_page;
+
+            $start_from = ($page - 1) * $record_per_page;
+
+
+            $output .= '   <table class="table">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Service Details <img src="../image/sort.png" alt="..."></th>
+                            <th scope="col"> Service Provider<img src="../image/sort.png" alt="..."></th>
+                            <th scope="col"> Payment <img src="../image/sort.png" alt="..."></th>
+                            <th scope="col"> Status <img src="../image/sort.png" alt="..."></th>
+                            <th scope="col"> Rate SP </th>
+                        </tr>
+                    </thead>
+                    <tbody class="clearfix">
+                    ';
+            $get_address = $this->model->customer_data($userid, $start_from, $record_per_page);
+            if ($get_address) {
+                foreach ($get_address as $row) {
+                    $output .= '  
+                       
+                        <tr class="show_all_detail">
+                            <td data-label="Service Details">
+                                <img src="../Asset/image/calendar.png" alt="calender"><span class="date">' . $row['ServiceStartDate'] . '</span>
+                                <p>12:00-18:00</p>
+
+                            </td>
+                            <td data-label="Service Provider" class="clearfix">
+                                <div class="cap-icon"><img src="../Asset/image/cap.png" alt=".."></div>Lyum Watson
+                                <div>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span>4</span>
+                                </div>
+                            </td>
+                            <td data-label="Payment">
+                                <p class="price">€' . $row['TotalCost'] . '</p>
+                            </td>
+                            <td data-label="Status"> <button class="' . $row['Status'] . '">' . $row['Status'] . '</button></td>
+                            <td data-label="Rate SP"><button class="rate" id="' . $row['ServiceRequestId'] . '">Rate SP</button></td>
+                        </tr>  
+                   ';
+                }
+                //echo $output;
+                $output .= '</tbody>
+                </table> 
+                
+                <div class="card mobileview clearfix" style="width: 100%;">
+                   ';
+                foreach ($get_address as $row) {
+                    $output .= ' 
+                    <div class="card-body">
+                    <span><img src="../Asset/image/calendar.png" alt="calender"><span class="date">' . $row['ServiceStartDate'] . '</span> 
+                        </span>
+                        <hr>
+                        <div class="cap-icon"><img src="../Asset/image/cap.png" alt=".."></div>Lyum Watson
+                        <div>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span>4</span>
+                        </div>
+                        <hr>
+                        <p class="price">€' . $row['TotalCost'] . '</p>
+                        <hr>
+                        <div class="text-center"><button class="' . $row['Status'] . '">' . $row['Status'] . '</button></div>
+                        <hr>
+                        <div class="text-center"><button class="rate" id="' . $row['ServiceRequestId'] . '">Rate SP</button></div>
+                    </div>';
+                }
+
+                $total_record = $this->model->old_service();
+                $total_pages = ceil($total_record / $record_per_page);
+                $output .= '</div> <div class="pagenumber">
+                <div class="pagenumber-left">
+                    <span style="margin-right:5px;">Show</span>
+                    <span class="ml-2"><select class="form-select" id="no_of_service">
+                                        <option selected value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                    </select></span>
+                    <span style="margin-left:5px;">entries Total Record: ' . $total_record . '</span>
+                </div>
+                <div class="pagenumber-right">';
+
+                if ($page > 1) {
+                    $previous = $page - 1;
+
+                    $output .= '<div class="pagenumber-btn" id="1">
+                    <img src="../Asset/image/first-page.png" alt="">
+                </div>';
+
+                    $output .= ' <div class="pagenumber-btn" id="' . $previous . '">
+                    <img src="../Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                </div>';
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    $active_class = "";
+                    if ($i == $page) {
+                        $active_class = "active";
+                    }
+                    $output .= ' <div class="pagenumber-btn ' . $active_class . '" id="' . $i . '">
+                    ' . $i . '
+                    </div>';
+                }
+
+                if ($page < $total_pages) {
+                    $page++;
+
+                    $output .= '<div class="pagenumber-btn" id="' . $page . '">
+                    <img class="transform_btn" src="../Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                </div>';
+
+                    $output .= '<div class="pagenumber-btn" id="' . $total_pages . '">
+                    <img class="transform_btn" src="../Asset/image/first-page.png" alt="">
+                </div>';
+                }
+                $output .= ' </div>
+                </div>
+            </div>';
+            } else {
+                // echo "Data not Found";
+            }
+
+            echo $output;
+        }
+    }
+
+
+
+
+    public function dashboard_data()
+    {
+        if (isset($_POST)) {
+
+            //echo "hilo";
+            $userid = 17;
+            // $userid = $_POST['userid'];
+            // echo $userid;
+            // $record_per_page = 5;
+            $output = '';
+            if (isset($_POST["page"])) {
+                $page = $_POST["page"];
+            } else {
+                $page = 1;
+            }
+            if (isset($_POST["no"])) {
+                $record_per_page = $_POST["no"];
+            } else {
+                $record_per_page = 5;
+            }
+
+            //echo $record_per_page;
+
+            $start_from = ($page - 1) * $record_per_page;
+
+
+            $output .= '   <table class="table">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Service Id</th>
+                            <th scope="col">Service Details <img src="../image/sort.png" alt="..."></th>
+                            <th scope="col"> Service Provider<img src="../image/sort.png" alt="..."></th>
+                            <th scope="col"> Payment <img src="../image/sort.png" alt="..."></th>
+                            <th scope="col"> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody class="clearfix">
+                    ';
+            $get_request = $this->model->dashboard_data($userid, $start_from, $record_per_page);
+            if ($get_request) {
+                foreach ($get_request as $row) {
+                    $output .= '  
+                        <tr class="show_all_detail" id="' . $row['ServiceRequestId'] . '">
+                            <td data-label="Service Id" >
+                                <p>' . $row['ServiceRequestId'] . '</p>
+                            </td>
+                            <td data-label="Service Details" >
+                                <img src="../Asset/image/calendar.png" alt="calender"><span class="date">' . $row['ServiceStartDate'] . '</span>
+                                <p>12:00-18:00</p>
+                            </td>
+                            <td data-label="Service Provider" class=" clearfix">
+                                <div class="cap-icon"><img src="../Asset/image/cap.png" alt=".."></div>Lyum Watson
+                                <div>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span>4</span>
+                                </div>
+                            </td>
+                            <td data-label="Payment" >
+                                <p class="price">€' . $row['TotalCost'] . '</p>
+                            </td>
+                            <td data-label="Action"><button class="reschedule" id="' . $row['ServiceRequestId'] . '">Reschedule</button><button class="cancel" id="' . $row['ServiceRequestId'] . '">Cancel</button></td>
+                        </tr>  
+                   ';
+                }
+                //echo $output;
+                $output .= '</tbody>
+                </table> 
+                
+                <div class="card mobileview clearfix" style="width: 100%;">
+                   ';
+                foreach ($get_request as $row) {
+                    $output .= ' 
+                    <div class="card-body">
+                    <p class="deletedid">' . $row['ServiceRequestId'] . '</p>
+                    <hr>
+                    <span><img src="../Asset/image/calendar.png" alt="calender"><span class="date">' . $row['ServiceStartDate'] . '</span> 
+                        </span>
+                        <hr>
+                        <div class="cap-icon"><img src="../Asset/image/cap.png" alt=".."></div>Lyum Watson
+                        <div>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span>4</span>
+                        </div>
+                        <hr>
+                        <p class="price">€' . $row['TotalCost'] . '</p>
+                        <hr>
+                        
+                        <div class="text-center"><button class="reschedule" id="' . $row['ServiceRequestId'] . '">Reschedule</button><button class="cancel" id="' . $row['ServiceRequestId'] . '">Cancel</button></div>
+                    </div>';
+                }
+
+
+                $total_record = $this->model->all_service();
+                $total_pages = ceil($total_record / $record_per_page);
+                $output .= '</div> <div class="pagenumber">
+                <div class="pagenumber-left">
+                    <span style="margin-right:5px;">Show</span>
+                    <span class="ml-2"><select class="form-select" id="no_of_service">
+                                        <option selected value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                    </select></span>
+                    <span style="margin-left:5px;">entries Total Record: ' . $total_record . '</span>
+                </div>
+                <div class="pagenumber-right">';
+
+                if ($page > 1) {
+                    $previous = $page - 1;
+
+                    $output .= '<div class="pagenumber-btn" id="1">
+                    <img src="../Asset/image/first-page.png" alt="">
+                </div>';
+
+                    $output .= ' <div class="pagenumber-btn" id="' . $previous . '">
+                    <img src="../Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                </div>';
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    $active_class = "";
+                    if ($i == $page) {
+                        $active_class = "active";
+                    }
+                    $output .= ' <div class="pagenumber-btn ' . $active_class . '" id="' . $i . '">
+                    ' . $i . '
+                    </div>';
+                }
+
+                if ($page < $total_pages) {
+                    $page++;
+
+                    $output .= '<div class="pagenumber-btn" id="' . $page . '">
+                    <img class="transform_btn" src="../Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                </div>';
+
+                    $output .= '<div class="pagenumber-btn" id="' . $total_pages . '">
+                    <img class="transform_btn" src="../Asset/image/first-page.png" alt="">
+                </div>';
+                }
+                $output .= ' </div>
+                </div>
+                </div>';
+            }
+            echo $output;
+        } else {
+            // echo "Data not Found";
+        }
+    }
+
+
+    public function cancel_service()
+    {
+        if (isset($_POST)) {
+            $service_id = $_POST['serviceid'];
+            $result = $this->model->cancel_service($service_id);
+        }
+    }
+
+    public function reschedule_service()
+    {
+        if (isset($_POST)) {
+            //$service_id = $_POST['serviceid'];
+            //$date = $_POST['date'];
+            // $time = $_POST['time'];
+
+            $array = [
+                'service_id' => $_POST['serviceid'],
+                'servicestartdate' => $_POST['servicestartdate'],
+            ];
+            $result = $this->model->reschedule_service($array);
+        }
+    }
+
+    public function detail_of_service()
+    {
+
+        if (isset($_POST)) {
+            $output = '';
+            $service_id = $_POST['serviceid'];
+            $result = $this->model->detail_of_service($service_id);
+            if ($result) {
+
+                foreach ($result as $row) {
+                    $output .= '
+                        <div class="modal" tabindex="-1" id="all_detail">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Service Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>start date: ' . $row['ServiceStartDate'] . '</p>
+                                            <p>Duration: <span>' . $row['SubTotal'] . '</span> </p>
+                                            <hr>
+                                            <p>Service id: <span>' . $row['ServiceRequestId'] . '</span></p>
+                                            <p>Extras: <span>' . $row['ExtraService'] . '</span> </p>
+                                            <p>Net Amount: <span>' . $row['TotalCost'] . '</span> </p>
+                                            <hr>
+                                            <p>Service Address:</p>
+                                            <p>Billing Address: same as cleaninng address</p>
+                                            <p>phone:</p>
+                                            <p>Email:</p>
+                                            <hr>
+                                            <p>Comments :' . $row['Comments'] . '</p>
+                                            <hr>
+                                            <div class="text-center">
+                                                <button class="reschedule" id="' . $row['ServiceRequestId'] . '">Reschedule</button><button class="cancel" id="' . $row['ServiceRequestId'] . '">Cancel</button>
+                                            </div> 
+                                        </div>
+                                </div>
+                            </div>
+                        </div>';
+                }
+            }
+
+            echo $output;
+        }
+    }
 }

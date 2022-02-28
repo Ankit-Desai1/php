@@ -160,4 +160,64 @@ class Helperland
 
         return $result;
     }
+
+    public function customer_data($userid, $start_from, $record_per_page)
+    {
+        $sql = "SELECT * FROM servicerequest WHERE UserId = 17 AND Status !='pending'   LIMIT $start_from, $record_per_page";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function old_service()
+    {
+        $sql = "SELECT * FROM servicerequest WHERE UserId = 17 AND Status !='pending' ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        return $count;
+    }
+
+    public function dashboard_data($userid, $start_from, $record_per_page)
+    {
+        $sql = "SELECT * FROM servicerequest WHERE UserId = 17 AND Status ='pending'  LIMIT $start_from, $record_per_page";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function all_service()
+    {
+        $sql = "SELECT * FROM servicerequest WHERE UserId = 17 AND Status='pending' ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        return $count;
+    }
+    public function cancel_service($service_id)
+    {
+        $sql = "UPDATE servicerequest SET Status='cancelled' WHERE ServiceRequestId = $service_id";
+        $stmt =  $this->conn->prepare($sql);
+        $res = $stmt->execute([$service_id]);
+        return $res;
+    }
+
+    public function reschedule_service($array)
+    {
+        $sql = "UPDATE servicerequest SET ServiceStartDate=:servicestartdate WHERE ServiceRequestId = :service_id";
+        $stmt =  $this->conn->prepare($sql);
+        $res = $stmt->execute($array);
+        return $res;
+    }
+
+    public function detail_of_service($serviceid)
+    {
+        $sql = "SELECT * FROM servicerequest WHERE UserId = 17 AND ServiceRequestId =  $serviceid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 }

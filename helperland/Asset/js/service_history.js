@@ -25,3 +25,13 @@ function upcoming_service(evt, service) {
     evt.currentTarget.className += " active";
 }
 document.getElementById("defaultOpen").click();
+
+
+$(document).ready(function() {
+
+    $("#selected_date").datepicker({
+        dateFormat: "yy/mm/dd",
+        minDate: "+1d"
+    });
+
+})
