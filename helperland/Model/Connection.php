@@ -163,16 +163,16 @@ class Helperland
 
     public function customer_data($userid, $start_from, $record_per_page)
     {
-        $sql = "SELECT * FROM servicerequest WHERE UserId = 17 AND Status !='pending'   LIMIT $start_from, $record_per_page";
+        $sql = "SELECT * FROM servicerequest WHERE UserId = $userid AND Status !='pending'   LIMIT $start_from, $record_per_page";
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
-    public function old_service()
+    public function old_service($userid)
     {
-        $sql = "SELECT * FROM servicerequest WHERE UserId = 17 AND Status !='pending' ";
+        $sql = "SELECT * FROM servicerequest WHERE UserId = $userid AND Status !='pending' ";
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $count = $stmt->rowCount();
@@ -181,16 +181,16 @@ class Helperland
 
     public function dashboard_data($userid, $start_from, $record_per_page)
     {
-        $sql = "SELECT * FROM servicerequest WHERE UserId = 17 AND Status ='pending'  LIMIT $start_from, $record_per_page";
+        $sql = "SELECT * FROM servicerequest WHERE UserId = $userid AND Status ='pending'  LIMIT $start_from, $record_per_page";
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
-    public function all_service()
+    public function all_service($userid)
     {
-        $sql = "SELECT * FROM servicerequest WHERE UserId = 17 AND Status='pending' ";
+        $sql = "SELECT * FROM servicerequest WHERE UserId = $userid AND Status='pending' ";
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $count = $stmt->rowCount();
@@ -212,12 +212,175 @@ class Helperland
         return $res;
     }
 
-    public function detail_of_service($serviceid)
+    public function detail_of_service($userid, $serviceid)
     {
-        $sql = "SELECT * FROM servicerequest WHERE UserId = 17 AND ServiceRequestId =  $serviceid";
+        $sql = "SELECT * FROM servicerequest
+        JOIN servicerequestaddress
+        ON servicerequest.ServiceRequestId = servicerequestaddress.ServiceRequestId  WHERE servicerequest.UserId = $userid AND servicerequest.ServiceRequestId =  $serviceid";
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
+    }
+
+    public function get_serviceprovider_id($serviceid)
+    {
+        $sql = "SELECT * FROM servicerequest WHERE ServiceRequestId = $serviceid  ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function get_sp_detail($spid)
+    {
+        $sql = "SELECT * FROM user WHERE UserId = $spid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function get_sp_rating($id)
+    {
+        $sql = "SELECT * FROM rating WHERE RatingTo = $id";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array($result, $count);
+    }
+
+    public function apply_rating($array)
+    {
+
+        $sql = "INSERT INTO rating( ServiceRequestId, RatingFrom, RatingTo, Ratings, Comments, RatingDate, IsApproved, VisibleOnHomeScreen,OnTimeArrival,Friendly,QualityOfService) 
+                VALUES (:serviceid,:ratingfrom,:ratingto,:rating,:comments,:ratingdt,:isapproved,:visiblehome,:timearrival,:friendlyval,:qualityval)";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($array);
+        $count = $stmt->rowCount();
+        return $count;
+    }
+
+    public function count_rating($id)
+    {
+        $sql = "SELECT * FROM rating WHERE ServiceRequestId = $id";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return  $count;
+    }
+
+    public function update_details($array)
+    {
+        $sql = "UPDATE user SET FirstName= :fistname,LastName=:lastname,Mobile=:mobile,DateOfBirth= :birthdate,LanguageId=:language,ModifiedDate=:modifieddate,ModifiedBy=:modifiedby WHERE UserId =:userid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($array);
+        $count = $stmt->rowCount();
+        return $count;
+    }
+
+    public function change_password($array)
+    {
+        $sql = "UPDATE user SET Password = :password , ModifiedDate = :updatedate , ModifiedBy = :modifiedby WHERE UserId = :userid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($array);
+        $count = $stmt->rowCount();
+        return $count;
+    }
+
+    public function get_address_value($addressid)
+    {
+        $sql = "SELECT * FROM useraddress WHERE AddressId = $addressid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return  $result;
+    }
+
+    public function update_address($array)
+    {
+        $sql = "UPDATE useraddress SET AddressLine1 = :streetname , AddressLine2 =  :housenumber ,  City = :location, State =:state,PostalCode =:pincode,  Mobile=:phonenumber WHERE AddressId = :addressid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($array);
+        $count = $stmt->rowCount();
+        return $count;
+    }
+
+    public function delete_address($array)
+    {
+        $sql = "UPDATE useraddress SET IsDeleted=:isdeleted WHERE AddressId=:addressid";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($array);
+        $count = $stmt->rowCount();
+        return $count;
+    }
+
+    public function service_sp($userid)
+    {
+        $sql = "SELECT DISTINCT servicerequest.ServiceProviderId,user.FirstName,user.LastName FROM servicerequest  JOIN user
+        ON servicerequest.ServiceProviderId = user.UserId  WHERE servicerequest.Status = 'completed' AND servicerequest.UserId = $userid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $count = $stmt->rowCount();
+        return array($result, $count);
+    }
+
+    public function sp_details($userid, $spid)
+    {
+        $sql = "SELECT ServiceProviderId,COUNT(ServiceProviderId) FROM servicerequest WHERE UserId = $userid AND ServiceProviderId = $spid AND Status = 'completed'";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function is_favourite($userid, $targetuserid)
+    {
+        $sql = "SELECT * FROM favoriteandblocked WHERE UserId= $userid AND TargetUserId = $targetuserid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $count = $stmt->rowCount();
+        return array($count, $result);
+    }
+
+    public function check_fav_block($userid, $spid)
+    {
+        $sql = "SELECT * FROM favoriteandblocked WHERE UserId = $userid AND TargetUserId = $spid;
+        ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        $block = "";
+        $fav = "";
+        if ($count == 1) {
+            $result  = $stmt->fetch(PDO::FETCH_ASSOC);
+            $block = $result['IsBlocked'];
+            $fav = $result['IsFavorite'];
+        }
+
+        return array($count, $block, $fav);
+    }
+
+    public function insert_fav_block($array)
+    {
+        $sql = "INSERT INTO favoriteandblocked( UserId, TargetUserId, IsFavorite, IsBlocked) 
+        VALUES (:userid,:targetuser,:isfav,:isblock)";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($array);
+        $count = $stmt->rowCount();
+        return $count;
+    }
+
+    public function update_fav_block($array)
+    {
+        $sql = "UPDATE favoriteandblocked SET IsFavorite=:isfav, IsBlocked=:isblock WHERE UserId = :userid AND TargetUserId=:targetuser";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($array);
+        $count = $stmt->rowCount();
+        return $count;
     }
 }

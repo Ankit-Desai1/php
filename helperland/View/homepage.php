@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,14 +8,14 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Home Page</title>
     <link rel="stylesheet" href="./Asset/css/home_style.css">
-    <?php $base_url='http://localhost/php/helperland/'; ?>
+    <?php $base_url = 'http://localhost/php/helperland/'; ?>
     <script>
-  var config = {
-        routes: {
-            zone: "<?= $base_url ?>"
-        }
-    };
-  </script>
+        var config = {
+            routes: {
+                zone: "<?= $base_url ?>"
+            }
+        };
+    </script>
 </head>
 
 <body>
@@ -27,27 +24,27 @@ session_start();
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="./Asset/image/logo-large.png" alt=""></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <div class="navbar-nav ms-auto">
                         <ul class="navbar-nav">
                             <li class="nav-item navborder">
                                 <?php
-                                if(isset($_SESSION['username'])){
+                                if (isset($_SESSION['username'])) {
                                 ?>
-                                <a class="nav-link  text-white" aria-current="page" href="<?= $base_url.'?controller=Helperland&function=book_service'?>">Book a Cleaner</a>
+                                    <a class="nav-link  text-white" aria-current="page" href="<?= $base_url . '?controller=Helperland&function=book_service' ?>">Book a Cleaner</a>
                                 <?php } ?>
 
                                 <?php
-                                if(!isset($_SESSION['username'])){
+                                if (!isset($_SESSION['username'])) {
                                 ?>
-                                <a class="nav-link  text-white" aria-current="page" href="<?= $base_url.'index.php#loginform'?>">Book a Cleaner</a>
+                                    <a class="nav-link  text-white" aria-current="page" href="<?= $base_url . 'index.php#loginform' ?>">Book a Cleaner</a>
                                 <?php } ?>
-                            
+
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link text-white " href="<?= $base_url.'?controller=Helperland&function=prices'?>">Prices</a>
+                                <a class="nav-link text-white " href="<?= $base_url . '?controller=Helperland&function=prices' ?>">Prices</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link text-white " href="#">Our Guarantee</a>
@@ -56,13 +53,13 @@ session_start();
                                 <a class="nav-link text-white " href="#">Blog</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link text-white " href="<?= $base_url.'?controller=Helperland&function=contact'?>">Contact Us</a>
+                                <a class="nav-link text-white " href="<?= $base_url . '?controller=Helperland&function=contact' ?>">Contact Us</a>
                             </li>
                             <li class="nav-item navborder ">
                                 <a class="nav-link text-white" href="" data-bs-toggle="modal" data-bs-target="#loginform">Login</a>
                             </li>
                             <li class="nav-item navborder ">
-                                <a class="nav-link text-white " href="<?=$base_url.'?controller=Helperland&function=become_a_pro'?>">Become a Helper</a>
+                                <a class="nav-link text-white " href="<?= $base_url . '?controller=Helperland&function=become_a_pro' ?>">Become a Helper</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown " href="# "><img src="./Asset/image/ic-flag.png " alt="logo"></a>
@@ -92,30 +89,34 @@ session_start();
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="<?=$base_url.'?controller=Helperland&function=login'?>" method="post">
+                        <form action="<?= $base_url . '?controller=Helperland&function=login' ?>" method="post">
                             <div class="login_input mb-3">
-                                <input type="email" class="form-control shadow-none" id="loginemail" name="email" placeholder="Email" value="<?php if (isset($_COOKIE['emailcookie'])) { echo $_COOKIE['emailcookie'];} ?>" />                                                                                                                                                                                                                                           
-                                <span><i class="login_icon fas fa-user"></i></span>   
+                                <input type="email" class="form-control shadow-none" id="loginemail" name="email" placeholder="Email" value="<?php if (isset($_COOKIE['emailcookie'])) {
+                                                                                                                                                    echo $_COOKIE['emailcookie'];
+                                                                                                                                                } ?>" />
+                                <span><i class="login_icon fas fa-user"></i></span>
                             </div>
-                            
+
                             <div class="email-msg mails mb-2"> </div>
                             <div class="login_input mb-3">
-                                <input type="password" class="form-control shadow-none" id="loginpassword" name="password" placeholder="Password" value="<?php if (isset($_COOKIE['passwordcookie'])) { echo $_COOKIE['passwordcookie']; } ?>" />                                                                                           
+                                <input type="password" class="form-control shadow-none" id="loginpassword" name="password" placeholder="Password" value="<?php if (isset($_COOKIE['passwordcookie'])) {
+                                                                                                                                                                echo $_COOKIE['passwordcookie'];
+                                                                                                                                                            } ?>" />
                                 <span><i class="login_icon fas fa-lock-alt"></i></span>
                             </div>
                             <?php
-                               if(isset($_SESSION['msg'])){
+                            if (isset($_SESSION['msg'])) {
                                 echo $_SESSION['msg'];
-                                }?>
-                               
+                            } ?>
+
                             <div class="mb-3 form-check">
                                 <?php if (isset($_COOKIE)) { ?>
-                                    <input type="checkbox" class="form-check-input" id="Check1" name="remember" checked/>
+                                    <input type="checkbox" class="form-check-input" id="Check1" name="remember" checked />
                                     <label class="form-check-label" for="Check1">Remember me</label>
                                 <?php } ?>
 
                                 <?php if (!isset($_COOKIE)) { ?>
-                                    <input type="checkbox" class="form-check-input" id="Check1" name="remember"/>
+                                    <input type="checkbox" class="form-check-input" id="Check1" name="remember" />
                                     <label class="form-check-label" for="Check1">Remember me</label>
                                 <?php } ?>
                             </div>
@@ -125,7 +126,7 @@ session_start();
                             <div class="text-center">
                                 <a href="" data-bs-toggle="modal" data-bs-target="#forgotform">Forgot Password?</a>
                                 <p class="form-text">Don't have an account?</p>
-                                <a href="<?=$base_url.'?controller=Helperland&function=customer_registration'?>">Creat an account</a>
+                                <a href="<?= $base_url . '?controller=Helperland&function=customer_registration' ?>">Creat an account</a>
                             </div>
                         </form>
                     </div>
@@ -133,50 +134,31 @@ session_start();
             </div>
         </div>
 
-      <!-- forgot form -->
+        <!-- forgot form -->
 
-    <div
-        class="modal fade"
-        id="forgotform"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="forgotform" aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h3 class="modal-title" id="BackdropLabel">Forgot Password</h3>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+        <div class="modal fade" id="forgotform" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="forgotform" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="BackdropLabel">Forgot Password</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="<?= $base_url . '?controller=registration&function=forgot' ?>" method="post">
+                            <div class="mb-3">
+                                <input type="email" class="form-control" name="email" placeholder="Email" />
+                            </div>
+                            <div class="text-center mb-4">
+                                <button type="submit" class="btn btn_login">Send</button>
+                            </div>
+                            <div class="text-center">
+                                <a href="" data-bs-toggle="modal" data-bs-target="#loginform">Login now</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-              <form action="<?=$base_url.'?controller=registration&function=forgot'?>" method="post">
-                <div class="mb-3">
-                  <input
-                    type="email"
-                    class="form-control"
-                    name="email"
-                    placeholder="Email"
-                  />
-                </div>
-                <div class="text-center mb-4">
-                  <button type="submit" class="btn btn_login">Send</button>
-                </div>
-                <div class="text-center">
-                  <a href="" data-bs-toggle="modal" data-bs-target="#loginform"
-                    >Login now</a
-                  >
-                </div>
-              </form>
-            </div>
-          </div>
         </div>
-      </div>
 
 
 
@@ -488,10 +470,10 @@ session_start();
                     </div>
                     <div class="col-lg-8">
                         <div class="footer-navbar text-center p-4">
-                            <a class="footer-menu" href="<?= $base_url.'?controller=Helperland&function=Homepage'?>">HOME</a>
-                            <a class="footer-menu" href="<?= $base_url.'?controller=Helperland&function=about'?>">ABOUT</a>
+                            <a class="footer-menu" href="<?= $base_url . '?controller=Helperland&function=Homepage' ?>">HOME</a>
+                            <a class="footer-menu" href="<?= $base_url . '?controller=Helperland&function=about' ?>">ABOUT</a>
                             <a class="footer-menu" href="#">TESTIMONIALS</a>
-                            <a class="footer-menu" href="<?= $base_url.'?controller=Helperland&function=faq'?>">FAQS</a>
+                            <a class="footer-menu" href="<?= $base_url . '?controller=Helperland&function=faq' ?>">FAQS</a>
                             <a class="footer-menu" href="#">INSURANCE</a>
                             <a class="footer-menu" href="#">POLICY</a>
                             <a class="footer-menu" href="#">IMPRESSUM</a>
@@ -513,12 +495,14 @@ session_start();
 
     <?php
 
-    if(isset($_SESSION['message'])){?>
-                <script>alert("email not exist");</script>
-        <?php 
-        }    
-        ?>
-    
+    if (isset($_SESSION['message'])) { ?>
+        <script>
+            alert("email not exist");
+        </script>
+    <?php
+    }
+    ?>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js " integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB " crossorigin="anonymous "></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js " integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13 " crossorigin="anonymous "></script>
@@ -530,4 +514,5 @@ session_start();
 unset($_SESSION['msg']);
 unset($_SESSION['message']);
 ?>
+
 </html>
