@@ -6,50 +6,12 @@ class HelperlandController
         include('Model/Connection.php');
         $this->model = new Helperland();
         session_start();
+        date_default_timezone_set("Asia/Calcutta");
     }
 
     public function HomePage()
     {
         include('./View/homepage.php');
-    }
-
-    public function login()
-    {
-
-        $base_url = 'http://localhost/php/helperland/index.php#loginform';
-        $base_url2 = 'http://localhost/php/helperland/?controller=Helperland&function=service_history';
-
-        if (isset($_POST)) {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-
-            $user = $this->model->check($email);
-
-            if ($user['Email'] !== $email) {
-                $_SESSION['message'] = 'Email is not exist.';
-                header('Location: ' . $base_url);
-            } elseif (!password_verify($password, $user['Password'])) {
-                $_SESSION['msg'] = 'Email & Password not match';
-                header('Location: ' . $base_url);
-            } else {
-                $_SESSION['username'] = $user['FirstName'];
-                $_SESSION['userid'] = $user['UserId'];
-                if (isset($_POST['remember'])) {
-                    setcookie('emailcookie', $email, time() + 86400, '/');
-                    setcookie('passwordcookie', $password, time() + 86400, '/');
-
-                    if ($user['UserTypeId'] == 1) {
-                        echo 'service provider';
-                    } elseif ($user['UserTypeId'] == 2) {
-                        header('Location: ' . $base_url2);
-                    } else {
-                        //echo"admin";
-                    }
-                }
-            }
-        } else {
-            echo 'Error Occured Try Again';
-        }
     }
 
     public function contact_us()
@@ -115,6 +77,53 @@ class HelperlandController
     public function service_history()
     {
         include('./View/service_history.php');
+    }
+
+    public function service_provider()
+    {
+        include('./View/service_provider.php');
+    }
+
+    public function login()
+    {
+
+        $base_url = 'http://localhost/php/helperland/index.php#loginform';
+        $base_url2 = 'http://localhost/php/helperland/?controller=Helperland&function=service_history';
+        $base_url3 = 'http://localhost/php/helperland/?controller=Helperland&function=service_provider';
+
+        if (isset($_POST)) {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            $user = $this->model->check($email);
+
+            if ($user['Email'] !== $email) {
+                $_SESSION['message'] = 'Email is not exist.';
+                header('Location: ' . $base_url);
+            } elseif (!password_verify($password, $user['Password'])) {
+                $_SESSION['msg'] = 'Email & Password not match';
+                header('Location: ' . $base_url);
+            } else {
+                $_SESSION['username'] = $user['FirstName'];
+                $_SESSION['userid'] = $user['UserId'];
+                if (isset($_POST['remember'])) {
+                    setcookie('emailcookie', $email, time() + 86400, '/');
+                    setcookie('passwordcookie', $password, time() + 86400, '/');
+
+                    if ($user['UserTypeId'] == 1) {
+                        header('Location: ' . $base_url3);
+                        $_SESSION['usertype'] = 1;
+                    } elseif ($user['UserTypeId'] == 2) {
+                        header('Location: ' . $base_url2);
+                        $_SESSION['usertype'] = 2;
+                    } else {
+                        //echo"admin";
+                    }
+                }
+            }
+        } else {
+            echo 'Error Occured Try Again';
+        }
     }
 
     public function logout()
@@ -1279,6 +1288,9 @@ class HelperlandController
                     $mobile = $row['Mobile'];
                     $date = $row['DateOfBirth'];
                     $languageid = $row['LanguageId'];
+                    $nationalityid = $row['NationalityId'];
+                    $gender = $row['Gender'];
+                    $avtar = $row['UserProfilePicture'];
                     if (!empty($date)) {
                         list($year, $month, $day) = explode("-", $date);
                     } else {
@@ -1286,7 +1298,7 @@ class HelperlandController
                         $month = "Month";
                         $day = "Day";
                     }
-                    $final_result = [$firstname, $lastname, $email, $mobile, $day, $month, $year, $languageid];
+                    $final_result = [$firstname, $lastname, $email, $mobile, $day, $month, $year, $languageid, $nationalityid, $gender, $avtar];
 
                     echo json_encode($final_result);
                 }
@@ -1403,6 +1415,7 @@ class HelperlandController
             echo ('something went wrong');
         }
     }
+
     public function get_address_value()
     {
         if (isset($_POST)) {
@@ -1437,7 +1450,6 @@ class HelperlandController
             $phonenumber = $_POST['phonenumber'];
             $state = $this->model->Location($pincode);
             $state = $state[1];
-
             $array = [
                 'addressid' => $addressid,
                 'streetname' => $streetname,
@@ -1709,6 +1721,1429 @@ class HelperlandController
                     echo 2;
                 }
             }
+        }
+    }
+
+    public function new_service_data()
+    {
+        if (isset($_POST)) {
+
+
+            switch ($_POST["no"]) {
+                case 5:
+                    $s1 = 'selected';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 10:
+                    $s1 = '';
+                    $s2 = 'selected';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 20:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = 'selected';
+                    $s4 = '';
+                    break;
+                case 30:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = 'selected';
+                    break;
+            }
+            $output = '';
+            if (isset($_POST["page"])) {
+                $page = $_POST["page"];
+            } else {
+                $page = 1;
+            }
+            if (isset($_POST["no"])) {
+                $record_per_page = $_POST["no"];
+            } else {
+                $record_per_page = 5;
+            }
+            $start_from = ($page - 1) * $record_per_page;
+            $pet = $_POST['pet'];
+            $userid = $_POST['userid'];
+            $zipcode = $this->model->get_postal($userid);
+
+            $output .= '   <table class="table tableinfo" id="new_service_data_table">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Service Id</th>
+                            <th scope="col">Service Details <img src="./Asset/image/sort.png" alt="..."></th>
+                            <th scope="col">Customer details<img src="./Asset/image/sort.png" alt="..."></th>
+                            <th scope="col"> Payment <img src="./Asset/image/sort.png" alt="..."></th>
+                            <th scope="col"> Time conflict </th>
+                            <th scope="col"> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody class="clearfix">
+                    ';
+
+            if ($zipcode) {
+                foreach ($zipcode as $row) {
+                    $zipcode = $row['ZipCode'];
+                    $result = $this->model->new_service_data($zipcode, $pet, $start_from, $record_per_page);
+                    if ($result) {
+                        foreach ($result as $data) {
+                            $firstname = $data['FirstName'];
+                            $lastname = $data['LastName'];
+                            $serviceid = $data['ServiceRequestId'];
+                            $servicestartdate = $data['ServiceStartDate'];
+                            $payment = $data['TotalCost'];
+                            $servicedate = date('d-m-Y', strtotime($servicestartdate));
+                            $servicetime = date('H:i', strtotime($servicestartdate));
+                            $subtotal = $data['SubTotal'];
+                            $subtotal = $subtotal * 10;
+                            $min = 0;
+                            $min = $subtotal % 10;
+                            $subtotal = $subtotal / 10;
+                            $hours = (int)$subtotal;
+                            if ($min == 5) {
+                                $minute = 30;
+                            } else {
+                                $minute = 00;
+                            }
+                            $endtime = date('H:i', strtotime('+' . $hours . ' hour +' . $minute . ' minutes', strtotime($servicestartdate)));
+                            $output .= '  
+                            <tr class="new_service" id="' . $serviceid . '" data-value="' . $data['ZipCode'] . '">
+                                <td data-label="Service Id" >
+                                    <p>' . $serviceid . '</p>
+                                </td>
+                                <td data-label="Service Details" >
+                                    <img src="./Asset/image/calendar2.png" alt="calender"><span class="date">' . $servicedate . '</span>
+                                    <br>
+                                    <img src="./Asset/image/layer-14.png" alt="calender"><span class="time">' . $servicetime . '-' . $endtime . '</span>
+                                </td>
+                                <td data-label="Customers details" >
+                                ' . $firstname . ' ' . $lastname . ' <br>
+                                <img src=" ./Asset/image/layer-15.png" alt="home">' . $data['AddressLine1'] . ' ' . $data['AddressLine2'] . ', ' . $data['City'] . '- ' . $data['PostalCode'] . '
+                                </td>
+                                <td data-label="Payment" >
+                                    <p class="price">€' . $payment . '</p>
+                                </td>
+                                <td data-label="Time conflict" class="time_conflict">
+                                </td>
+                                
+                                <td data-label="Action"><button class="blue_button accept" id="' . $serviceid . '">Accept</button>
+                            </tr>  
+                       ';
+                        }
+                        $output .= '</tbody>
+                            </table> 
+                            <div class="card mobileview clearfix" id="new_service_card" style="width: 100%;">';
+
+                        foreach ($result as $data) {
+                            $firstname = $data['FirstName'];
+                            $lastname = $data['LastName'];
+                            $serviceid = $data['ServiceRequestId'];
+                            $servicestartdate = $data['ServiceStartDate'];
+                            $payment = $data['TotalCost'];
+                            $servicedate = date('d-m-Y', strtotime($servicestartdate));
+                            $servicetime = date('H:i', strtotime($servicestartdate));
+                            $subtotal = $data['SubTotal'];
+                            $subtotal = $subtotal * 10;
+                            $min = 0;
+                            $min = $subtotal % 10;
+                            $subtotal = $subtotal / 10;
+                            $hours = (int)$subtotal;
+                            if ($min == 5) {
+                                $minute = 30;
+                            } else {
+                                $minute = 00;
+                            }
+
+                            $endtime = date('H:i', strtotime('+' . $hours . ' hour +' . $minute . ' minutes', strtotime($servicestartdate)));
+                            $output .= ' 
+                                <div class="card-body" id="' . $serviceid . '" data-value="' . $data['ZipCode'] . '">
+                                <p >' . $serviceid . '</p>
+                                <hr>
+                                <span><img src="./Asset/image/calendar2.png" alt="calender"><span class="date">' . $servicedate . '</span>
+                                <br>
+                                            <img src="./Asset/image/layer-14.png" alt="calender"><span class="time">' . $servicetime . '-' . $endtime . '</span> 
+                                </span>
+                                <hr>
+                                <p>' . $firstname . ' ' . $lastname . ' <br>
+                                <img src=" ./Asset/image/layer-15.png" alt="home">' . $data['AddressLine1'] . ' ' . $data['AddressLine2'] . ', ' . $data['City'] . '- ' . $data['PostalCode'] . '</p>
+                                <hr>
+                                <p class="price">€' . $payment . '</p>
+                                <hr> 
+                                <div class="time_conflict"></div>  
+                                <hr> 
+                                    <div class="text-center"><button class="blue_button accept" id="' . $serviceid . '">Accept</button></div>
+                                </div>';
+                        }
+
+                        $total_record = $this->model->new_service_count($zipcode, $pet);
+                        $total_pages = ceil($total_record / $record_per_page);
+                        $output .= '</div> <div class="pagenumber">
+                                            <div class="pagenumber-left">
+                                                <span style="margin-right:5px;">Show</span>
+                                                <span class="ml-2"><select class="form-select" id="serviceNo">
+                                                                    <option ' . $s1 . ' value="5">5</option>
+                                                                    <option ' . $s2 . ' value="10">10</option>
+                                                                    <option ' . $s3 . ' value="20">20</option>
+                                                                    <option ' . $s4 . ' value="30">30</option>
+                                                                </select></span>
+                                                <span style="margin-left:5px;">entries Total Record: ' . $total_record . '</span>
+                                            </div>
+                                            <div class="pagenumber-right">';
+
+                        if ($page > 1) {
+                            $previous = $page - 1;
+
+                            $output .= '<div class="pagenumber-btn new-btn" id="1">
+                                                <img src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+
+                            $output .= ' <div class="pagenumber-btn new-btn" id="' . $previous . '">
+                                                <img src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+                        }
+                        for ($i = 1; $i <= $total_pages; $i++) {
+                            $active_class = "";
+                            if ($i == $page) {
+                                $active_class = "active";
+                            }
+                            $output .= ' <div class="pagenumber-btn  new-btn ' . $active_class . '" id="' . $i . '">' . $i . ' </div>';
+                        }
+
+                        if ($page < $total_pages) {
+                            $page++;
+
+                            $output .= '<div class="pagenumber-btn new-btn" id="' . $page . '">
+                                                <img class="transform_btn" src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+
+                            $output .= '<div class="pagenumber-btn new-btn" id="' . $total_pages . '">
+                                                <img class="transform_btn" src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+                        }
+                        $output .= ' </div>
+                                    </div>
+                                    </div>';
+                    } else {
+                        $output = '   <table class="table tableinfo" id="new_service_data_table">
+                                <thead class="table-light">
+                                    <tr>
+                                    <th scope="col">Service Id</th>
+                                    <th scope="col">Service Details <img src="./Asset/image/sort.png" alt="..."></th>
+                                    <th scope="col">Customer details<img src="./Asset/image/sort.png" alt="..."></th>
+                                    <th scope="col"> Payment <img src="./Asset/image/sort.png" alt="..."></th>
+                                    <th scope="col"> Time conflict </th>
+                                    <th scope="col"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="clearfix">
+                                <tr><td colspan=6> No Service Available</td></tr>
+                                </tbody>
+                                </table>
+                                
+                                <div class="mobileview"> No Service Available</div>';
+                    }
+                }
+            }
+            echo $output;
+        } else {
+            echo 'something went wrong!!!!';
+        }
+    }
+
+
+    public function upcoming_service_data()
+    {
+        if (isset($_POST)) {
+
+            switch ($_POST["no"]) {
+                case 5:
+                    $s1 = 'selected';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 10:
+                    $s1 = '';
+                    $s2 = 'selected';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 20:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = 'selected';
+                    $s4 = '';
+                    break;
+                case 30:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = 'selected';
+                    break;
+            }
+            $output = '';
+            if (isset($_POST["page"])) {
+                $page = $_POST["page"];
+            } else {
+                $page = 1;
+            }
+            if (isset($_POST["no"])) {
+                $record_per_page = $_POST["no"];
+            } else {
+                $record_per_page = 5;
+            }
+            $start_from = ($page - 1) * $record_per_page;
+            $userid = $_POST['userid'];
+
+            $output .= '   <table class="table tableinfo" id="upcoming_service_data_table">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col"> Service ID </th>
+                            <th scope="col"> Service date </th>
+                            <th scope="col"> Customers details </th>
+                            <th scope="col"> Payment </th>
+                            <th scope="col"> Distance </th>
+                            <th scope="col"> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody class="clearfix">
+                    ';
+            $status = 'pending';
+            $result = $this->model->All_service_data($userid, $status, $start_from, $record_per_page);
+            if ($result) {
+                foreach ($result as $data) {
+                    $firstname = $data['FirstName'];
+                    $lastname = $data['LastName'];
+                    $serviceid = $data['ServiceRequestId'];
+                    $servicestartdate = $data['ServiceStartDate'];
+                    $payment = $data['TotalCost'];
+                    $servicedate = date('d-m-Y', strtotime($servicestartdate));
+                    $servicetime = date('H:i', strtotime($servicestartdate));
+                    $subtotal = $data['SubTotal'];
+                    $subtotal = $subtotal * 10;
+                    $min = 0;
+                    $min = $subtotal % 10;
+                    $subtotal = $subtotal / 10;
+                    $hours = (int)$subtotal;
+                    if ($min == 5) {
+                        $minute = 30;
+                    } else {
+                        $minute = 00;
+                    }
+
+                    $endtime = date('H:i', strtotime('+' . $hours . ' hour +' . $minute . ' minutes', strtotime($servicestartdate)));
+                    $currentdate = date('d-m-Y');
+                    $time =  date('H:i');
+                    if ($servicedate == $currentdate) {
+                        if (($time > $endtime)) {
+                            $button = '<button class="blue_button complete" id="' . $serviceid . '">Complete</button> <br>
+                                        <button class=" cancel" id="' . $serviceid . '">Cancel</button>';
+                        } else {
+                            $button = '
+                                        <button class=" cancel" id="' . $serviceid . '">Cancel</button>';
+                        }
+                    } elseif ($servicedate > $currentdate) {
+                        $button = '
+                                         <button class=" cancel" id="' . $serviceid . '">Cancel</button>';
+                    } elseif ($servicedate < $currentdate) {
+                        $button = '<button class="blue_button complete" id="' . $serviceid . '">Complete</button> <br>
+                                         <button class="cancel" id="' . $serviceid . '">Cancel</button>';
+                    }
+                    $output .= '  
+                            <tr class="upcoming_service" id="' . $serviceid . '" data-value="' . $data['ZipCode'] . '">
+                                <td data-label="Service ID"> <p>' . $serviceid . '</p></td>
+                                <td data-label="Service date">
+                                    <img src="./Asset/image/calendar2.png" alt="calender"><span class="date">' . $servicedate . '</span>
+                                    <br>
+                                    <img src="./Asset/image/layer-14.png" alt="calender"><span class="time">' . $servicetime . '-' . $endtime . '</span>
+                                </td>
+                                <td data-label="Customers details">
+                                    ' . $firstname . ' ' . $lastname . ' <br>
+                                    <img src=" ./Asset/image/layer-15.png" alt="home">' . $data['AddressLine1'] . ' ' . $data['AddressLine2'] . ', ' . $data['City'] . '- ' . $data['PostalCode'] . '
+                                </td>
+                                <td data-label="Payment" >
+                                    <p class="price">€' . $payment . '</p>
+                                </td>
+                                <td data-label="Distance">15km </td>
+                                <td data-label="Action">' . $button . '</td>
+                            </tr> ';
+                }
+                $output .= '</tbody>
+                            </table> 
+                            <div class="card mobileview clearfix" id="upcoming_service_card" style="width: 100%;">';
+
+                foreach ($result as $data) {
+                    $firstname = $data['FirstName'];
+                    $lastname = $data['LastName'];
+                    $serviceid = $data['ServiceRequestId'];
+                    $servicestartdate = $data['ServiceStartDate'];
+                    $payment = $data['TotalCost'];
+                    $servicedate = date('d-m-Y', strtotime($servicestartdate));
+                    $servicetime = date('H:i', strtotime($servicestartdate));
+                    $subtotal = $data['SubTotal'];
+                    $subtotal = $subtotal * 10;
+                    $min = 0;
+                    $min = $subtotal % 10;
+                    $subtotal = $subtotal / 10;
+                    $hours = (int)$subtotal;
+                    if ($min == 5) {
+                        $minute = 30;
+                    } else {
+                        $minute = 00;
+                    }
+                    $endtime = date('H:i', strtotime('+' . $hours . ' hour +' . $minute . ' minutes', strtotime($servicestartdate)));
+                    $currentdate = date('d-m-Y');
+                    $time =  date('H:i');
+                    if ($servicedate == $currentdate) {
+                        if (($time > $endtime)) {
+                            $button = '<button class="blue_button complete" id="' . $serviceid . '">Complete</button> 
+                                        <button class=" cancel" id="' . $serviceid . '">Cancel</button>';
+                        } else {
+                            $button = '
+                                        <button class=" cancel" id="' . $serviceid . '">Cancel</button>';
+                        }
+                    } elseif ($servicedate > $currentdate) {
+                        $button = '
+                                         <button class=" cancel" id="' . $serviceid . '">Cancel</button>';
+                    } elseif ($servicedate < $currentdate) {
+                        $button = '<button class="blue_button complete" id="' . $serviceid . '">Complete</button>
+                                         <button class="cancel" id="' . $serviceid . '">Cancel</button>';
+                    }
+                    $output .= ' 
+                                <div class="card-body" id="' . $serviceid . '" data-value="' . $data['ZipCode'] . '">
+                                <p >' . $serviceid . '</p>
+                                <hr>
+                                <span><img src="./Asset/image/calendar2.png" alt="calender"><span class="date">' . $servicedate . '</span>
+                                <br>
+                                            <img src="./Asset/image/layer-14.png" alt="calender"><span class="time">' . $servicetime . '-' . $endtime . '</span> 
+                                </span>
+                                <hr>
+                                <p>' . $firstname . ' ' . $lastname . ' <br>
+                                <img src=" ./Asset/image/layer-15.png" alt="home">' . $data['AddressLine1'] . ' ' . $data['AddressLine2'] . ', ' . $data['City'] . '- ' . $data['PostalCode'] . '</p>
+                                <hr>
+                                <p class="price">€' . $payment . '</p>
+                                <hr> 
+                                <div class="distance">15 km</div>  
+                                <hr> 
+                                    <div class="text-center">' . $button . '</div>
+                                </div>';
+                }
+
+                $total_record = $this->model->All_service_count($userid, $status);
+                $total_pages = ceil($total_record / $record_per_page);
+                $output .= '</div> <div class="pagenumber">
+                                            <div class="pagenumber-left">
+                                                <span style="margin-right:5px;">Show</span>
+                                                <span class="ml-2"><select class="form-select" id="upcoming_service_no">
+                                                                    <option ' . $s1 . ' value="5">5</option>
+                                                                    <option ' . $s2 . ' value="10">10</option>
+                                                                    <option ' . $s3 . ' value="20">20</option>
+                                                                    <option ' . $s4 . ' value="30">30</option>
+                                                                </select></span>
+                                                <span style="margin-left:5px;">entries Total Record: ' . $total_record . '</span>
+                                            </div>
+                                            <div class="pagenumber-right">';
+
+                if ($page > 1) {
+                    $previous = $page - 1;
+
+                    $output .= '<div class="pagenumber-btn upcoming-btn" id="1">
+                                                <img src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+
+                    $output .= ' <div class="pagenumber-btn upcoming-btn" id="' . $previous . '">
+                                                <img src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    $active_class = "";
+                    if ($i == $page) {
+                        $active_class = "active";
+                    }
+                    $output .= ' <div class="pagenumber-btn upcoming-btn ' . $active_class . '" id="' . $i . '">' . $i . ' </div>';
+                }
+
+                if ($page < $total_pages) {
+                    $page++;
+
+                    $output .= '<div class="pagenumber-btn upcoming-btn" id="' . $page . '">
+                                                <img class="transform_btn" src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+
+                    $output .= '<div class="pagenumber-btn upcoming-btn" id="' . $total_pages . '">
+                                                <img class="transform_btn" src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+                }
+                $output .= ' </div>
+                                    </div>
+                                    </div>';
+            } else {
+                $output = '   <table class="table tableinfo" id="new_service_data_table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col"> Service ID </th>
+                                        <th scope="col"> Service date </th>
+                                        <th scope="col"> Customers details </th>
+                                        <th scope="col"> Payment </th>
+                                        <th scope="col"> Distance </th>
+                                        <th scope="col"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="clearfix">
+                                <tr><td colspan=6> No Service Available</td></tr>
+                                </tbody>
+                                </table> 
+                                <div class="mobileview"> No Service Available</div>';
+            }
+
+            echo $output;
+        } else {
+            echo 'something went wrong!!!!';
+        }
+    }
+
+
+    public function service_history_data()
+    {
+        if (isset($_POST)) {
+
+            switch ($_POST["no"]) {
+                case 5:
+                    $s1 = 'selected';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 10:
+                    $s1 = '';
+                    $s2 = 'selected';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 20:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = 'selected';
+                    $s4 = '';
+                    break;
+                case 30:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = 'selected';
+                    break;
+            }
+            $output = '';
+            if (isset($_POST["page"])) {
+                $page = $_POST["page"];
+            } else {
+                $page = 1;
+            }
+            if (isset($_POST["no"])) {
+                $record_per_page = $_POST["no"];
+            } else {
+                $record_per_page = 5;
+            }
+            $start_from = ($page - 1) * $record_per_page;
+            $userid = $_POST['userid'];
+
+            $output .= '   <table class="table tableinfo" id="service_history_data_table">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col"> Service ID </th>
+                            <th scope="col"> Service date </th>
+                            <th scope="col"> Customers details </th>
+                        </tr>
+                    </thead>
+                    <tbody class="clearfix">
+                    ';
+            $status = 'completed';
+            $result = $this->model->All_service_data($userid, $status, $start_from, $record_per_page);
+            if ($result) {
+                foreach ($result as $data) {
+                    $firstname = $data['FirstName'];
+                    $lastname = $data['LastName'];
+                    $serviceid = $data['ServiceRequestId'];
+                    $servicestartdate = $data['ServiceStartDate'];
+                    $payment = $data['TotalCost'];
+                    $servicedate = date('d-m-Y', strtotime($servicestartdate));
+                    $servicetime = date('H:i', strtotime($servicestartdate));
+                    $subtotal = $data['SubTotal'];
+                    $subtotal = $subtotal * 10;
+                    $min = 0;
+                    $min = $subtotal % 10;
+                    $subtotal = $subtotal / 10;
+                    $hours = (int)$subtotal;
+                    if ($min == 5) {
+                        $minute = 30;
+                    } else {
+                        $minute = 00;
+                    }
+
+                    $endtime = date('H:i', strtotime('+' . $hours . ' hour +' . $minute . ' minutes', strtotime($servicestartdate)));
+                    $output .= '  
+                            <tr class="upcoming_service" id="' . $serviceid . '" data-value="' . $data['ZipCode'] . '">
+                                <td data-label="Service ID"> <p>' . $serviceid . '</p></td>
+                                <td data-label="Service date">
+                                    <img src="./Asset/image/calendar2.png" alt="calender"><span class="date">' . $servicedate . '</span>
+                                    <br>
+                                    <img src="./Asset/image/layer-14.png" alt="calender"><span class="time">' . $servicetime . '-' . $endtime . '</span>
+                                </td>
+                                <td data-label="Customers details">
+                                    ' . $firstname . ' ' . $lastname . ' <br>
+                                    <img src=" ./Asset/image/layer-15.png" alt="home">' . $data['AddressLine1'] . ' ' . $data['AddressLine2'] . ', ' . $data['City'] . '- ' . $data['PostalCode'] . '
+                                </td>
+                            </tr> ';
+                }
+                $output .= '</tbody>
+                            </table> 
+                            <div class="card mobileview clearfix" id="service_history_card" style="width: 100%;">';
+
+                foreach ($result as $data) {
+                    $firstname = $data['FirstName'];
+                    $lastname = $data['LastName'];
+                    $serviceid = $data['ServiceRequestId'];
+                    $servicestartdate = $data['ServiceStartDate'];
+                    $payment = $data['TotalCost'];
+                    $servicedate = date('d-m-Y', strtotime($servicestartdate));
+                    $servicetime = date('H:i', strtotime($servicestartdate));
+                    $subtotal = $data['SubTotal'];
+                    $subtotal = $subtotal * 10;
+                    $min = 0;
+                    $min = $subtotal % 10;
+                    $subtotal = $subtotal / 10;
+                    $hours = (int)$subtotal;
+                    if ($min == 5) {
+                        $minute = 30;
+                    } else {
+                        $minute = 00;
+                    }
+                    $endtime = date('H:i', strtotime('+' . $hours . ' hour +' . $minute . ' minutes', strtotime($servicestartdate)));
+                    $output .= ' 
+                                <div class="card-body" id="' . $serviceid . '" " data-value="' . $data['ZipCode'] . '">
+                                <p >' . $serviceid . '</p>
+                                <hr>
+                                <span><img src="./Asset/image/calendar2.png" alt="calender"><span class="date">' . $servicedate . '</span>
+                                <br>
+                                            <img src="./Asset/image/layer-14.png" alt="calender"><span class="time">' . $servicetime . '-' . $endtime . '</span> 
+                                </span>
+                                <hr>
+                                <p>' . $firstname . ' ' . $lastname . ' <br>
+                                <img src=" ./Asset/image/layer-15.png" alt="home">' . $data['AddressLine1'] . ' ' . $data['AddressLine2'] . ', ' . $data['City'] . '- ' . $data['PostalCode'] . '</p>
+                                </div>';
+                }
+
+                $total_record = $this->model->All_service_count($userid, $status);
+                $total_pages = ceil($total_record / $record_per_page);
+                $output .= '</div> <div class="pagenumber">
+                                            <div class="pagenumber-left">
+                                                <span style="margin-right:5px;">Show</span>
+                                                <span class="ml-2"><select class="form-select" id="service_history_no">
+                                                                    <option ' . $s1 . ' value="5">5</option>
+                                                                    <option ' . $s2 . ' value="10">10</option>
+                                                                    <option ' . $s3 . ' value="20">20</option>
+                                                                    <option ' . $s4 . ' value="30">30</option>
+                                                                </select></span>
+                                                <span style="margin-left:5px;">entries Total Record: ' . $total_record . '</span>
+                                            </div>
+                                            <div class="pagenumber-right">';
+
+                if ($page > 1) {
+                    $previous = $page - 1;
+
+                    $output .= '<div class="pagenumber-btn history-btn" id="1">
+                                                <img src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+
+                    $output .= ' <div class="pagenumber-btn history-btn" id="' . $previous . '">
+                                                <img src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    $active_class = "";
+                    if ($i == $page) {
+                        $active_class = "active";
+                    }
+                    $output .= ' <div class="pagenumber-btn history-btn ' . $active_class . '" id="' . $i . '">' . $i . ' </div>';
+                }
+
+                if ($page < $total_pages) {
+                    $page++;
+
+                    $output .= '<div class="pagenumber-btn history-btn" id="' . $page . '">
+                                                <img class="transform_btn" src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+
+                    $output .= '<div class="pagenumber-btn history-btn" id="' . $total_pages . '">
+                                                <img class="transform_btn" src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+                }
+                $output .= ' </div>
+                                    </div>
+                                    </div>';
+            } else {
+                $output = '   <table class="table tableinfo" id="new_service_data_table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col"> Service ID </th>
+                                        <th scope="col"> Service date </th>
+                                        <th scope="col"> Customers details </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="clearfix">
+                                <tr><td colspan=3> No Record Available</td></tr>
+                                </tbody>
+                                </table> 
+                                <div class="mobileview"> No Record Available</div>';
+            }
+
+            echo $output;
+        } else {
+            echo 'something went wrong!!!!';
+        }
+    }
+
+
+    public function rating_data()
+    {
+        if (isset($_POST)) {
+
+            switch ($_POST["no"]) {
+                case 5:
+                    $s1 = 'selected';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 10:
+                    $s1 = '';
+                    $s2 = 'selected';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 20:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = 'selected';
+                    $s4 = '';
+                    break;
+                case 30:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = 'selected';
+                    break;
+            }
+            $output = '';
+            if (isset($_POST["page"])) {
+                $page = $_POST["page"];
+            } else {
+                $page = 1;
+            }
+            if (isset($_POST["no"])) {
+                $record_per_page = $_POST["no"];
+            } else {
+                $record_per_page = 5;
+            }
+            $start_from = ($page - 1) * $record_per_page;
+            $userid = $_POST['userid'];
+
+            $output .= '<div class="tablerating">';
+            $result = $this->model->rating_data($userid, $start_from, $record_per_page);
+            if ($result) {
+                foreach ($result as $data) {
+                    $firstname = $data['FirstName'];
+                    $lastname = $data['LastName'];
+                    $serviceid = $data['ServiceRequestId'];
+                    $servicestartdate = $data['ServiceStartDate'];
+                    $servicedate = date('d-m-Y', strtotime($servicestartdate));
+                    $servicetime = date('H:i', strtotime($servicestartdate));
+                    $subtotal = $data['SubTotal'];
+                    $subtotal = $subtotal * 10;
+                    $min = 0;
+                    $min = $subtotal % 10;
+                    $subtotal = $subtotal / 10;
+                    $hours = (int)$subtotal;
+                    if ($min == 5) {
+                        $minute = 30;
+                    } else {
+                        $minute = 00;
+                    }
+
+                    $endtime = date('H:i', strtotime('+' . $hours . ' hour +' . $minute . ' minutes', strtotime($servicestartdate)));
+                    $spratings = $this->model->get_rating($serviceid);
+                    if ($spratings) {
+                        foreach ($spratings as $sprating) {
+                            $sprate = $sprating['Ratings'];
+                            $sprate = round($sprate);
+                            switch ($sprate) {
+                                case 1:
+                                    $feedback = 'Poor';
+                                    break;
+                                case 2:
+                                    $feedback = 'Fair';
+                                    break;
+                                case 3:
+                                    $feedback = 'Average';
+                                    break;
+                                case 4:
+                                    $feedback = 'Good';
+                                    break;
+                                case 5:
+                                    $feedback = 'excellent';
+                                    break;
+                            }
+                            if ($sprate != 0) {
+                                $values = '';
+
+                                for ($i = 1; $i <= $sprate; $i++) {
+                                    $values = $values .  '<i class="fa fa-star " style="color:rgb(236, 185, 28);"></i>';
+                                }
+                                if ($sprate <= 5) {
+                                    for ($count = ($sprate + 1); $count <= 5; $count++) {
+                                        $values = $values . '<i class="fa fa-star "></i>';
+                                    }
+                                }
+                            }
+                            if ($sprate = 0) {
+                                $values = '';
+                                for ($i = 1; $i <= 5; $i++) {
+                                    $values = $values .  '<i class="fa fa-star " "></i>';
+                                }
+                            }
+                        }
+                    }
+
+
+
+                    $output .= '  
+                        <div class="row ratings " id="' . $serviceid . '">
+
+                            <div class="col-3">
+                                <p>' . $serviceid . '</p>
+                                <p class="ratingStyle">' . $firstname . ' ' . $lastname . '</p>
+                            </div>
+                            <div class="col-4">
+                                <img src="./Asset/image/calendar2.png" alt="calender"><span class="date">' . $servicedate . '</span>
+                                <br>
+                                <img src="./Asset/image/layer-14.png" alt="calender"><span class="time">' . $servicetime . '-' . $endtime . '</span>
+                            </div>
+                            <div class="col-4">
+                                <p class="ratingStyle">ratings</p>
+                                <span class="star">' . $values . '</span><span>' . $feedback . '</span>
+                                         
+                            </div>
+                            <hr>
+                            <div><span class="ratingStyle">Comment:</span>
+                                ' . $data['Comments'] . '
+                            </div>
+                        </div> ';
+                }
+
+                $output .= '</div>
+                            <div class="card mobileview  clearfix" style="width: 100%;">';
+
+                foreach ($result as $data) {
+                    $firstname = $data['FirstName'];
+                    $lastname = $data['LastName'];
+                    $serviceid = $data['ServiceRequestId'];
+                    $servicestartdate = $data['ServiceStartDate'];
+                    $servicedate = date('d-m-Y', strtotime($servicestartdate));
+                    $servicetime = date('H:i', strtotime($servicestartdate));
+                    $subtotal = $data['SubTotal'];
+                    $subtotal = $subtotal * 10;
+                    $min = 0;
+                    $min = $subtotal % 10;
+                    $subtotal = $subtotal / 10;
+                    $hours = (int)$subtotal;
+                    if ($min == 5) {
+                        $minute = 30;
+                    } else {
+                        $minute = 00;
+                    }
+                    $endtime = date('H:i', strtotime('+' . $hours . ' hour +' . $minute . ' minutes', strtotime($servicestartdate)));
+
+                    $spratings = $this->model->get_rating($serviceid);
+                    if ($spratings) {
+                        foreach ($spratings as $sprating) {
+                            $sprate = $sprating['Ratings'];
+                            $sprate = round($sprate);
+                            switch ($sprate) {
+                                case 1:
+                                    $feedback = 'Poor';
+                                    break;
+                                case 2:
+                                    $feedback = 'Fair';
+                                    break;
+                                case 3:
+                                    $feedback = 'Average';
+                                    break;
+                                case 4:
+                                    $feedback = 'Good';
+                                    break;
+                                case 5:
+                                    $feedback = 'excellent';
+                                    break;
+                            }
+                            if ($sprate != 0) {
+                                $values = '';
+
+                                for ($i = 1; $i <= $sprate; $i++) {
+                                    $values = $values .  '<i class="fa fa-star " style="color:rgb(236, 185, 28);"></i>';
+                                }
+                                if ($sprate <= 5) {
+                                    for ($count = ($sprate + 1); $count <= 5; $count++) {
+                                        $values = $values . '<i class="fa fa-star "></i>';
+                                    }
+                                }
+                            }
+                            if ($sprate = 0) {
+                                $values = '';
+                                for ($i = 1; $i <= 5; $i++) {
+                                    $values = $values .  '<i class="fa fa-star " "></i>';
+                                }
+                            }
+                        }
+                    }
+                    $output .= ' 
+                                <div class="card-body" id="' . $serviceid . '">
+                                <p >' . $serviceid . '</p>
+                                <p class="ratingStyle">' . $firstname . ' ' . $lastname . '</p>
+                                <hr>
+                                <span><img src="./Asset/image/calendar2.png" alt="calender"><span class="date">' . $servicedate . '</span>
+                                <br>
+                                            <img src="./Asset/image/layer-14.png" alt="calender"><span class="time">' . $servicetime . '-' . $endtime . '</span> 
+                                </span>
+                                <hr>
+                                <p class="ratingStyle">ratings</p>
+                                <span class="star">' . $values . '</span><span>' . $feedback . '</span>
+                                <hr>
+                                <span class="ratingStyle">Comment:</span>
+                                ' . $data['Comments'] . '
+                                </div>';
+                }
+
+                $total_record = $this->model->rating_count($userid);
+                $total_pages = ceil($total_record / $record_per_page);
+                $output .= '</div> <div class="pagenumber">
+                                            <div class="pagenumber-left">
+                                                <span style="margin-right:5px;">Show</span>
+                                                <span class="ml-2"><select class="form-select" id=rating_no">
+                                                                    <option ' . $s1 . ' value="5">5</option>
+                                                                    <option ' . $s2 . ' value="10">10</option>
+                                                                    <option ' . $s3 . ' value="20">20</option>
+                                                                    <option ' . $s4 . ' value="30">30</option>
+                                                                </select></span>
+                                                <span style="margin-left:5px;">entries Total Record: ' . $total_record . '</span>
+                                            </div>
+                                            <div class="pagenumber-right">';
+
+                if ($page > 1) {
+                    $previous = $page - 1;
+
+                    $output .= '<div class="pagenumber-btn rating-btn" id="1">
+                                                <img src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+
+                    $output .= ' <div class="pagenumber-btn rating-btn" id="' . $previous . '">
+                                                <img src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    $active_class = "";
+                    if ($i == $page) {
+                        $active_class = "active";
+                    }
+                    $output .= ' <div class="pagenumber-btn rating-btn ' . $active_class . '" id="' . $i . '">' . $i . ' </div>';
+                }
+
+                if ($page < $total_pages) {
+                    $page++;
+
+                    $output .= '<div class="pagenumber-btn rating-btn" id="' . $page . '">
+                                                <img class="transform_btn" src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+
+                    $output .= '<div class="pagenumber-btn rating-btn" id="' . $total_pages . '">
+                                                <img class="transform_btn" src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+                }
+                $output .= ' </div>
+                                    </div>
+                                    </div>';
+            } else {
+                $output = '   <table class="table tableinfo" id="new_service_data_table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col"> Service ID </th>
+                                        <th scope="col"> Service date </th>
+                                        <th scope="col"> Customers details </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="clearfix">
+                                <tr><td colspan=3> No Record Available</td></tr>
+                                </tbody>
+                                </table> 
+                                <div class="mobileview container"> No Record Available</div>';
+            }
+
+            echo $output;
+        } else {
+            echo 'something went wrong!!!!';
+        }
+    }
+
+
+    public function block_data()
+    {
+        if (isset($_POST)) {
+
+            switch ($_POST["no"]) {
+                case 5:
+                    $s1 = 'selected';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 10:
+                    $s1 = '';
+                    $s2 = 'selected';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 20:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = 'selected';
+                    $s4 = '';
+                    break;
+                case 30:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = 'selected';
+                    break;
+            }
+            $output = '';
+            if (isset($_POST["page"])) {
+                $page = $_POST["page"];
+            } else {
+                $page = 1;
+            }
+            if (isset($_POST["no"])) {
+                $record_per_page = $_POST["no"];
+            } else {
+                $record_per_page = 5;
+            }
+            $start_from = ($page - 1) * $record_per_page;
+            $userid = $_POST['userid'];
+
+            $result = $this->model->rating_data($userid, $start_from, $record_per_page);
+            if ($result) {
+                foreach ($result as $data) {
+                    $firstname = $data['FirstName'];
+                    $lastname = $data['LastName'];
+                    $customerid  = $data['UserId'];
+
+                    $is_favourite =  $this->model->is_favourite($userid, $customerid);
+
+                    if (count($is_favourite[1])) {
+                        foreach ($is_favourite[1] as $fav) {
+                            $isblock = $fav['IsBlocked'];
+                            if ($isblock == 1) {
+                                $blockbtn = '<button type="button" class="btn red_button block_btn " id="' . $customerid . '">UnBlock</button>';
+                            } else {
+                                $blockbtn = '<button type="button" class="btn red_button block_btn " id="' . $customerid . '">Block</button>';
+                            }
+                        }
+                    } else {
+                        $blockbtn = '<button type="button" class="btn red_button block_btn " id="' . $customerid . '">Block</button>';
+                    }
+
+                    $output .= ' 
+                    <div class="text-center col-lg-3 col-md-5 col-sm-5 blockcard">
+                    <div class="cap-icon " ><img src="./Asset/image/avatar-hat.png" alt=".."></div>
+                    <p>' . $firstname . ' ' . $lastname . '</p>
+                    ' . $blockbtn . '
+                    </div>';
+                }
+
+                $total_record = $this->model->rating_count($userid);
+                $total_pages = ceil($total_record / $record_per_page);
+                $output .= '<div class="pagenumber">
+                                            <div class="pagenumber-left">
+                                                <span style="margin-right:5px;">Show</span>
+                                                <span class="ml-2"><select class="form-select" id=block_no">
+                                                                    <option ' . $s1 . ' value="5">5</option>
+                                                                    <option ' . $s2 . ' value="10">10</option>
+                                                                    <option ' . $s3 . ' value="20">20</option>
+                                                                    <option ' . $s4 . ' value="30">30</option>
+                                                                </select></span>
+                                                <span style="margin-left:5px;">entries Total Record: ' . $total_record . '</span>
+                                            </div>
+                                            <div class="pagenumber-right">';
+
+                if ($page > 1) {
+                    $previous = $page - 1;
+
+                    $output .= '<div class="pagenumber-btn block-btn" id="1">
+                                                <img src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+
+                    $output .= ' <div class="pagenumber-btn block-btn" id="' . $previous . '">
+                                                <img src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    $active_class = "";
+                    if ($i == $page) {
+                        $active_class = "active";
+                    }
+                    $output .= ' <div class="pagenumber-btn block-btn ' . $active_class . '" id="' . $i . '">' . $i . ' </div>';
+                }
+
+                if ($page < $total_pages) {
+                    $page++;
+
+                    $output .= '<div class="pagenumber-btn block-btn" id="' . $page . '">
+                                                <img class="transform_btn" src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+
+                    $output .= '<div class="pagenumber-btn block-btn" id="' . $total_pages . '">
+                                                <img class="transform_btn" src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+                }
+                $output .= ' </div>
+                                    </div>
+                                    </div>';
+            } else {
+                $output = '  
+                                <div > No Record Available</div>';
+            }
+
+            echo $output;
+        } else {
+            echo 'something went wrong!!!!';
+        }
+    }
+
+    public function complete_sp_service()
+    {
+        if (isset($_POST)) {
+            $serviceid = $_POST['serviceid'];
+            $result = $this->model->complete_sp_service($serviceid);
+            if ($result) {
+                echo $result;
+            }
+        }
+    }
+    public function cancel_sp_service()
+    {
+        if (isset($_POST)) {
+            $serviceid = $_POST['serviceid'];
+            $result = $this->model->cancel_sp_service($serviceid);
+            if ($result) {
+                echo $result;
+            }
+        }
+    }
+
+    public function accept_sp_service()
+    {
+        if (isset($_POST)) {
+            $username = $_POST['username'];
+            $userid = $_POST['userid'];
+            $serviceid = $_POST['serviceid'];
+            $Service = $this->model->is_service_accepted($serviceid);
+            if ($Service) {
+                foreach ($Service as $data) {
+                    $servicestartdate = $data['ServiceStartDate'];
+                    $servicedate = date('Y-m-d', strtotime($servicestartdate));
+                    $serviceStartTime = date('H:i', strtotime($servicestartdate));
+                    $subtotal = $data['SubTotal'];
+                    $subtotal = $subtotal * 10;
+                    $min = 0;
+                    $min = $subtotal % 10;
+                    $subtotal = $subtotal / 10;
+                    $hours = (int)$subtotal;
+                    if ($min == 5) {
+                        $minute = 30;
+                    } else {
+                        $minute = 00;
+                    }
+                    $serviceEndTime = date('H:i', strtotime('+' . $hours . ' hour +' . $minute . ' minutes', strtotime($servicestartdate)));
+                }
+            }
+
+            $result = $this->model->All_sp_service($userid, $servicedate);
+            $count = 0;
+            if ($result) {
+                foreach ($result as $data) {
+                    $serviceDate = $data['ServiceStartDate'];
+                    $starttime = date('H:i', strtotime($serviceDate));
+                    $subtotal = $data['SubTotal'];
+                    $subtotal = $subtotal * 10;
+                    $min = 0;
+                    $min = $subtotal % 10;
+                    $subtotal = $subtotal / 10;
+                    $hours = (int)$subtotal + 1;
+                    if ($min == 5) {
+                        $minute = 30;
+                    } else {
+                        $minute = 00;
+                    }
+                    $starttime = date('H:i', strtotime('- 1 hour -00 minutes', strtotime($serviceDate)));
+                    $endtime = date('H:i', strtotime('+' . $hours . ' hour +' . $minute . ' minutes', strtotime($serviceDate)));
+                    if ((($serviceStartTime > $starttime) && ($serviceStartTime < $endtime)) || (($serviceEndTime > $starttime) && ($serviceEndTime < $endtime))) {
+                        $acceptedServiceId = $data['ServiceRequestId'];
+                        $count = $count + 1;
+                    } else {
+                        $count = $count;
+                    }
+                }
+            } else {
+                $count = 0;
+            }
+            if ($count > 0) {
+                echo $acceptedServiceId;
+            } else {
+                $is_accepted = $this->model->is_service_accepted($serviceid);
+                if ($is_accepted) {
+                    $array = [
+                        'spid' => $userid,
+                        'serviceid' => $serviceid,
+                        'serviceAcceptDate' => date('Y-m-d'),
+                        'modifiedDate' => date('Y-m-d'),
+                        'modifiedBy' => $username,
+                        'status' => 'pending',
+                    ];
+                    $accept_service = $this->model->accept_service($array);
+                    if ($accept_service) {
+                        echo 1;
+                    } else {
+                        echo 2;
+                    }
+                } else {
+                    echo 0;
+                }
+            }
+        }
+    }
+
+    public function get_sp_address()
+    {
+        if (isset($_POST)) {
+
+            $userid = $_POST['userid'];
+            $result = $this->model->get_sp_address($userid);
+            if ($result) {
+                foreach ($result as $row) {
+                    $AddressLine1 = $row['AddressLine1'];
+                    $AddressLine2 = $row['AddressLine2'];
+                    $PostalCode = $row['PostalCode'];
+                    $City = $row['City'];
+                }
+            } else {
+                $AddressLine1 = '';
+                $AddressLine2 = '';
+                $PostalCode = '';
+                $City = '';
+            }
+            $final_result = [$AddressLine1, $AddressLine2, $PostalCode, $City];
+
+            echo json_encode($final_result);
+        } else {
+            echo ('something went wrong');
+        }
+    }
+
+    public function update_sp_details()
+    {
+        if (isset($_POST)) {
+            $userid = $_POST['userid'];
+            $firstname =   $_POST['firstname'];
+            $lastname =   $_POST['lastname'];
+            $mobile =   $_POST['phonenumber'];
+            $email = $_POST['email'];
+            $dateofbirth = $_POST['dateofbirth'];
+            $monthofbirth = $_POST['monthofbirth'];
+            $yearofbirth = $_POST['yearofbirth'];
+            $gender = $_POST['gender'];
+            $avtar = $_POST['avtar'];
+            $streetname = $_POST['streetname'];
+            $housenumber = $_POST['housenumber'];
+            $pincode = $_POST['pincode'];
+            $city = $_POST['city'];
+            $birthdate =  $yearofbirth . '-' . $monthofbirth . '-' . $dateofbirth;
+            $nationalityid =   $_POST['nationalityid'];
+            $modifiedby = $firstname . " " . $lastname;
+            $modifieddate = date('Y-m-d H:i:s');
+            $type = 1;
+
+            $array = [
+                'userid' => $userid,
+                'fistname' => $firstname,
+                'lastname' => $lastname,
+                'mobile' => $mobile,
+                'birthdate' => $birthdate,
+                'nationalityid' => $nationalityid,
+                'gender' => $gender,
+                'avtar' => $avtar,
+                'modifieddate' => $modifieddate,
+                'modifiedby' => $modifiedby,
+
+            ];
+            $result = $this->model->update_sp_details($array);
+            $resultAddress = $this->model->get_sp_address($userid);
+            if ($resultAddress) {
+                $state = $this->model->Location($pincode);
+                $state = $state[1];
+                $array = [
+                    'userid' => $userid,
+                    'streetname' => $streetname,
+                    'housenumber' => $housenumber,
+                    'location' => $city,
+                    'state' => $state,
+                    'pincode' => $pincode,
+                    'phonenumber' => $mobile,
+                ];
+                $address = $this->model->update_sp_address($array);
+            } else {
+                $state = $this->model->Location($pincode);
+                $state = $state[1];
+                $array = [
+                    'userid' => $userid,
+                    'streetname' => $streetname,
+                    'housenumber' => $housenumber,
+                    'location' => $city,
+                    'state' => $state,
+                    'pincode' => $pincode,
+                    'phonenumber' => $mobile,
+                    'email' => $email,
+                    'type' => $type,
+                ];
+                $address = $this->model->Insert_address($array);
+            }
+
+            if (($result == 1) || ($address == 1)) {
+                echo 1;
+            } else {
+                echo 0;
+            }
+        }
+    }
+
+    public function detail_of_all_services()
+    {
+        if (isset($_POST)) {
+            $output = '';
+            $service_id = $_POST['serviceid'];
+            $result = $this->model->detail_of_all_service($service_id);
+
+            if ($result) {
+                foreach ($result as $row) {
+                    $serviceid = $row['ServiceRequestId'];
+                    $servicestartdate = $row['ServiceStartDate'];
+                    $zipcode = $row['ZipCode'];
+                    $servicedate = date('d-m-Y', strtotime($servicestartdate));
+                    $servicetime = date('H:i', strtotime($servicestartdate));
+                    $subtotal = $row['SubTotal'];
+                    $subtotal = $subtotal * 10;
+                    $min = 0;
+                    $min = $subtotal % 10;
+                    $subtotal = $subtotal / 10;
+                    $hours = (int)$subtotal;
+                    if ($min == 5) {
+                        $minute = 30;
+                    } else {
+                        $minute = 00;
+                    }
+
+                    $endtime = date('H:i', strtotime('+' . $hours . ' hour +' . $minute . ' minutes', strtotime($servicestartdate)));
+                    $currentdate = date('d-m-Y');
+                    $time =  date('H:i');
+                    if ($servicedate == $currentdate) {
+                        if (($time > $endtime)) {
+                            $button = '<button class="blue_button complete" id="' . $serviceid . '">Complete</button> <br>
+                                        <button class="cancel" type="submit" data-bs-dismiss="modal" id="' . $serviceid . '">Cancel</button>';
+                        } else {
+                            $button = '
+                                        <button class="cancel" type="submit" data-bs-dismiss="modal" id="' . $serviceid . '">Cancel</button>';
+                        }
+                    } elseif ($servicedate > $currentdate) {
+                        $button = '
+                                         <button class="cancel" type="submit" data-bs-dismiss="modal" id="' . $serviceid . '">Cancel</button>';
+                    } elseif ($servicedate < $currentdate) {
+                        $button = '<button class="blue_button complete" type="submit" data-bs-dismiss="modal" id="' . $serviceid . '">Complete</button> <br>
+                                         <button class=" cancel" type="submit" data-bs-dismiss="modal" id="' . $serviceid . '">Cancel</button>';
+                    }
+                    switch ($row['Status']) {
+                        case 'pending':
+                            if ($servicedate == $currentdate) {
+                                if (($time > $endtime)) {
+                                    $button = '<hr><button class="blue_button complete" type="submit" data-bs-dismiss="modal" id="' . $serviceid . '">Complete</button>
+                                                <button class="cancel" type="submit" data-bs-dismiss="modal" id="' . $serviceid . '">Cancel</button>';
+                                } else {
+                                    $button = '<hr>
+                                                <button class="cancel" type="submit" data-bs-dismiss="modal" id="' . $serviceid . '">Cancel</button>';
+                                }
+                            } elseif ($servicedate > $currentdate) {
+                                $button = '<hr>
+                                                 <button class="cancel" type="submit" data-bs-dismiss="modal" id="' . $serviceid . '">Cancel</button>';
+                            } elseif ($servicedate < $currentdate) {
+                                $button = '<hr><button class="blue_button complete" type="submit" data-bs-dismiss="modal" id="' . $serviceid . '">Complete</button>
+                                                 <button class="cancel" type="submit" data-bs-dismiss="modal" id="' . $serviceid . '">Cancel</button>';
+                            }
+                            break;
+                        case 'completed':
+                            $button = '';
+                            break;
+                        case 'new':
+                            $button = '<hr><button class="blue_button accept" type="submit" data-bs-dismiss="modal" id="' . $row['ServiceRequestId'] . '">Accept</button>';
+                            break;
+                    }
+
+                    $output .= '
+
+                        <div class="modal" tabindex="-1" id="all_detail">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Service Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body row">
+                                        <div class="col">
+                                            <h4 class="modalDate"> ' . $servicedate . '  ' . $servicetime . '-' . $endtime . '</h4>
+                                            <p>Duration : <span>' . $row['SubTotal'] . '</span> </p>
+                                            <hr>
+                                            <p>Service Id : <span>' . $row['ServiceRequestId'] . '</span></p>
+                                            <p>Extras : <span>' . $row['ExtraService'] . '</span> </p>
+                                            <p>Total Payment: <span class="model_price">' . $row['TotalCost'] . '$</span> </p>
+                                            <hr>
+                                            <p>Customer Name : <span> ' . $row['FirstName'] . ' ' . $row['LastName'] . '<span></p>
+                                            <p>Service Address : <span>' . $row['AddressLine1'] . ',' . $row['AddressLine2'] . ',' . $row['City'] . ',' . $row['PostalCode'] . '</span></p>
+                                            
+                                            <p>Disatnce :<span>5 Km<span></p>
+                                            <hr>
+                                            <p>Comments :<span>' . $row['Comments'] . '</p>
+                                            <div class="text-center"> ' . $button . '</div>
+                                            </div>
+                                            <div class="col" id="map" value="' . $row['ZipCode'] . '">
+                                            
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>';
+                }
+            }
+
+            echo $output;
         }
     }
 }

@@ -8,13 +8,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Price</title>
     <link rel="stylesheet" href="./Asset/css/prices_style.css">
+    <?php $base_url = 'http://localhost/php/helperland/'; ?>
+    <script>
+        var config = {
+            routes: {
+                zone: "<?= $base_url ?>"
+            }
+        };
+    </script>
 
 </head>
 
 <body>
-<?php 
-include("navbar.php");
-?>
+    <?php
+    include("navbar.php");
+    ?>
     <div>
         <img src="./Asset/image/group-18.png" class="img-fluid" alt="...">
     </div>
@@ -200,7 +208,7 @@ include("navbar.php");
     </section>
 
 
-    <?php 
+    <?php
     include("footer.php");
     ?>
 

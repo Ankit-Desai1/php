@@ -203,10 +203,7 @@
                     dashboard_data(page, n);
                 }
             })
-
-
         });
-
     });
 
     $(document).on('click', '#dashboard_data_table', function(e) {
@@ -382,8 +379,6 @@
                 'modifiedby': modifiedby,
             },
             success: function(data) {
-                alert('helllllll');
-                alert(data);
                 $("#iframeloading").hide();
                 if (data == 1) {
                     $("#newpassword").val("");
@@ -478,7 +473,7 @@
                 },
                 dataType: "json",
                 success: function(data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#street_name").val(data[0]);
                     $("#house_number").val(data[1]);
                     $("#postal_code").val(data[2]);

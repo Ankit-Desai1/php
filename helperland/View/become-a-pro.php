@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,14 +8,14 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Become a pro</title>
     <link rel="stylesheet" href="./Asset/css/Become-a-pro_style.css">
-    <?php $base_url='http://localhost/php/helperland/'; ?>
+    <?php $base_url = 'http://localhost/php/helperland/'; ?>
     <script>
-  var config = {
-        routes: {
-            zone: "<?= $base_url ?>"
-        }
-    };
-  </script>
+        var config = {
+            routes: {
+                zone: "<?= $base_url ?>"
+            }
+        };
+    </script>
 </head>
 
 <body>
@@ -30,61 +26,61 @@ session_start();
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#"><img src="./Asset/image/logo-large.png" class="header-img" alt="" ;></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <div class="navbar-nav ms-auto">
-                        <ul class="navbar-nav">
-                            <li class="nav-item navborder">
-                                <?php
-                                if(isset($_SESSION['username'])){
-                                ?>
-                                <a class="nav-link  text-white" aria-current="page" href="<?= $base_url.'?controller=Helperland&function=book_service'?>">Book a Cleaner</a>
-                                <?php } ?>
+                            <ul class="navbar-nav">
+                                <li class="nav-item navborder">
+                                    <?php
+                                    if (isset($_SESSION['username'])) {
+                                    ?>
+                                        <a class="nav-link  text-white" aria-current="page" href="<?= $base_url . '?controller=Helperland&function=book_service' ?>">Book a Cleaner</a>
+                                    <?php } ?>
 
-                                <?php
-                                if(!isset($_SESSION['username'])){
-                                ?>
-                                <a class="nav-link  text-white" aria-current="page" href="<?= $base_url.'index.php#loginform'?>">Book a Cleaner</a>
-                                <?php } ?>
-                            
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link text-white " href="<?= $base_url.'?controller=Helperland&function=prices'?>">Prices</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link text-white " href="#">Our Guarantee</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link text-white " href="#">Blog</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link text-white " href="<?= $base_url.'?controller=Helperland&function=contact'?>">Contact Us</a>
-                            </li>
-                            <li class="nav-item navborder ">
-                                <a class="nav-link text-white" href="<?= $base_url.'index.php#loginform'?>">Login</a>
-                            </li>
-                            <li class="nav-item navborder ">
-                                <a class="nav-link text-white " href="<?=$base_url.'?controller=Helperland&function=become_a_pro'?>">Become a Helper</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown " href="# "><img src="./Asset/image/ic-flag.png " alt="logo"></a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item " href="#">Australia</a></li>
-                                    <li><a class="dropdown-item " href="# ">India</a></li>
-                                    <li><a class="dropdown-item " href="# ">America</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                                    <?php
+                                    if (!isset($_SESSION['username'])) {
+                                    ?>
+                                        <a class="nav-link  text-white" aria-current="page" href="<?= $base_url . 'index.php#loginform' ?>">Book a Cleaner</a>
+                                    <?php } ?>
+
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link text-white " href="<?= $base_url . '?controller=Helperland&function=prices' ?>">Prices</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link text-white " href="#">Our Guarantee</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link text-white " href="#">Blog</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link text-white " href="<?= $base_url . '?controller=Helperland&function=contact' ?>">Contact Us</a>
+                                </li>
+                                <li class="nav-item navborder ">
+                                    <a class="nav-link text-white" href="<?= $base_url . 'index.php#loginform' ?>">Login</a>
+                                </li>
+                                <li class="nav-item navborder ">
+                                    <a class="nav-link text-white " href="<?= $base_url . '?controller=Helperland&function=become_a_pro' ?>">Become a Helper</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown " href="# "><img src="./Asset/image/ic-flag.png " alt="logo"></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item " href="#">Australia</a></li>
+                                        <li><a class="dropdown-item " href="# ">India</a></li>
+                                        <li><a class="dropdown-item " href="# ">America</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
 
                         </div>
                     </div>
                 </div>
             </nav>
         </div>
-        
 
-        <form class="Register-form container-fluid" id="signup" action="<?=$base_url.'?controller=registration&function=register'?>" method="post">
+
+        <form class="Register-form container-fluid" id="signup" action="<?= $base_url . '?controller=registration&function=register' ?>" method="post">
             <h1>Register Now!</h1>
             <div class=" mb-3">
                 <input type="text" class="form-control" id="firstname" placeholder="First name" name="firstname" required>
@@ -98,9 +94,9 @@ session_start();
                 <input type="email" class="form-control" id="email" placeholder="Email Address" name="email" required>
                 <div class="email-msg"></div>
                 <?php
-                    if(isset($_GET['status']) && $_GET['status']=='alert'){
+                if (isset($_GET['status']) && $_GET['status'] == 'alert') {
                     echo $_SESSION['message'];
-                     }
+                }
                 ?>
             </div>
             <div class="mb-3">
@@ -125,9 +121,9 @@ session_start();
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" >
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
                 <label class="form-check-label" for="flexCheckChecked">
-                    I accept <a href="#"> terms and conditions</a> & <a href="#">privacy policy</a> 
+                    I accept <a href="#"> terms and conditions</a> & <a href="#">privacy policy</a>
                 </label>
             </div>
             <div class="text-center">
@@ -188,25 +184,27 @@ session_start();
             </div>
         </section>
     </section>
-    <?php 
-include("footer.php");
-?>
-        <?php
-            if(isset($_GET['status']) && $_GET['status']=='success'){?>
-                <script>alert("you successfully register. Wait untill your request approved." );</script>
-        <?php 
-        }    
-        ?> 
+    <?php
+    include("footer.php");
+    ?>
+    <?php
+    if (isset($_GET['status']) && $_GET['status'] == 'success') { ?>
+        <script>
+            alert("you successfully register. Wait untill your request approved.");
+        </script>
+    <?php
+    }
+    ?>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="./Asset/js/register_validation.js"></script>
-    
+
     <?php
-unset($_SESSION['msg']);
-unset($_SESSION['message']);
-?>
+    unset($_SESSION['msg']);
+    unset($_SESSION['message']);
+    ?>
 </body>
 
 </html>

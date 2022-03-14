@@ -33,11 +33,9 @@ if (isset($_SESSION['username'])) {
 
             <div class="container-fluid">
 
-
-                <a class="navbar-brand" asp-action="Index" asp-controller="Public">
+                <a class="navbar-brand">
                     <img src="./Asset/image/logo-small.png">
                 </a>
-
 
                 <?php
                 if (isset($_SESSION['username'])) { ?>
@@ -122,19 +120,10 @@ if (isset($_SESSION['username'])) {
                         <li class="nav-item">
                             <a class="nav-link " href="<?= $base_url . '?controller=Helperland&function=contact' ?>">Contact </a>
                         </li>
-
                     </ul>
-
                 </div>
-
             </div>
-
         </nav>
-
-
-
-
-
 
 
 
