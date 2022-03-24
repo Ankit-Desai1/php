@@ -206,7 +206,7 @@ class Helperland
 
     public function reschedule_service($array)
     {
-        $sql = "UPDATE servicerequest SET ServiceStartDate=:servicestartdate WHERE ServiceRequestId = :service_id";
+        $sql = "UPDATE servicerequest SET ServiceStartDate=:servicestartdate, 	ModifiedDate=:modifieddate, ModifiedBy=:modifiedby WHERE ServiceRequestId = :service_id";
         $stmt =  $this->conn->prepare($sql);
         $res = $stmt->execute($array);
         return $res;
@@ -559,6 +559,161 @@ class Helperland
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function users_name($usertypeid)
+    {
+        $sql = "SELECT DISTINCT CONCAT(`FirstName`,' ',`LastName`) AS UserName FROM `user` WHERE UserTypeId = $usertypeid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function get_search_services($value, $start_from, $record_per_page)
+    {
+        $sql = "SELECT servicerequest.`UserId`,servicerequest.`ServiceRequestId`,servicerequest.`ServiceStartDate`,servicerequest.Status,servicerequest.ServiceProviderId,servicerequest.SubTotal,servicerequestaddress.AddressLine1,servicerequestaddress.AddressLine2,servicerequestaddress.City,servicerequestaddress.State,servicerequestaddress.PostalCode,user.FirstName,user.LastName,user.UserProfilePicture FROM `servicerequest` 
+        LEFT JOIN user ON servicerequest.`UserId` = user.UserId 
+        JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId $value  
+        ORDER BY servicerequest.`ServiceRequestId` DESC
+        LIMIT $start_from, $record_per_page";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function get_search_sp_services($value, $start_from, $record_per_page)
+    {
+        $sql = "SELECT servicerequest.`UserId`,servicerequest.`ServiceRequestId`,servicerequest.`ServiceStartDate`,servicerequest.Status,servicerequest.ServiceProviderId,servicerequest.SubTotal,servicerequestaddress.AddressLine1,servicerequestaddress.AddressLine2,servicerequestaddress.City,servicerequestaddress.State,servicerequestaddress.PostalCode,user.FirstName,user.LastName,user.UserProfilePicture FROM `servicerequest` 
+        LEFT JOIN user ON servicerequest.`ServiceProviderId` = user.UserId 
+        JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId $value 
+        ORDER BY servicerequest.`ServiceRequestId` DESC
+        LIMIT $start_from, $record_per_page ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function all_service_detail($start_from, $record_per_page)
+    {
+        $sql = "SELECT servicerequest.`UserId`,servicerequest.`ServiceRequestId`,servicerequest.`ServiceStartDate`,servicerequest.Status,servicerequest.ServiceProviderId,servicerequest.SubTotal,servicerequestaddress.AddressLine1,servicerequestaddress.AddressLine2,servicerequestaddress.City,servicerequestaddress.State,servicerequestaddress.PostalCode,user.FirstName,user.LastName,user.UserProfilePicture FROM `servicerequest` 
+        LEFT JOIN user ON servicerequest.`UserId` = user.UserId 
+        JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId  
+        ORDER BY servicerequest.`ServiceRequestId` DESC
+        LIMIT $start_from, $record_per_page";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function no_of_service($value)
+    {
+        $sql = "SELECT servicerequest.`UserId`,servicerequest.`ServiceRequestId`,servicerequest.`ServiceStartDate`,servicerequest.Status,servicerequest.ServiceProviderId,servicerequest.SubTotal,servicerequestaddress.AddressLine1,servicerequestaddress.AddressLine2,servicerequestaddress.City,servicerequestaddress.State,servicerequestaddress.PostalCode,user.FirstName,user.LastName,user.UserProfilePicture FROM `servicerequest` 
+        LEFT JOIN user ON servicerequest.`UserId` = user.UserId 
+        JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId $value ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        return $count;
+    }
+
+    public function no_of_search_service($value)
+    {
+        $sql = "SELECT servicerequest.`UserId`,servicerequest.`ServiceRequestId`,servicerequest.`ServiceStartDate`,servicerequest.Status,servicerequest.ServiceProviderId,servicerequest.SubTotal,servicerequestaddress.AddressLine1,servicerequestaddress.AddressLine2,servicerequestaddress.City,servicerequestaddress.State,servicerequestaddress.PostalCode,user.FirstName,user.LastName,user.UserProfilePicture FROM `servicerequest` 
+        LEFT JOIN user ON servicerequest.`ServiceProviderId` = user.UserId 
+        JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId $value ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        return $count;
+    }
+
+    public function user_name()
+    {
+        $sql = "SELECT DISTINCT CONCAT(`FirstName`,' ',`LastName`) AS UserName FROM `user`";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function all_user_detail($value, $start_from, $record_per_page)
+    {
+        $sql = "SELECT CONCAT(`user`.`FirstName`,' ',`user`.`LastName`) AS UserName, user.UserId, `user`.UserTypeId, `user`.ZipCode, user.IsActive, `user`.RoleId, city.CityName  FROM user 
+        JOIN `zipcode` ON `zipcode`.ZipcodeValue= `user`.ZipCode
+        JOIN `city` ON `city`.	Id= zipcode.CityId $value
+        ORDER BY user.UserId DESC
+        LIMIT $start_from, $record_per_page";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function no_of_user($value)
+    {
+        $sql = "SELECT CONCAT(`user`.`FirstName`,' ',`user`.`LastName`) AS UserName, user.UserId, user.UserTypeId ,user.ZipCode, user.IsActive, user.RoleId, city.CityName  FROM user 
+        LEFT JOIN zipcode ON zipcode.ZipcodeValue= user.ZipCode
+        JOIN `city` ON `city`.	Id= zipcode.CityId  $value ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        return $count;
+    }
+
+    public function update_service_address($array)
+    {
+        $sql = "UPDATE servicerequestaddress SET AddressLine1 = :street , AddressLine2 =  :houseno ,  City = :city,PostalCode =:postalcode WHERE ServiceRequestId = :serviceid";
+        $stmt =  $this->conn->prepare($sql);
+        $result = $stmt->execute($array);
+        return $result;
+    }
+
+    public function select_customer_email($serviceid)
+    {
+        $sql = "SELECT servicerequest.UserId, CONCAT(user.FirstName,' ',user.LastName) AS UserName, user.Email , servicerequest.ServiceStartDate, servicerequest.ServiceProviderId FROM servicerequest 
+        JOIN user ON servicerequest.UserId = user.UserId  WHERE servicerequest.ServiceRequestId = $serviceid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function select_sp_email($sp)
+    {
+        $sql = "SELECT  CONCAT(FirstName,' ',LastName) AS UserName, Email FROM user WHERE UserId = $sp";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function detail_of_refund($serviceid)
+    {
+        $sql = "SELECT  *  FROM servicerequest WHERE ServiceRequestId = $serviceid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function refund($serviceid, $refund)
+    {
+        $sql = "UPDATE servicerequest SET RefundedAmount = $refund WHERE ServiceRequestId = $serviceid";
+        $stmt =  $this->conn->prepare($sql);
+        $result = $stmt->execute();
+        return $result;
+    }
+
+    public function change_user_status($array)
+    {
+        $sql = "UPDATE user SET IsActive =:status WHERE UserId =:userid";
+        $stmt =  $this->conn->prepare($sql);
+        $result = $stmt->execute($array);
         return $result;
     }
 }

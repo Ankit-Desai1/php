@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Roboto:wght@400;500;700&display=swap');
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+nav.admin {
+    background-color: #1FB6FF;
+    padding: 0%;
+}
+
+.admin .navbar-brand {
+    width: 172px;
+    height: 37px;
+    font-size: 38px;
+    font-weight: lighter;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.65;
+    margin: 14px 0px 9px 15px;
+}
+
+div.user-icon {
+    padding-right: 20px;
+    padding-left: 20px;
+    line-height: 1.4;
+}
+
+.user-icon .admin-name {
+    width: 94px;
+    height: 19px;
+    font-size: 16px;
+    color: #FFFFFF;
+    padding: 20px 17px 21px 7px;
+}
+
+.admin .nav-item {
+    padding: 0px 20px 0px 0px;
+}
+
+.main_content .verticalnav {
+    padding: 0;
+    height: 100%;
+    color: #646464;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.main_content .verticalnav span {
+    font-weight: 400;
+    margin-left: 20px;
+}
+
+.main_content .verticalnav span:hover,
+.main_content .verticalnav .active {
+    color: #1FB6FF;
+}
+
+.main_content .verticalnav .button {
+    border: 1px solid #E5E5E5;
+    padding-top: 10px;
+}
+
+.main_content .management {
+    background-color: #f2f4f5;
+    padding: 20px;
+}
+
+.management .text {
+    font-size: 22px;
+    font-weight: 700;
+    color: #646464;
+    margin-top: 10px;
+}
+
+.management .user_form {
+    background-color: #FFFFFF;
+    margin-right: 5px;
+    margin-left: 2px;
+    padding: 20px;
+    color: #A0A0A0;
+}
+
+.management .user_form .clear {
+    background-color: #FFFFFF;
+    color: #646464;
+    border: 1px solid #DEDDDD;
+}
+
+.management .user_form .search {
+    color: #FFFFFF;
+    background-color: #1fb6ff;
+}
+
+.management .user_table {
+    margin-right: 15px;
+}
+
+.management .user_table .table {
+    margin-top: 20px;
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+    color: #646464;
+}
+
+.management .user_table .table tbody button {
+    margin-left: 20px;
+}
+
+.management .user_table th {
+    padding-right: 30px;
+    color: #646464;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.management .user_table tbody {
+    background-color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.management .user_table .cap-icon {
+    width: 50px !important;
+    height: 50px !important;
+    margin-right: 5px;
+    border: solid 1px #aaa;
+    background-color: var(--white);
+    border-radius: 50%;
+}
+
+.management .user_table .checked {
+    color: #ECB91C;
+}
+
+.management .user_table .new {
+    border: 1px solid #F2BB37;
+    background-color: #F2BB37;
+    color: #ffffff;
+    font-size: 13px;
+    padding: 4px 11px 5px 11px;
+}
+
+.management .user_table .pending {
+    border: 1px solid #1FB6FF;
+    background-color: #1FB6FF;
+    color: #ffffff;
+    font-size: 13px;
+    padding: 4px 11px 5px 11px;
+}
+
+.management .user_table .completed {
+    border: 1px solid #67B644;
+    background-color: #67B644;
+    color: #ffffff;
+    font-size: 13px;
+    padding: 4px 11px 5px 11px;
+}
+
+.management .user_table .cancelled {
+    border: 1px solid #FF6B6B;
+    background-color: #FF6B6B;
+    color: #ffffff;
+    font-size: 13px;
+    padding: 4px 11px 5px 11px;
+}
+
+.management .user_table .Active {
+    border: 1px solid #67B644;
+    background-color: #67B644;
+    color: #ffffff;
+    font-size: 13px;
+    padding: 4px 11px 5px 11px;
+}
+
+.management .btn-secondary {
+    background-color: white;
+    color: #646464;
+    border: transparent;
+}
+
+.management .dropdown-toggle::after {
+    display: none !important;
+}
+
+.management .user_table .inactive {
+    border: 1px solid #FF6B6B;
+    background-color: #FF6B6B;
+    color: #ffffff;
+    font-size: 13px;
+    padding: 4px 11px 5px 11px;
+}
+
+.management .user_table .dropdown {
+    border: 1px solid #E1E1E1;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 5px;
+}
+
+.management .add_new_user {
+    background-color: #1FB6FF;
+    color: #FFFFFF;
+    border: 0px;
+    padding: 10px;
+    margin-right: 12px;
+}
+
+.management .add_new_user span {
+    border: 1px solid #FFFFFF;
+    border-radius: 50%;
+    padding: 0px 5px;
+    margin-right: 5px;
+}
+
+.management .user_table .pagenumber {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    color: #777777;
+    flex-wrap: wrap;
+}
+
+.management .user_table .pagenumber-left {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-left: 1%;
+}
+
+.management .user_table .pagenumber-left p {
+    margin-bottom: 10px;
+    margin-top: 8px;
+}
+
+.management .user_table .pagenumber-right {
+    padding-right: 1%;
+    display: flex;
+    justify-content: end;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.management .user_table .pagenumber-btn {
+    padding: 10px 15.33px 10px 15px;
+    border: 1px solid #E1E1E1;
+    font-size: 14px;
+}
+
+.pagenumber-right .active {
+    background-color: #646464;
+    color: #FFFFFF
+}
+
+.management .user_table .transform_btn {
+    transform: rotate(180deg);
+}
+
+.management .copyright {
+    color: #A2A6A8;
+    font-size: 14px;
+    margin-left: 10px;
+    padding: 20px 0px 0px 10px;
+}
+
+#editmodal label,
+#editmodal p {
+    color: #646464;
+    font-weight: 500;
+    font-size: 17px;
+}
+
+#editmodal h5,
+#refundmodal h5 {
+    color: #646464;
+    font-weight: 500;
+}
+
+#editmodal .update,
+#refundmodal .refund {
+    background-color: #1FB6FF;
+    color: #FFFFFF;
+    border-radius: 7px;
+    border: 1px solid #1FB6FF;
+    padding: 8px;
+    padding-left: 40%;
+    padding-right: 40%;
+    margin: 10px;
+}
+
+.calculate_btn {
+    border: transparent;
+}
+
+#refundmodal {
+    color: #646464 !important;
+    font-weight: 500;
+}

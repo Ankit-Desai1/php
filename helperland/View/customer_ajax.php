@@ -298,7 +298,7 @@
                 },
                 dataType: "json",
                 success: function(data) {
-                    console.log(data);
+                    //console.log(data);
                     $('#firstname').val(data[0]);
                     $('#lastname').val(data[1]);
                     $('#emailaddress').val(data[2]);

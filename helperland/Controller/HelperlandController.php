@@ -84,12 +84,18 @@ class HelperlandController
         include('./View/service_provider.php');
     }
 
+    public function admin_service_request()
+    {
+        include('./View/admin_service_request.php');
+    }
+
     public function login()
     {
 
         $base_url = 'http://localhost/php/helperland/index.php#loginform';
         $base_url2 = 'http://localhost/php/helperland/?controller=Helperland&function=service_history';
         $base_url3 = 'http://localhost/php/helperland/?controller=Helperland&function=service_provider';
+        $base_url4 = 'http://localhost/php/helperland/?controller=Helperland&function=admin_service_request';
 
         if (isset($_POST)) {
             $email = $_POST['email'];
@@ -116,8 +122,9 @@ class HelperlandController
                     } elseif ($user['UserTypeId'] == 2) {
                         header('Location: ' . $base_url2);
                         $_SESSION['usertype'] = 2;
-                    } else {
-                        //echo"admin";
+                    } elseif ($user['UserTypeId'] == 3) {
+                        header('Location: ' . $base_url4);
+                        $_SESSION['usertype'] = 3;
                     }
                 }
             }
@@ -894,7 +901,7 @@ class HelperlandController
                                     $spratings = round($sprate);
                                     $valu = $spratings;
                                     if ($valu != 0) {
-                                        $val = '';
+                                        $value = '';
                                         $values = '';
                                         for ($i = 1; $i <= $valu; $i++) {
                                             $values = $values .  '<i class="fa fa-star " style="color:rgb(236, 185, 28);"></i>';
@@ -1513,7 +1520,7 @@ class HelperlandController
                                     $spratings = round($sprate);
                                     $valu = $spratings;
                                     if ($valu != 0) {
-                                        $val = '';
+                                        $value = '';
                                         $values = '';
                                         for ($i = 1; $i <= $valu; $i++) {
 
@@ -3144,6 +3151,898 @@ class HelperlandController
             }
 
             echo $output;
+        }
+    }
+
+    public function get_customer_name()
+    {
+        if (isset($_POST)) {
+            $user =  $this->model->users_name(2);
+
+            if (count($user)) {
+                foreach ($user as $us) {
+
+                    $cname = $us['UserName'];
+                    $userval = '<option >' . $cname . '</option>';
+                    echo $userval;
+                }
+            }
+        }
+    }
+    public function get_sp_name()
+    {
+        if (isset($_POST)) {
+
+            $sp =  $this->model->users_name(1);
+            if (count($sp)) {
+                foreach ($sp as $sps) {
+                    $sname = $sps['UserName'];
+                    $spval = '<option >' . $sname . '</option>';
+                    echo $spval;
+                }
+            }
+        }
+    }
+
+    public function all_service_data()
+    {
+        if (isset($_POST)) {
+            $page = $_POST['page'];
+            $record_per_page = $_POST['n'];
+            $serviceid = $_POST['serviceid'];
+            $customer = $_POST['customer'];
+            $service_provider = $_POST['service_provider'];
+            $status = $_POST['status'];
+            $startdate = $_POST['startdate'];
+            // $startdate = date('Y-m-d', strtotime($startdate));
+            $enddate = $_POST['enddate'];
+            $start_from = ($page - 1) * $record_per_page;
+            $output = '';
+
+            switch ($_POST["n"]) {
+                case 10:
+                    $s1 = 'selected';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 20:
+                    $s1 = '';
+                    $s2 = 'selected';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 30:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = 'selected';
+                    $s4 = '';
+                    break;
+                case 40:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = 'selected';
+                    break;
+            }
+
+            if ($serviceid != "" && $customer == "" && $service_provider == "" && $status == "" && $startdate == "" && $enddate == "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer != "" && $service_provider == "" && $status == "" && $startdate == "" && $enddate == "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid && CONCAT(user.FirstName , ' ',user.LastName) = '$customer'";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer == "" && $service_provider == "" && $status != "" && $startdate == "" && $enddate == "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid &&  `servicerequest`.`status` = '$status'";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer == "" && $service_provider == "" && $status == "" && $startdate != "" && $enddate == "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid && `servicerequest`.`ServiceStartDate` >= '$startdate'";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer == "" && $service_provider == "" && $status == "" && $startdate == "" && $enddate != "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid && `servicerequest`.`ServiceStartDate` <= '$enddate'";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer != "" && $service_provider == "" && $status != "" && $startdate == "" && $enddate == "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid && CONCAT(user.FirstName , ' ',user.LastName) = '$customer' && `servicerequest`.`status` = '$status'  ";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer != "" && $service_provider == "" && $status == "" && $startdate != "" && $enddate == "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid && CONCAT(user.FirstName , ' ',user.LastName) = '$customer' && `servicerequest`.`ServiceStartDate` >= '$startdate' ";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer != "" && $service_provider == "" && $status == "" && $startdate == "" && $enddate != "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid && CONCAT(user.FirstName , ' ',user.LastName) = '$customer' && `servicerequest`.`ServiceStartDate` <= '$enddate' ";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer == "" && $service_provider == "" && $status != "" && $startdate != "" && $enddate == "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid && `servicerequest`.`status` = '$status' && `servicerequest`.`ServiceStartDate` >= '$startdate' ";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer != "" && $service_provider == "" && $status != "" && $startdate == "" && $enddate != "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid && `servicerequest`.`status` = '$status' && `servicerequest`.`ServiceStartDate` <= '$enddate' ";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer != "" && $service_provider == "" && $status != "" && $startdate != "" && $enddate == "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid && CONCAT(user.FirstName , ' ',user.LastName) = '$customer' && `servicerequest`.`status` = '$status' && `servicerequest`.`ServiceStartDate` <= '$enddate' ";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer != "" && $service_provider == "" && $status != "" && $startdate == "" && $enddate != "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid && CONCAT(user.FirstName , ' ',user.LastName) = '$customer' && `servicerequest`.`status` = '$status' && `servicerequest`.`ServiceStartDate` >= '$startdate' ";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer != "" && $service_provider == "" && $status != "" && $startdate != "" && $enddate != "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid && CONCAT(user.FirstName , ' ',user.LastName) = '$customer' && `servicerequest`.`status` = '$status' && `servicerequest`.`ServiceStartDate` >= '$startdate'  && `servicerequest`.`ServiceStartDate` <= '$enddate' ";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid != "" && $customer == "" && $service_provider != "" && $status == "" && $startdate == "" && $enddate == "") {
+                $value = "WHERE `servicerequest`.`ServiceRequestId` = $serviceid && CONCAT(user.FirstName , ' ',user.LastName) = '$service_provider'";
+                $result = $this->model->get_search_sp_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_search_service($value);
+            }
+            if ($serviceid == "" && $customer == "" && $service_provider != "" && $status != "" && $startdate == "" && $enddate == "") {
+                $value = "WHERE `servicerequest`.`status` = '$status' && CONCAT(user.FirstName , ' ',user.LastName) = '$service_provider'";
+                $result = $this->model->get_search_sp_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_search_service($value);
+            }
+            if ($serviceid == "" && $customer == "" && $service_provider != "" && $status == "" && $startdate != "" && $enddate == "") {
+                $value = "WHERE  CONCAT(user.FirstName , ' ',user.LastName) = '$service_provider' && `servicerequest`.`ServiceStartDate` >= '$startdate' ";
+                $result = $this->model->get_search_sp_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_search_service($value);
+            }
+            if ($serviceid == "" && $customer == "" && $service_provider != "" && $status == "" && $startdate == "" && $enddate != "") {
+                $value = "WHERE  CONCAT(user.FirstName , ' ',user.LastName) = '$service_provider' && `servicerequest`.`ServiceStartDate` <= '$enddate' ";
+                $result = $this->model->get_search_sp_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_search_service($value);
+            }
+            if ($serviceid == "" && $customer == "" && $service_provider != "" && $status != "" && $startdate == "" && $enddate != "") {
+                $value = "WHERE  `servicerequest`.`status` = '$status' && CONCAT(user.FirstName , ' ',user.LastName) = '$service_provider' && `servicerequest`.`ServiceStartDate` <= '$enddate' ";
+                $result = $this->model->get_search_sp_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_search_service($value);
+            }
+            if ($serviceid != "" && $customer == "" && $service_provider != "" && $status == "" && $startdate == "" && $enddate != "") {
+                $value = "WHERE  `servicerequest`.`ServiceRequestId` = $serviceid  && CONCAT(user.FirstName , ' ',user.LastName) = '$service_provider' && `servicerequest`.`ServiceStartDate` <= '$enddate' ";
+                $result = $this->model->get_search_sp_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_search_service($value);
+            }
+            if ($serviceid != "" && $customer == "" && $service_provider != "" && $status == "" && $startdate != "" && $enddate == "") {
+                $value = "WHERE  `servicerequest`.`ServiceRequestId` = $serviceid  && CONCAT(user.FirstName , ' ',user.LastName) = '$service_provider' && `servicerequest`.`ServiceStartDate` >= '$startdate' ";
+                $result = $this->model->get_search_sp_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_search_service($value);
+            }
+            if ($serviceid != "" && $customer == "" && $service_provider != "" && $status == "" && $startdate != "" && $enddate != "") {
+                $value = "WHERE  `servicerequest`.`ServiceRequestId` = $serviceid  && CONCAT(user.FirstName , ' ',user.LastName) = '$service_provider' && `servicerequest`.`ServiceStartDate` >= '$startdate'  && `servicerequest`.`ServiceStartDate` <= '$enddate' ";
+                $result = $this->model->get_search_sp_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_search_service($value);
+            }
+            if ($serviceid != "" && $customer == "" && $service_provider != "" && $status != "" && $startdate != "" && $enddate != "") {
+                $value = "WHERE  `servicerequest`.`ServiceRequestId` = $serviceid && `servicerequest`.`status` = '$status' && CONCAT(user.FirstName , ' ',user.LastName) = '$service_provider' && `servicerequest`.`ServiceStartDate` >= '$startdate'  && `servicerequest`.`ServiceStartDate` <= '$enddate' ";
+                $result = $this->model->get_search_sp_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_search_service($value);
+            }
+            if ($serviceid == "" && $customer == "" && $service_provider == "" && $status == "" && $startdate != "" && $enddate != "") {
+                $value = "WHERE  `servicerequest`.`ServiceStartDate` >= '$startdate'  && `servicerequest`.`ServiceStartDate` <= '$enddate' ";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($customer != "" && $serviceid == ""  && $service_provider == "" && $status == "" && $startdate == "" && $enddate == "") {
+                $value = "WHERE CONCAT(user.FirstName , ' ',user.LastName) = '$customer'";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($service_provider != "" && $customer == "" && $serviceid == ""  && $status == "" && $startdate == "" && $enddate == "") {
+                $value = "WHERE CONCAT(user.FirstName , ' ',user.LastName) = '$service_provider'";
+                $result = $this->model->get_search_sp_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_search_service($value);
+            }
+            if ($status != "" && $customer == "" && $serviceid == ""  && $service_provider == "" && $startdate == "" && $enddate == "") {
+                $value = "WHERE `servicerequest`.`status` = '$status'";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($startdate != "" && $enddate == "" && $customer == "" && $serviceid == ""  && $service_provider == "" && $status == "") {
+                $value = "WHERE `servicerequest`.`ServiceStartDate` >='$startdate'";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($enddate != "" && $startdate == "" && $customer == "" && $serviceid == ""  && $service_provider == "" && $status == "") {
+                $value = "WHERE `servicerequest`.`ServiceStartDate` <= '$enddate'";
+                $result = $this->model->get_search_services($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            if ($serviceid == "" && $customer == "" && $service_provider == "" && $status == "" && $startdate == "" && $enddate == "") {
+                $value = '';
+                $result = $this->model->all_service_detail($start_from, $record_per_page);
+                $total_record = $this->model->no_of_service($value);
+            }
+            $output .= '<table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Service ID <img src="./Asset/image/sort.png" alt="..."></th>
+                    <th scope="col">Service date<img src="./Asset/image/sort.png" alt="..."></th>
+                    <th scope="col"> Customers details <img src="./Asset/image/sort.png" alt="..."></th>
+                    <th scope="col"> Service Provider<img src="./Asset/image/sort.png" alt="..."></th>
+                    <th scope="col">Status<img src="./Asset/image/sort.png" alt="..."></th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>';
+
+            if ($result) {
+                foreach ($result as $data) {
+                    $firstname = $data['FirstName'];
+                    $lastname = $data['LastName'];
+                    $status = $data['Status'];
+                    $serviceid = $data['ServiceRequestId'];
+                    $spid = $data['ServiceProviderId'];
+                    $servicestartdate = $data['ServiceStartDate'];
+                    $servicedate = date('d-m-Y', strtotime($servicestartdate));
+                    $servicetime = date('H:i', strtotime($servicestartdate));
+                    $subtotal = $data['SubTotal'];
+                    $subtotal = $subtotal * 10;
+                    $min = 0;
+                    $min = $subtotal % 10;
+                    $subtotal = $subtotal / 10;
+                    $hours = (int)$subtotal;
+                    if ($min == 5) {
+                        $minute = 30;
+                    } else {
+                        $minute = 00;
+                    }
+
+                    $endtime = date('H:i', strtotime('+' . $hours . ' hour +' . $minute . ' minutes', strtotime($servicestartdate)));
+                    if (!empty($spid)) {
+                        $spalldetails = $this->model->get_sp_detail($spid);
+                        if (count($spalldetails)) {
+                            foreach ($spalldetails as $sp) {
+
+                                $spfirstname = $sp['FirstName'];
+                                $splastname = $sp['LastName'];
+                                $splogo = $sp['UserProfilePicture'];
+                                $serviceproviderid = $spid;
+                                $logo = '<img src="./Asset/image/avatar-hat.png" class=" cap-icon" alt="..">';
+                                if ($splogo == 1) {
+                                    $logo = '<img src="./Asset/image/avatar-car.png" class=" cap-icon" alt="..">';
+                                }
+                                if ($splogo == 2) {
+                                    $logo = '<img src="./Asset/image/avatar-female.png" class=" cap-icon" alt="..">';
+                                }
+                                if ($splogo == 3) {
+                                    $logo = '<img src="./Asset/image/avatar-hat.png" class=" cap-icon" alt="..">';
+                                }
+                                if ($splogo == 4) {
+                                    $logo = '<img src="./Asset/image/avatar-iron.png" class=" cap-icon" alt="..">';
+                                }
+                                if ($splogo == 5) {
+                                    $logo = '<img src="./Asset/image/avatar-male.png" class=" cap-icon" alt="..">';
+                                }
+                                if ($splogo == 6) {
+                                    $logo = '<img src="./Asset/image/avatar-ship.png" class=" cap-icon" alt="..">';
+                                }
+                                $spratings = $this->model->get_sp_rating($spid);
+                                if (count($spratings[0])) {
+                                    $sprate = 0;
+                                    $count = $spratings[1];
+                                    foreach ($spratings[0] as $sprating) {
+                                        $sprate = ($sprate + $sprating['Ratings']);
+                                    }
+                                    $sprate = round(($sprate / $count), 2);
+                                    $spratings = round($sprate);
+                                    $valu = $spratings;
+
+
+
+                                    if ($valu != 0) {
+                                        $values = '';
+
+                                        for ($i = 1; $i <= $valu; $i++) {
+                                            $values = $values .  '<i class="fa fa-star " style="color:rgb(236, 185, 28);"></i>';
+                                        }
+                                        if ($valu <= 5) {
+                                            for ($count = ($spratings + 1); $count <= 5; $count++) {
+                                                $values = $values . '<i class="fa fa-star "></i>';
+                                            }
+                                        }
+                                    }
+                                    if ($valu = 0) {
+                                        $values = '';
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            $values = $values .  '<i class="fa fa-star " "></i>';
+                                        }
+                                    }
+                                    $values = $values;
+                                    $rating = '
+                                    <div class="row ml-1">
+                                        <div class="col-3" >' . $logo . '</div>
+                                        <div class="col-9 ml-3" >
+                                            <div class="row service-provider" id="' . $serviceproviderid . '" name="' . $serviceid . '">' . $spfirstname . ' ' . $splastname . '</div>
+                                            <span class="star">
+
+                                            ' . $values . '
+                                            </span>
+                                            <span class="spratings ml-3">' . $sprate . '</span>
+
+
+                                        </div>
+                                    </div>';
+                                } else {
+                                    $values = "";
+                                    for ($i = 1; $i <= 5; $i++) {
+                                        $values = $values .  '<i class="fa fa-star "  style="margin-right:4px;"></i>';
+                                    }
+                                    $rating = '
+                                                                            <div class="row ml-1">
+                                                                                <div class="col-3 " >' . $logo . '</div>
+                                                                                <div class="col-9 ml-3" >
+                                                                                    <div class="row service-provider"  id="' . $serviceproviderid . '" name="' . $serviceid . '">' . $spfirstname . ' ' . $splastname . '</div>
+                                                                                        <div class="row star">
+                                                                                            ' . $values . '
+
+                                                                                        </div>
+                                                                                        <span class="spratings ml-3"> 0 </span>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            ';
+                                }
+                            }
+                        }
+                    } else {
+                        $rating = '';
+                    }
+
+                    if ($status == 'completed' || $status == 'cancelled') {
+                        $action = '     
+                                    <div class="action">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item refundservice"id="' . $serviceid . '">Refund</a></li>
+                            <li><a class="dropdown-item" href="#">Escalate </a></li>
+                            <li><a class="dropdown-item" href="#">History Log</a></li>
+                            <li><a class="dropdown-item" href="#">Download Invoice </a></li>
+                        </ul>
+                    </div>';
+                    }
+                    if ($status == 'pending' || $status == 'new') {
+                        $action = '     
+                            <div class="action ">
+        
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="navbarDropdowns" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdowns">
+                              <a class="dropdown-item editservice" id="' . $serviceid . '" >Edit & Reschedule</a>
+                              <a class="dropdown-item refundservice" id="' . $serviceid . '">Refund</a>
+                              <a class="dropdown-item" href="#">Cancel </a>
+                              <a class="dropdown-item" href="#">Change SP</a>
+                              <a class="dropdown-item" href="#">Escalate </a>
+                              <a class="dropdown-item" href="#">History Log</a>
+                              <a class="dropdown-item" href="#">Download Invoice </a>                             
+                            </div>
+                                    ';
+                    }
+
+                    $output .= '          
+                            <tr>
+                                <td data-label="Service ID">
+                                    <p>' . $serviceid . '</p>
+                                </td>
+                                <td data-label="Service date">
+                                    <img src="./Asset/image/calendar2.png" alt="calender"> ' . $servicedate . '<br>
+                                    <img src="./Asset/image/layer-14.png" alt="clock"> ' . $servicetime . '-' . $endtime . '
+                                </td>
+                                <td data-label="Customers details">
+                                    ' . $firstname . ' ' . $lastname . ' <br>
+                                    <img src="./Asset/image/layer-15.png" alt="home">' . $data['AddressLine1'] . ' ' . $data['AddressLine2'] . ', ' . $data['City'] . '- ' . $data['PostalCode'] . '
+                                </td>
+                                <td data-label="Service Provider">' . $rating . '
+                                </td>
+                                <td data-label="User Status"> <button class="' . $status . '">' . $status . '</button></td>
+                                <td data-label="Actions">
+                                    ' . $action . '
+                                </td>
+                            </tr>
+                            ';
+                }
+            } else {
+                echo 'No Record Found';
+            }
+
+
+            $total_pages = ceil($total_record / $record_per_page);
+            $output .= ' <tr>
+                                <td colspan="8">
+                                    <div class="pagenumber">
+                                        <div class="pagenumber-left">
+                                                <span style="margin-right:5px;">Show</span>
+                                                <span class="ml-2"><select class="form-select" id="no_of_service">
+                                                                    <option ' . $s1 . ' value="10">10</option>
+                                                                    <option ' . $s2 . ' value="20">20</option>
+                                                                    <option ' . $s3 . ' value="30">30</option>
+                                                                    <option ' . $s4 . ' value="40">40</option>
+                                                                </select></span>
+                                        </div>
+                                        <div class="pagenumber-right">';
+
+            if ($page > 1) {
+                $previous = $page - 1;
+
+                $output .= '<div class="pagenumber-btn history-btn" id="1">
+                                                <img src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+
+                $output .= ' <div class="pagenumber-btn history-btn" id="' . $previous . '">
+                                                <img src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+            }
+            for ($i = 1; $i <= $total_pages; $i++) {
+                $active_class = "";
+                if ($i == $page) {
+                    $active_class = "active";
+                }
+                $output .= ' <div class="pagenumber-btn history-btn ' . $active_class . '" id="' . $i . '">' . $i . ' </div>';
+            }
+
+            if ($page < $total_pages) {
+                $page++;
+
+                $output .= '<div class="pagenumber-btn history-btn" id="' . $page . '">
+                                                <img class="transform_btn" src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+
+                $output .= '<div class="pagenumber-btn history-btn" id="' . $total_pages . '">
+                                                <img class="transform_btn" src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+            }
+            $output .= '
+                        </div>
+                            </div>
+                                </td>
+                                    </tr>';
+
+            $output .= '</tbody>
+
+            </table>';
+
+            echo $output;
+        }
+    }
+
+    public function get_user_name()
+    {
+        if (isset($_POST)) {
+            $user =  $this->model->user_name();
+
+            if (count($user)) {
+                foreach ($user as $us) {
+
+                    $cname = $us['UserName'];
+                    $userval = '<option >' . $cname . '</option>';
+                    echo $userval;
+                }
+            }
+        }
+    }
+
+
+    public function all_user_data()
+    {
+        if (isset($_POST)) {
+            $page = $_POST['page'];
+            $record_per_page = $_POST['n'];
+            $userName = $_POST['userName'];
+            $userType = $_POST['userType'];
+            $mobile = $_POST['mobile'];
+            $zipcode = $_POST['zipcode'];
+            $start_from = ($page - 1) * $record_per_page;
+            $output = '';
+
+            switch ($_POST["n"]) {
+                case 10:
+                    $s1 = 'selected';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 20:
+                    $s1 = '';
+                    $s2 = 'selected';
+                    $s3 = '';
+                    $s4 = '';
+                    break;
+                case 30:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = 'selected';
+                    $s4 = '';
+                    break;
+                case 40:
+                    $s1 = '';
+                    $s2 = '';
+                    $s3 = '';
+                    $s4 = 'selected';
+                    break;
+            }
+            if ($userName != "" && $userType == "" && $mobile == "" && $zipcode == "") {
+                $value = "WHERE  CONCAT(user.FirstName , ' ',user.LastName) = '$userName'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName == "" && $userType != "" && $mobile == "" && $zipcode == "") {
+                $value = "WHERE user.UserTypeId = '$userType'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName == "" && $userType == "" && $mobile != "" && $zipcode == "") {
+                $value = "WHERE user.Mobile = '$mobile'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName == "" && $userType == "" && $mobile == "" && $zipcode != "") {
+                $value = "WHERE user.ZipCode = '$zipcode'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName != "" && $userType != "" && $mobile == "" && $zipcode == "") {
+                $value = "WHERE  CONCAT(user.FirstName , ' ',user.LastName) = '$userName' && user.UserTypeId = '$userType'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName != "" && $userType == "" && $mobile != "" && $zipcode == "") {
+                $value = "WHERE  CONCAT(user.FirstName , ' ',user.LastName) = '$userName' && user.Mobile = '$mobile'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName != "" && $userType == "" && $mobile == "" && $zipcode != "") {
+                $value = "WHERE  CONCAT(user.FirstName , ' ',user.LastName) = '$userName' && user.ZipCode = '$zipcode'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName == "" && $userType != "" && $mobile != "" && $zipcode == "") {
+                $value = "WHERE  user.Mobile = '$mobile' && user.UserTypeId = '$userType'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName == "" && $userType != "" && $mobile == "" && $zipcode != "") {
+                $value = "WHERE user.ZipCode = '$zipcode' && user.UserTypeId = '$userType'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName == "" && $userType == "" && $mobile != "" && $zipcode != "") {
+                $value = "WHERE user.ZipCode = '$zipcode' && user.Mobile = '$mobile'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName != "" && $userType != "" && $mobile != "" && $zipcode == "") {
+                $value = "WHERE  CONCAT(user.FirstName , ' ',user.LastName) = '$userName' && user.UserTypeId = '$userType' && user.Mobile = '$mobile'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName != "" && $userType != "" && $mobile == "" && $zipcode != "") {
+                $value = "WHERE  CONCAT(user.FirstName , ' ',user.LastName) = '$userName' && user.UserTypeId = '$userType' && user.ZipCode = '$zipcode'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName != "" && $userType == "" && $mobile != "" && $zipcode != "") {
+                $value = "WHERE  CONCAT(user.FirstName , ' ',user.LastName) = '$userName' &&  user.ZipCode = '$zipcode' && user.Mobile = '$mobile'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName == "" && $userType != "" && $mobile != "" && $zipcode != "") {
+                $value = "WHERE  user.UserTypeId = '$userType' && user.Mobile = '$mobile'  &&  user.ZipCode = '$zipcode'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName != "" && $userType != "" && $mobile != "" && $zipcode != "") {
+                $value = "WHERE  CONCAT(user.FirstName , ' ',user.LastName) = '$userName' && user.UserTypeId = '$userType'  && user.Mobile = '$mobile'  &&  user.ZipCode = '$zipcode'";
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+            if ($userName == "" && $userType == "" && $mobile == "" && $zipcode == "") {
+                $value = '';
+                $result = $this->model->all_user_detail($value, $start_from, $record_per_page);
+                $total_record = $this->model->no_of_user($value);
+            }
+
+            $output .= '<table class="table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">User Name<img src="./Asset/image/sort.png" alt="..."></th>
+                                    <th scope="col">User Type</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Postal Code<img src="./Asset/image/sort.png" alt="..."></th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">Radius<img src="./Asset/image/sort.png" alt="..."></th>
+                                    <th scope="col">User Status<img src="./Asset/image/sort.png" alt="..."></th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
+
+            if ($result) {
+                foreach ($result as $data) {
+                    $username = $data['UserName'];
+                    $usertype = $data['UserTypeId'];
+                    $zipcode = $data['ZipCode'];
+                    $role = $data['RoleId'];
+                    $city = $data['CityName'];
+                    $isactive = $data['IsActive'];
+                    $user_id = $data['UserId'];
+
+                    if ($usertype == "1") {
+                        $user = 'Service Provider';
+                    }
+                    if ($usertype == "2") {
+                        $user = 'Customer';
+                    }
+                    if ($usertype == "3") {
+                        $user = 'Admin';
+                    }
+
+                    if ($isactive == '0') {
+
+                        $button = ' <button class="Active">Active</button>';
+                        $action = '     
+                                    <div class="action">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="adminactive" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="adminactive">
+                            <li><a class="dropdown-item activeDeactive"id="' . $user_id . '"  style="cursor:pointer;">Deactive</a></li>
+                            <li><a class="dropdown-item" href="#">Edit</a></li>
+                        </ul>
+                    </div>';
+                    }
+                    if ($isactive == '1') {
+                        $button = '<button class="inactive">Inactive</button>';
+                        $action = '     
+                                    <div class="action">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="admindeactive" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="admindeactive">
+                            <li><a class="dropdown-item activeDeactive"id="' . $user_id . '"  style="cursor:pointer;">Active</a></li>
+                            <li><a class="dropdown-item" href="#">Edit</a></li>
+                        </ul>
+                    </div>';
+                    }
+
+                    $output .= '          
+                            <tr>
+                                <td>
+                                    <p>' . $username . '</p>
+
+                                </td>
+                                <td>
+                                    <p>' . $user . '</p>
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <p>' . $zipcode . '</p>
+                                </td>
+
+                                <td>
+                                    <p>' . $city . '</p>
+                                </td>
+                                <td></td>
+                                <td>' . $button . '</td>
+                                <td>
+                                    ' . $action . '
+                                </td>
+                            </tr>
+                            ';
+                }
+            } else {
+                echo 'No Record Found';
+            }
+
+            $total_pages = ceil($total_record / $record_per_page);
+            $output .= ' <tr>
+                                <td colspan="8">
+                                    <div class="pagenumber">
+                                        <div class="pagenumber-left">
+                                                <span style="margin-right:5px;">Show</span>
+                                                <span class="ml-2"><select class="form-select" id="no_of_user">
+                                                                    <option ' . $s1 . ' value="10">10</option>
+                                                                    <option ' . $s2 . ' value="20">20</option>
+                                                                    <option ' . $s3 . ' value="30">30</option>
+                                                                    <option ' . $s4 . ' value="40">40</option>
+                                                                </select></span>
+                                        </div>
+                                        <div class="pagenumber-right">';
+
+            if ($page > 1) {
+                $previous = $page - 1;
+
+                $output .= '<div class="pagenumber-btn user-btn" id="1">
+                                                <img src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+
+                $output .= ' <div class="pagenumber-btn user-btn" id="' . $previous . '">
+                                                <img src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+            }
+            for ($i = 1; $i <= $total_pages; $i++) {
+                $active_class = "";
+                if ($i == $page) {
+                    $active_class = "active";
+                }
+                $output .= ' <div class="pagenumber-btn user-btn ' . $active_class . '" id="' . $i . '">' . $i . ' </div>';
+            }
+
+            if ($page < $total_pages) {
+                $page++;
+
+                $output .= '<div class="pagenumber-btn user-btn" id="' . $page . '">
+                                                <img class="transform_btn" src="./Asset/image/keyboard-right-arrow-button-copy.png" alt="">
+                                            </div>';
+
+                $output .= '<div class="pagenumber-btn user-btn" id="' . $total_pages . '">
+                                                <img class="transform_btn" src="./Asset/image/first-page.png" alt="">
+                                            </div>';
+            }
+            $output .= '
+                        </div>
+                            </div>
+                                </td>
+                                    </tr>';
+
+            $output .= '</tbody>
+
+            </table>';
+
+            echo $output;
+        }
+    }
+    public function get_edit_data()
+    {
+        if (isset($_POST)) {
+            $serviceid = $_POST['serviceid'];
+            $result = $this->model->detail_of_all_service($serviceid);
+            //print_r($result);
+            if ($result) {
+                foreach ($result as $data) {
+                    $servicestartdate = $data['ServiceStartDate'];
+                    $street = $data['AddressLine1'];
+                    $house = $data['AddressLine2'];
+                    $pincode = $data['PostalCode'];
+                    $city = $data['City'];
+                    $servicedate = date('Y-m-d', strtotime($servicestartdate));
+                    $servicetime = date('H:i', strtotime($servicestartdate));
+
+                    $output = [$servicedate, $servicetime, $street, $house, $pincode, $city];
+                    //echo $servicedate;
+                    //echo $output;
+                    echo json_encode($output);
+                }
+            }
+        }
+    }
+
+    public function edit_service_data()
+    {
+        if (isset($_POST)) {
+            $service_id = $_POST['serviceid'];
+            $servicestartdate = $_POST['servicestartdate'];
+            $street = $_POST['street'];
+            $houseno = $_POST['houseno'];
+            $postalcode = $_POST['postalcode'];
+            $city = $_POST['city'];
+            $reason = $_POST['reason'];
+            $modifieddate = date('Y-m-d H:i:s');
+            $modifiedby = 'admin';
+            $array = [
+                'servicestartdate' => $servicestartdate,
+                'modifieddate' => $modifieddate,
+                'modifiedby' => $modifiedby,
+                'service_id' => $service_id,
+            ];
+            $result = $this->model->reschedule_service($array);
+
+            $data = [
+                'street' => $street,
+                'houseno' => $houseno,
+                'postalcode' => $postalcode,
+                'city' => $city,
+                'serviceid' => $service_id,
+            ];
+            $address = $this->model->update_service_address($data);
+            if ($result == 1 || $address == 1) {
+                echo 1;
+            } else {
+                echo 0;
+            }
+            $maildata = $this->model->select_customer_email($service_id);
+            if ($maildata) {
+                foreach ($maildata as $data) {
+                    $email = $data['Email'];
+                    $username = $data['UserName'];
+                    $sp = $data['ServiceProviderId'];
+                }
+            }
+            include("View/adminreschedule.php");
+            if (!empty($sp)) {
+                $spmail = $this->model->select_sp_email($sp);
+                if ($spmail) {
+                    foreach ($spmail as $data) {
+                        $spemail = $data['Email'];
+                        $spusername = $data['UserName'];
+                    }
+                }
+                include("View/adminreschedulespmail.php");
+            }
+        }
+    }
+
+    public function get_refund_data()
+    {
+        if (isset($_POST)) {
+            $serviceid = $_POST['serviceid'];
+            $result = $this->model->detail_of_refund($serviceid);
+            if ($result) {
+                foreach ($result as $data) {
+                    $totalcost = $data['TotalCost'];
+                    $refund = $data['RefundedAmount'];
+                    if (empty($refund)) {
+                        $refundcost = '00.00';
+                    } else {
+                        $refundcost = $refund;
+                    }
+                    $inbalance = $totalcost - $refundcost;
+                    $output = [$totalcost, $refundcost, $inbalance];
+                    echo json_encode($output);
+                }
+            }
+        }
+    }
+
+    public function refund_data()
+    {
+        if (isset($_POST)) {
+            $serviceid = $_POST['serviceid'];
+            $refund = $_POST['refund'];
+            $result = $this->model->refund($serviceid, $refund);
+            if ($result) {
+                echo 1;
+            } else {
+                echo 0;
+            }
+        }
+    }
+
+    public function change_user_status()
+    {
+        if (isset($_POST)) {
+            $array = [
+                'userid' => $_POST['userid'],
+                'status' => $_POST['status'],
+            ];
+            $result = $this->model->change_user_status($array);
+            if ($result) {
+                echo 1;
+            } else {
+                echo 0;
+            }
         }
     }
 }

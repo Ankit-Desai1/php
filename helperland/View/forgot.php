@@ -8,19 +8,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
     <title>forgot</title>
     <link rel="stylesheet" href="./Asset/css/forgot_style.css" />
-    <?php $base_url='http://localhost/php/helperland/'; ?>
+    <?php $base_url = 'http://localhost/php/helperland/'; ?>
     <script>
-  var config = {
-        routes: {
-            zone: "<?= $base_url ?>"
-        }
-    };
-  </script>
+        var config = {
+            routes: {
+                zone: "<?= $base_url ?>"
+            }
+        };
+    </script>
 </head>
 
 <body>
-    <?php 
-    include("header.php");
+    <?php
+    include("navbar.php");
     ?>
 
 
@@ -30,7 +30,7 @@
     </section>
 
     <section class="forgot_form container">
-        <form action="<?= $base_url.'?controller=registration&function=resetpassword&parameter='.$id?>" method="post">
+        <form action="<?= $base_url . '?controller=registration&function=resetpassword&parameter=' . $id ?>" method="post">
             <div class="mb-3 mt-3">
                 <label for="password" class="form-label">New Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Password" name="password" />
@@ -48,7 +48,7 @@
     </section>
 
     <?php
-        include("footer.php");
+    include("footer.php");
     ?>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
