@@ -28,6 +28,8 @@
     }
 
     $(document).ready(function() {
+        postalcode = '';
+        email = '';
         serviceid = '';
         customer = '';
         service_provider = '';
@@ -53,6 +55,8 @@
                     'status': status,
                     'startdate': startdate,
                     'enddate': enddate,
+                    'postalcode': postalcode,
+                    'email': email,
                 },
                 success: function(data) {
                     //console.log(data);
@@ -63,6 +67,8 @@
 
         $(document).on('click', '#search', function() {
             serviceid = $('#service_id').val();
+            postalcode = $('#Postal_Code').val();
+            email = $('#email').val();
             Customer = $('#all_customer option:selected').text();
             Service_provider = $('#all_serviceprovider option:selected').text();
             status = $('#status option:selected').val();
@@ -99,6 +105,8 @@
         });
 
         $(document).on('click', '.clearservice', function() {
+            postalcode = '';
+            email = '';
             serviceid = '';
             customer = '';
             service_provider = '';
@@ -327,6 +335,9 @@
         userType = '';
         mobile = '';
         zipcode = '';
+        emailaddress = '';
+        startdate = '';
+        enddate = '';
         page = 1;
         n = 10;
 
@@ -344,6 +355,9 @@
                     'userType': userType,
                     'mobile': mobile,
                     'zipcode': zipcode,
+                    'email': emailaddress,
+                    'startdate': startdate,
+                    'enddate': enddate,
                 },
                 success: function(data) {
                     // console.log(data);
@@ -357,6 +371,9 @@
             userType = $('#user_type option:selected').val();
             mobile = $('#mobile').val();
             zipcode = $('#zipcode').val();
+            emailaddress = $('#emailaddress').val();;
+            startdate = $('#startdate').val();
+            enddate = $('#enddate').val();
             page = 1;
             n = 10;
 
@@ -370,14 +387,26 @@
             } else {
                 userType = userType;
             }
+            if (startdate == '') {
+                startdate = '';
+            } else {
+                startdate = startdate + ' 00:00:00.000';
+            }
+            if (enddate == '') {
+                enddate = '';
+            } else {
+                enddate = enddate + ' 23:59:59.000';
+            }
             all_user_data();
         });
 
         $(document).on('click', '.clearuser', function() {
-            userName = '';
             userType = '';
             mobile = '';
             zipcode = '';
+            emailaddress = '';
+            startdate = '';
+            enddate = '';
             page = 1;
             n = 10;
 

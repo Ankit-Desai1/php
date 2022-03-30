@@ -1,4 +1,9 @@
 <script>
+    <?php if (isset($_SESSION['username'])) { ?>
+        username = "<?php echo $_SESSION['username'] ?>"
+        userid = "<?php echo $_SESSION['userid']; ?>";
+    <?php } ?>
+
     function ClickFunction(id) {
         document.getElementById(id).click();
     }
@@ -14,6 +19,19 @@
     Disable('tab3btn');
     Disable('tab4btn');
 
+    $(document).ready(function() {
+        $.ajax({
+            type: 'POST',
+            url: "http://localhost/php/helperland/?controller=Helperland&function=favouriteSP",
+            data: {
+                "userid": userid,
+            },
+            success: function(data) {
+                //console.log(data);
+                $('#yourFav').html(data);
+            }
+        });
+    });
 
     $("#check_availability").on("click", function() {
 
@@ -26,7 +44,6 @@
             var postalerror = "";
             $('#postal_err').text(postalerror);
             var postal = $("#postalcode").val();
-            $("#iframeloading").show();
 
             $.ajax({
                 type: 'POST',
@@ -36,7 +53,6 @@
                 },
 
                 success: function(data) {
-                    $("#iframeloading").hide();
                     if (data == 1) {
                         var pincode = $("#pincode").val(postal);
 
@@ -188,24 +204,22 @@
         });
     }
 
-
-
-
     var Addressid;
     $('#select_address').click(function() {
         if ($('input[name="address"]:checked').length == 0) {
             alert('Please select an Address');
         } else {
             Addressid = $('input[name="address"]:checked').val();
+            Clickable('tab4btn');
+            ClickFunction('tab4btn');
         }
-        Clickable('tab4btn');
-        ClickFunction('tab4btn');
+
     });
 
-
-
-
-
+    var serviceprovider = '';
+    $(document).on("click", ".selectFavouriteSp", function() {
+        serviceprovider = $(this).attr('id');
+    });
 
 
     $('#complete_booking').click(function() {
@@ -257,6 +271,7 @@
         } else {
             pets = 0;
         }
+        alert(serviceprovider);
         AddServiceRequest();
     });
 
@@ -283,25 +298,36 @@
             "addressid": Addressid,
             "haspets": pets,
             "extraservice": Extraservice,
+            "serviceprovider": serviceprovider,
         });
 
+        $.blockUI({
+            message: ' <img src="./Asset/image/preloader.gif" alt="."> '
+        });
         $.ajax({
             type: 'POST',
             url: "http://localhost/php/helperland/?controller=Helperland&function=Service_request",
             data: Submit,
-            // dataType: 'json',
             success: function(data) {
-                console.log(data);
-                if (data == 0) {
-
-                    alert('data not inserted');
-
-                } else {
-
-                    $("#service_id").html(data);
-                    //alert(data);
-
+                $.unblockUI();
+                //console.log(data);
+                if (data > 0) {
+                    Swal.fire({
+                        title: 'Service Booking Successfully',
+                        text: 'Your Service Request id is ' + data + '.',
+                        icon: 'success',
+                        confirmButtonText: 'Done'
+                    });
                 }
+                if (data == 0) {
+                    Swal.fire({
+                        title: 'Service Not Booked. Please Try Again.',
+                        text: '',
+                        icon: 'error',
+                        confirmButtonText: 'Done'
+                    });
+                }
+                ClickFunction('defaultopen');
 
             }
         });

@@ -86,6 +86,17 @@ class Helperland
         return array($city, $state);
     }
 
+    public function favouriteSP($userid)
+    {
+        $sql = "SELECT * FROM favoriteandblocked
+        LEFT JOIN user ON user.UserId =  favoriteandblocked.TargetUserId
+        WHERE favoriteandblocked.UserId= $userid AND favoriteandblocked.IsFavorite = 1 AND favoriteandblocked.IsBlocked = 0";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
 
     function Get_email($userid)
     {
@@ -131,6 +142,17 @@ class Helperland
         return $serviceid;
     }
 
+    public function ADD_Service_SP($array)
+    {
+        $sql = "INSERT INTO servicerequest ( UserId, ServiceStartDate, ZipCode,  ServiceHourlyRate, ServiceHours, ExtraHours,ExtraService,  SubTotal, Discount, TotalCost,  Comments,  HasPets, Status, CreatedDate,  PaymentDone, RecordVersion, ServiceProviderId)
+     VALUES (:userid ,:servicestartdate, :zipcode, :servicehourrate ,:servicehours, :extrahour ,:extraservice,  :subtotal, :discount, :totalcost ,   :comments, :pets,:status ,:createddate , :paymentdone, :recordversion, :serviceprovider)
+     ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($array);
+        $serviceid = $this->conn->lastInsertId();
+        return $serviceid;
+    }
+
     public function get_selected_address($addressid)
     {
         $sql =  "SELECT * FROM useraddress WHERE AddressId = '$addressid' ";
@@ -157,13 +179,32 @@ class Helperland
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
         return $result;
+    }
+
+    public function is_sp_block($userid, $spid)
+    {
+        $sql = "SELECT * FROM favoriteandblocked WHERE UserId ='$userid' AND TargetUserId='$spid' AND IsBlocked='1' ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        return $count;
+    }
+
+    public function is_c_block($userid, $spid)
+    {
+        $sql = "SELECT * FROM favoriteandblocked WHERE UserId ='$spid' AND TargetUserId='$userid' AND IsBlocked='1' ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        return $count;
     }
 
     public function customer_data($userid, $start_from, $record_per_page)
     {
-        $sql = "SELECT * FROM servicerequest WHERE UserId = $userid AND (Status ='completed' OR  Status ='cancelled')  LIMIT $start_from, $record_per_page";
+        $sql = "SELECT * FROM servicerequest WHERE UserId = $userid AND (Status ='completed' OR  Status ='cancelled')
+        ORDER BY ServiceRequestId DESC
+        LIMIT $start_from, $record_per_page";
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -181,7 +222,9 @@ class Helperland
 
     public function dashboard_data($userid, $start_from, $record_per_page)
     {
-        $sql = "SELECT * FROM servicerequest WHERE UserId = $userid AND Status ='pending' OR Status ='new'  LIMIT $start_from, $record_per_page";
+        $sql = "SELECT * FROM servicerequest WHERE UserId = $userid AND Status ='pending' OR Status ='new'
+        ORDER BY ServiceRequestId DESC
+        LIMIT $start_from, $record_per_page";
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -204,9 +247,18 @@ class Helperland
         return $res;
     }
 
+    public function All_c_service($spid, $servicedate, $serviceid)
+    {
+        $sql = "SELECT * FROM servicerequest WHERE ServiceProviderId = $spid AND ServiceRequestId != $serviceid AND ServiceStartDate BETWEEN '$servicedate 00:00:00' AND '$servicedate 23:00:00'";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     public function reschedule_service($array)
     {
-        $sql = "UPDATE servicerequest SET ServiceStartDate=:servicestartdate, 	ModifiedDate=:modifieddate, ModifiedBy=:modifiedby WHERE ServiceRequestId = :service_id";
+        $sql = "UPDATE servicerequest SET ServiceStartDate=:servicestartdate, ModifiedDate=:modifieddate, ModifiedBy=:modifiedby WHERE ServiceRequestId = :service_id";
         $stmt =  $this->conn->prepare($sql);
         $res = $stmt->execute($array);
         return $res;
@@ -445,13 +497,25 @@ class Helperland
         return $count;
     }
 
-    public function rating_data($userid, $start_from, $record_per_page)
+    public function rating_data($userid, $val, $start_from, $record_per_page)
     {
         $sql = "SELECT * FROM servicerequest  
         JOIN user ON servicerequest.UserId= user.UserId 
         JOIN rating ON rating.ServiceRequestId = servicerequest.ServiceRequestId   
-        WHERE servicerequest.Status = 'completed' AND servicerequest.ServiceProviderId = $userid
+        WHERE servicerequest.ServiceProviderId = $userid AND  servicerequest.Status = 'completed' $val
         ORDER BY servicerequest.ServiceRequestId DESC
+        LIMIT $start_from, $record_per_page";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function block_customer_data($userid, $start_from, $record_per_page)
+    {
+        $sql = "SELECT DISTINCT user.UserId , user.FirstName, user.LastName FROM servicerequest  
+        JOIN user ON servicerequest.UserId= user.UserId   
+        WHERE servicerequest.ServiceProviderId = $userid AND servicerequest.Status = 'completed'
         LIMIT $start_from, $record_per_page";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -499,6 +563,15 @@ class Helperland
     public function All_sp_service($userid, $servicedate)
     {
         $sql = "SELECT * FROM servicerequest WHERE ServiceProviderId = $userid AND ServiceStartDate BETWEEN '$servicedate 00:00:00' AND '$servicedate 23:00:00'";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function service_accepted_date($serviceid)
+    {
+        $sql = "SELECT * FROM servicerequest WHERE ServiceRequestId =$serviceid";
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -586,9 +659,8 @@ class Helperland
 
     public function get_search_sp_services($value, $start_from, $record_per_page)
     {
-        $sql = "SELECT servicerequest.`UserId`,servicerequest.`ServiceRequestId`,servicerequest.`ServiceStartDate`,servicerequest.Status,servicerequest.ServiceProviderId,servicerequest.SubTotal,servicerequestaddress.AddressLine1,servicerequestaddress.AddressLine2,servicerequestaddress.City,servicerequestaddress.State,servicerequestaddress.PostalCode,user.FirstName,user.LastName,user.UserProfilePicture FROM `servicerequest` 
-        LEFT JOIN user ON servicerequest.`ServiceProviderId` = user.UserId 
-        JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId $value 
+        $sql = "SELECT DISTINCT servicerequest.`ServiceProviderId` FROM `servicerequest` 
+        LEFT JOIN user ON servicerequest.`ServiceProviderId` = user.UserId  $value 
         ORDER BY servicerequest.`ServiceRequestId` DESC
         LIMIT $start_from, $record_per_page ";
         $stmt =  $this->conn->prepare($sql);
@@ -643,7 +715,7 @@ class Helperland
 
     public function all_user_detail($value, $start_from, $record_per_page)
     {
-        $sql = "SELECT CONCAT(`user`.`FirstName`,' ',`user`.`LastName`) AS UserName, user.UserId, `user`.UserTypeId, `user`.ZipCode, user.IsActive, `user`.RoleId, city.CityName  FROM user 
+        $sql = "SELECT CONCAT(`user`.`FirstName`,' ',`user`.`LastName`) AS UserName, user.UserId, `user`.UserTypeId, `user`.ZipCode, user.IsActive, `user`.RoleId, user.Mobile , user.CreatedDate FROM user 
         JOIN `zipcode` ON `zipcode`.ZipcodeValue= `user`.ZipCode
         JOIN `city` ON `city`.	Id= zipcode.CityId $value
         ORDER BY user.UserId DESC
@@ -714,6 +786,15 @@ class Helperland
         $sql = "UPDATE user SET IsActive =:status WHERE UserId =:userid";
         $stmt =  $this->conn->prepare($sql);
         $result = $stmt->execute($array);
+        return $result;
+    }
+
+    public function get_calender_detail($userid)
+    {
+        $sql = "SELECT  *  FROM servicerequest WHERE ServiceProviderId = $userid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 }

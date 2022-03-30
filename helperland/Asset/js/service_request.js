@@ -14,6 +14,20 @@ $(document).ready(function() {
         buttonImage: './Asset/image/admin-calendar-blue.png'
     });
 
+    $("#startdate").datepicker({
+        dateFormat: "yy-mm-dd",
+        showOn: 'button',
+        buttonImageOnly: true,
+        buttonImage: './Asset/image/admin-calendar-blue.png'
+    });
+
+    $("#enddate").datepicker({
+        dateFormat: "yy-mm-dd",
+        showOn: 'button',
+        buttonImageOnly: true,
+        buttonImage: './Asset/image/admin-calendar-blue.png'
+    });
+
     $("#serviceDate").datepicker({
         dateFormat: "yy-mm-dd",
     });

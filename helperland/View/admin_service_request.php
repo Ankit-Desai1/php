@@ -81,13 +81,13 @@
                 <br>
                 <div class="row user_form">
                     <form action="#" id="formUser">
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-3">
                                 <select class="form-select" aria-label="Default select example" id="all_user">
                                     <option selected>User Name</option>
                                 </select>
                             </div>
-                            <div class="col-2">
+                            <div class="col-3">
                                 <select class="form-select" aria-label="Default select example" id="user_type">
                                     <option selected>User Type</option>
                                     <option value="1">Service Provider</option>
@@ -104,11 +104,21 @@
 
                             <div class="col-2">
                                 <input type="text" class="form-control  " placeholder="Zip code" id="zipcode">
-
                             </div>
 
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <input type="text" class="form-control" placeholder="Email" id="emailaddress">
+                            </div>
+                            <div class="col-2" style="display: flex;">
+                                <input type="text" class="form-control" placeholder="Start Date" id="startdate">
+                            </div>
+                            <div class="col-2" style="display: flex;">
+                                <input type="text" class="form-control" placeholder="End Date" id="enddate">
+                            </div>
                             <div class="col-1">
-                                <a class="btn search" id="search_user">Serach</a>
+                                <a class="btn search" id="search_user">Search</a>
 
                             </div>
                             <div class="col-1">
@@ -135,24 +145,14 @@
                 <div class="row user_form">
                     <form action="#">
                         <div class="row mb-3">
-                            <div class="col-3">
+                            <div class="col-2">
                                 <input type="text" class="form-control" placeholder="Service ID" id="service_id">
-
                             </div>
 
-                            <div class="col-3">
-                                <select class="form-select" id="all_customer">
-                                    <option selected>Customer</option>
-                                </select>
+                            <div class="col-2">
+                                <input type="text" class="form-control" placeholder="Email" id="email">
                             </div>
-
-                            <div class="col-3">
-                                <select class="form-select" id="all_serviceprovider">
-                                    <option selected>Service provider</option>
-                                </select>
-                            </div>
-
-                            <div class="col-3">
+                            <div class="col-2">
                                 <select class="form-select" id="status">
                                     <option selected>Status</option>
                                     <option value="new">New</option>
@@ -161,15 +161,27 @@
                                     <option value="cancelled">Cancelled</option>
                                 </select>
                             </div>
-
+                            <div class="col-3">
+                                <select class="form-select" id="all_customer">
+                                    <option selected>Customer</option>
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-select" id="all_serviceprovider">
+                                    <option selected>Service provider</option>
+                                </select>
+                            </div>
 
                         </div>
                         <div class="row ">
-                            <div class="col-3" style="display: flex;">
+                            <div class="col-2">
+                                <input type="text" class="form-control" placeholder="Postal Code" id="Postal_Code">
+                            </div>
+                            <div class="col-2" style="display: flex;">
                                 <input type="text" class="form-control" placeholder="Start Date" id="start_date">
                             </div>
 
-                            <div class="col-3" style="display: flex;">
+                            <div class="col-2" style="display: flex;">
                                 <input type="text" class="form-control" placeholder="End Date" id="end_date">
                             </div>
                             <div class="col-1">

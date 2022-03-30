@@ -14,6 +14,7 @@ if (isset($_SESSION['username'])) {
         <link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/ui-lightness/jquery-ui.css' rel='stylesheet'>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="http://malsup.github.io/jquery.blockUI.js"></script>
         <link rel="stylesheet" href="./Asset/css/service_history.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <?php $base_url = 'http://localhost/php/helperland/'; ?>
@@ -198,12 +199,13 @@ if (isset($_SESSION['username'])) {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <div class="alert text-center d-none" id="rescheduleError" role="alert"> </div>
                             <p>Select New Date & Time</p>
                             <div class="row">
                                 <div class="col-6"> <input type="text" class="form-control " placeholder="calender" id="selected_date"></div>
                                 <div class="col-6"><select class="form-select" id="selected_time">
-                                        <option selected value="9:00">9:00</option>
-                                        <option value="9:30">9:30</option>
+                                        <option selected value="09:00">9:00</option>
+                                        <option value="09:30">9:30</option>
                                         <option value="10:00">10:00</option>
                                         <option value="10:30">10:30</option>
                                         <option value='11:00'>11:00</option>
@@ -224,7 +226,7 @@ if (isset($_SESSION['username'])) {
                                     </select></div>
                             </div>
                             <div class="text-center">
-                                <button type="submit" data-bs-dismiss="modal" class="btn_cancel" id="confirm_reschedule">Update</button>
+                                <button type="submit" class="btn_cancel" data-bs-dismiss="modal" id="confirm_reschedule">Update</button>
                             </div>
                         </div>
                     </div>
@@ -343,7 +345,9 @@ if (isset($_SESSION['username'])) {
                     <div class="tab-content" id="tab12">
                         <div class="tab-pane fade show active " id="mysetting" aria-labelledby="nav-tab1">
                             <form method="post">
+
                                 <div class="row mb-3">
+                                    <div class="alert text-center d-none" id="user_error" role="alert"></div>
                                     <div class="col-4">
                                         <label for="firstname" class="form-label">First name</label>
                                         <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First name">
@@ -492,26 +496,28 @@ if (isset($_SESSION['username'])) {
                             </div>
                         </div>
                         <div class="tab-pane fade" id="password_change" aria-labelledby="nav-tab3">
-                            <div class="passworderror bg-danger"></div>
+
                             <div class="row">
+                                <div class="alert text-center d-none" id="password_error" role="alert">
+                                </div>
                                 <form action="">
                                     <div class="col-5">
                                         <label for="oldpassword" class="form-label">Old Password</label>
-                                        <input type="password" class="form-control invalid-input" id="oldpassword" placeholder="Old Password">
+                                        <input type="password" class="form-control " id="oldpassword" placeholder="Old Password">
                                         <div class="old-password-msg mb-2"></div>
                                     </div>
                                     <div class="col-5">
                                         <label for="newpassword" class="form-label">New password</label>
-                                        <input type="password" class="form-control invalid-input" id="newpassword" placeholder="New Password">
+                                        <input type="password" class="form-control " id="newpassword" placeholder="New Password">
                                         <div class="password-msg mb-2"></div>
                                     </div>
                                     <div class="col-5">
                                         <label for="confirmpassword" class="form-label">Confirm password</label>
-                                        <input type="password" class="form-control invalid-input" id="confirmpassword" placeholder="Confirm Password">
+                                        <input type="password" class="form-control" id=" confirmpassword" placeholder="Confirm Password">
                                         <div class="cpassword-msg mb-2"></div>
                                     </div>
                                     <div>
-                                        <button type="submit" class="blue_button" id="change_password" disabled>Save</button>
+                                        <button type="submit" class="blue_button" id="change_password">Save</button>
                                     </div>
                                 </form>
                             </div>

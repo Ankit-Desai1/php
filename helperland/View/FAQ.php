@@ -9,23 +9,23 @@
     <title>FAQ</title>
 
     <link rel="stylesheet" href="./Asset/css/faq_style.css">
-    <?php $base_url='http://localhost/php/helperland/'; ?>
+    <?php $base_url = 'http://localhost/php/helperland/'; ?>
     <script>
-  var config = {
-        routes: {
-            zone: "<?= $base_url ?>"
-        }
-    };
-  </script>
+        var config = {
+            routes: {
+                zone: "<?= $base_url ?>"
+            }
+        };
+    </script>
 
 
 </head>
 
 <body>
 
-<?php 
-include("navbar.php");
-?>
+    <?php
+    include("navbar.php");
+    ?>
 
     <section class="main-content">
 
@@ -49,175 +49,247 @@ include("navbar.php");
             </div>
         </div>
 
-        <div class="conatiner tab ">
-            <div class="row text-center">
-                <div class="col col-customer">FOR CUSTOMER</div>
-                <div class="col col-provider">FOR SERVICE PROVIDER</div>
-            </div>
+        <section class="faqq">
+            <ul class="nav nav-pills nav-justified">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="pill" href="#home">FOR CUSTOMER</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#menu1">FOR SERVICE PROVIDER</a>
+                </li>
+            </ul>
 
-        </div>
-        
+            <div class="tab-content">
+                <div class="tab-pane container active" id="home">
+                    <div class="text-justify mt-5">
 
-        <div class="text-justify mt-5">
+                        <p class="faq-large-content text-center">
+                            <img src="./Asset/image/right-arrow.png" alt="">
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis
+                                mattis tellus ac ut non imperdiet velit?
+                            </a>
 
-            <p class="faq-large-content text-center">
-                <img src="./Asset/image/right-arrow.png" alt="">
-                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
-            </a>
+                        </p>
+                        <div class="collapse" id="collapseExample">
+                            <div class="faq-small-content ">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
+                                eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat
+                                arcu. Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan
+                                ut eget nisl. Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                            </div>
+                        </div>
 
-            </p>
-            <div class="collapse" id="collapseExample">
-                <div class="faq-small-content ">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
-                    eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat arcu.
-                    Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget nisl.
-                    Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                        <p class="faq-large-content text-center">
+                            <img src="./Asset/image/right-arrow.png" alt="">
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis
+                                mattis tellus ac ut non imperdiet velit?
+                            </a>
+
+                        </p>
+                        <div class="collapse" id="collapseExample1">
+                            <div class="faq-small-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
+                                eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat
+                                arcu. Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan
+                                ut eget nisl. Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                            </div>
+                        </div>
+
+
+                        <p class="faq-large-content text-center">
+                            <img src="./Asset/image/right-arrow.png" alt="">
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis
+                                mattis tellus ac ut non imperdiet velit?
+                            </a>
+
+                        </p>
+                        <div class="collapse" id="collapseExample2">
+                            <div class="faq-small-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
+                                eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat
+                                arcu. Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan
+                                ut eget nisl. Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                            </div>
+                        </div>
+
+
+
+                        <p class="faq-large-content text-center">
+                            <img src="./Asset/image/right-arrow.png" alt="">
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis
+                                mattis tellus ac ut non imperdiet velit?
+                            </a>
+
+                        </p>
+                        <div class="collapse" id="collapseExample3">
+                            <div class="faq-small-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
+                                eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat
+                                arcu. Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan
+                                ut eget nisl. Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                            </div>
+                        </div>
+
+
+
+                        <p class="faq-large-content text-center">
+                            <img src="./Asset/image/right-arrow.png" alt="">
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis
+                                mattis tellus ac ut non imperdiet velit?
+                            </a>
+
+                        </p>
+                        <div class="collapse" id="collapseExample4">
+                            <div class="faq-small-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
+                                eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat
+                                arcu. Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan
+                                ut eget nisl. Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                            </div>
+                        </div>
+
+
+
+                        <p class="faq-large-content text-center">
+                            <img src="./Asset/image/right-arrow.png" alt="">
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample5" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis
+                                mattis tellus ac ut non imperdiet velit?
+                            </a>
+
+                        </p>
+                        <div class="collapse" id="collapseExample5">
+                            <div class="faq-small-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
+                                eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat
+                                arcu. Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan
+                                ut eget nisl. Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                            </div>
+                        </div>
+
+
+
+                        <p class="faq-large-content text-center">
+                            <img src="./Asset/image/right-arrow.png" alt="">
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample6" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis
+                                mattis tellus ac ut non imperdiet velit?
+                            </a>
+
+                        </p>
+                        <div class="collapse" id="collapseExample6">
+                            <div class="faq-small-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
+                                eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat
+                                arcu. Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan
+                                ut eget nisl. Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                            </div>
+                        </div>
+
+
+
+                        <p class="faq-large-content text-center">
+                            <img src="./Asset/image/right-arrow.png" alt="">
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample7" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis
+                                mattis tellus ac ut non imperdiet velit?
+                            </a>
+
+                        </p>
+                        <div class="collapse" id="collapseExample7">
+                            <div class="faq-small-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
+                                eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat
+                                arcu. Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan
+                                ut eget nisl. Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                            </div>
+                        </div>
+
+
+
+                        <p class="faq-large-content text-center">
+                            <img src="./Asset/image/right-arrow.png" alt="">
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample8" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis
+                                mattis tellus ac ut non imperdiet velit?
+                            </a>
+
+                        </p>
+                        <div class="collapse" id="collapseExample8">
+                            <div class="faq-small-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
+                                eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat
+                                arcu. Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan
+                                ut eget nisl. Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="tab-pane container fade" id="menu1">
+                    <div class="text-justify mt-5">
+                        <p class="faq-large-content text-center">
+                            <img src="./Asset/image/right-arrow.png" alt="">
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample11" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis
+                                mattis tellus ac ut non imperdiet velit?
+                            </a>
+
+                        </p>
+                        <div class="collapse" id="collapseExample11">
+                            <div class="faq-small-content ">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
+                                eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat
+                                arcu. Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan
+                                ut eget nisl. Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                            </div>
+                        </div>
+
+                        <p class="faq-large-content text-center">
+                            <img src="./Asset/image/right-arrow.png" alt="">
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample12" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis
+                                mattis tellus ac ut non imperdiet velit?
+                            </a>
+
+                        </p>
+                        <div class="collapse" id="collapseExample12">
+                            <div class="faq-small-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
+                                eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat
+                                arcu. Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan
+                                ut eget nisl. Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                            </div>
+                        </div>
+
+
+                        <p class="faq-large-content text-center">
+                            <img src="./Asset/image/right-arrow.png" alt="">
+                            <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample13" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis
+                                mattis tellus ac ut non imperdiet velit?
+                            </a>
+
+                        </p>
+                        <div class="collapse" id="collapseExample13">
+                            <div class="faq-small-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
+                                eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat
+                                arcu. Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan
+                                ut eget nisl. Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <p class="faq-large-content text-center">
-                <img src="./Asset/image/right-arrow.png" alt="">
-                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
-            </a>
-
-            </p>
-            <div class="collapse" id="collapseExample1">
-                <div class="faq-small-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
-                    eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat arcu.
-                    Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget nisl.
-                    Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                </div>
-            </div>
-
-
-            <p class="faq-large-content text-center">
-                <img src="./Asset/image/right-arrow.png" alt="">
-                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
-            </a>
-
-            </p>
-            <div class="collapse" id="collapseExample2">
-                <div class="faq-small-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
-                    eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat arcu.
-                    Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget nisl.
-                    Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                </div>
-            </div>
-
-
-
-            <p class="faq-large-content text-center">
-                <img src="./Asset/image/right-arrow.png" alt="">
-                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
-            </a>
-
-            </p>
-            <div class="collapse" id="collapseExample3">
-                <div class="faq-small-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
-                    eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat arcu.
-                    Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget nisl.
-                    Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                </div>
-            </div>
-
-
-
-            <p class="faq-large-content text-center">
-                <img src="./Asset/image/right-arrow.png" alt="">
-                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
-            </a>
-
-            </p>
-            <div class="collapse" id="collapseExample4">
-                <div class="faq-small-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
-                    eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat arcu.
-                    Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget nisl.
-                    Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                </div>
-            </div>
-
-
-
-            <p class="faq-large-content text-center">
-                <img src="./Asset/image/right-arrow.png" alt="">
-                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample5" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
-            </a>
-
-            </p>
-            <div class="collapse" id="collapseExample5">
-                <div class="faq-small-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
-                    eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat arcu.
-                    Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget nisl.
-                    Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                </div>
-            </div>
-
-
-
-            <p class="faq-large-content text-center">
-                <img src="./Asset/image/right-arrow.png" alt="">
-                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample6" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
-            </a>
-
-            </p>
-            <div class="collapse" id="collapseExample6">
-                <div class="faq-small-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
-                    eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat arcu.
-                    Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget nisl.
-                    Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                </div>
-            </div>
-
-
-
-            <p class="faq-large-content text-center">
-                <img src="./Asset/image/right-arrow.png" alt="">
-                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample7" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
-            </a>
-
-            </p>
-            <div class="collapse" id="collapseExample7">
-                <div class="faq-small-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
-                    eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat arcu.
-                    Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget nisl.
-                    Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                </div>
-            </div>
-
-
-
-            <p class="faq-large-content text-center">
-                <img src="./Asset/image/right-arrow.png" alt="">
-                <a class="btn btn-primary " data-bs-toggle="collapse" href="#collapseExample8" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color: white; color: black; border: white;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc, iaculis mattis tellus ac ut non imperdiet velit?
-            </a>
-
-            </p>
-            <div class="collapse" id="collapseExample8">
-                <div class="faq-small-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt, fringilla ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit tortor. Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent
-                    eu dui vel lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec et placerat arcu.
-                    Suspendisse lacinia tristique massa. Etiam risus justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit amet congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget nisl.
-                    Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                </div>
-            </div>
-
-        </div>
+        </section>
 
         <section class="our-news-letter">
             <div class="container text-center">
@@ -237,9 +309,9 @@ include("navbar.php");
 
     </section>
 
-<?php 
-include("footer.php");
-?>
+    <?php
+    include("footer.php");
+    ?>
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>

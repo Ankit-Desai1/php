@@ -65,11 +65,37 @@ body {
 }
 
 .faq-small-content {
+    padding-left: 15%;
+    padding-right: 15%;
     font-size: 16px;
     color: #646464;
     text-align: left;
     letter-spacing: 0px;
-    margin-left: 100px;
+}
+
+.faqq ul {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.faqq .nav-pills .nav-link {
+    background-color: #F6F6F6;
+    /* margin-top: 3%; */
+    text-align: center;
+    /* padding: 7px; */
+}
+
+.faqq ul a {
+    color: #646464;
+    font-size: 24px;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    background-color: #29626D;
+    color: #FFFFFF;
+    font-size: 24px;
+    text-align: center;
 }
 
 .col-customer {

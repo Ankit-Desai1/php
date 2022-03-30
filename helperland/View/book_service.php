@@ -8,6 +8,7 @@
     <link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/ui-lightness/jquery-ui.css' rel='stylesheet'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://malsup.github.io/jquery.blockUI.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Book service</title>
@@ -63,7 +64,6 @@ if (isset($_SESSION['username'])) {
                         <button class="tablinks" onclick="set_service(event, 'form3')" id="tab3btn"><img src="./Asset/image/details.png" alt=".."><span class="btnforcontent"> Your Details</span></button>
                         <button class="tablinks" onclick="set_service(event, 'form4')" id="tab4btn"><img src="./Asset/image/payment.png" alt=".."><span class="btnforcontent"> Make Payment</span></button>
                     </div>
-
 
                     <!-- 
 ----------------------------------Enter postal-------------------------------------- -->
@@ -210,6 +210,7 @@ if (isset($_SESSION['username'])) {
                             </label>
                         </div>
                         <hr>
+
                         <button class="continue" type="submit" id="schedule_plan">
                             Continue
                         </button>
@@ -264,6 +265,11 @@ if (isset($_SESSION['username'])) {
                             </div>
                         </form>
                         <hr>
+                        <p>Your favourite Service Providers</p>
+                        <hr>
+                        <p>You can choose your favourite service provider from the below list.</p>
+                        <div id="yourFav" class="favSP"></div>
+                        <hr>
                         <button class="continue" type="submit" id="select_address">
                             Continue
                         </button>
@@ -287,26 +293,9 @@ if (isset($_SESSION['username'])) {
                             as a consumer with full performance of the contract.
                         </div>
                         <hr>
-                        <button class="continue" type="submit" id="complete_booking" data-bs-toggle="modal" data-bs-target="#confirmform">
+                        <button class="continue" type="submit" id="complete_booking">
                             Complete Booking
                         </button>
-                    </div>
-                </div>
-
-                <div class="modal fade" id="confirmform" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="forgotform" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="service_status">
-                                    <i class="fas fa-badge-check"></i>
-                                    <p>you service has been submited successfully</p>
-                                    <p>Service ID: <span id="service_id"></span></p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -532,6 +521,8 @@ if (isset($_SESSION['username'])) {
         include("footer.php");
         ?>
 
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.10/dist/sweetalert2.all.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
         <script src="./Asset/js/book_service.js?v=1"></script>

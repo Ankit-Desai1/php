@@ -316,6 +316,17 @@ th {
     font-weight: 700;
 }
 
+#dvLoading {
+    background: url(./Asset/image/preloader.gif) no-repeat center center;
+    height: 100px;
+    width: 100px;
+    position: fixed;
+    z-index: -1;
+    left: 50%;
+    top: 50%;
+    margin: -25px 0 0 -25px;
+}
+
 
 /* main page end */
 

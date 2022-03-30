@@ -8,6 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Home Page</title>
     <link rel="stylesheet" href="./Asset/css/home_style.css">
+    <link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/ui-lightness/jquery-ui.css' rel='stylesheet'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <?php $base_url = 'http://localhost/php/helperland/'; ?>
     <script>
         var config = {
@@ -89,6 +92,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <div class="alert text-center d-none" id="loginerror" role="alert"> </div>
                         <form action="<?= $base_url . '?controller=Helperland&function=login' ?>" method="post">
                             <div class="login_input mb-3">
                                 <input type="email" class="form-control shadow-none" id="loginemail" name="email" placeholder="Email" value="<?php if (isset($_COOKIE['emailcookie'])) {
@@ -188,7 +192,7 @@
 
 
             <div class=" text-center ">
-                <button class="button-for-booking ">Book a helper!</button>
+                <a class="button-for-booking " href="<?= $base_url . 'index.php#loginform' ?>">Book a helper!</a>
             </div>
 
 
@@ -503,16 +507,53 @@
     }
     ?>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <?php
+
+    if (isset($_SESSION['loginerror'])) {  ?>
+        <script>
+            errortype = <?php
+                        echo  $_SESSION['loginerror']; ?>;
+            if (errortype == 1) {
+                $("#loginerror").removeClass("alert-success d-none").addClass("alert-danger").text("Your Account Is Not Activated. Please Try Again After Some Time");
+            } else if (errortype == 2) {
+                $("#loginerror").removeClass("alert-success d-none").addClass("alert-danger").text("Your Account Is Not Active.");
+            }
+        </script>
+    <?php
+    }
+    ?>
+
+    <?php
+    if (isset($_SESSION['logout'])) {  ?>
+        <script>
+            logout = <?php
+                        echo  $_SESSION['logout']; ?>;
+            $(document).ready(function() {
+                if (logout == 1) {
+                    Swal.fire({
+                        title: 'logout Successfully.',
+                        text: '',
+                        icon: 'success',
+                        confirmButtonText: 'Done'
+                    });
+                }
+            });
+        </script>
+    <?php
+    }
+    ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.10/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js " integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB " crossorigin="anonymous "></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js " integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13 " crossorigin="anonymous "></script>
     <script src="./Asset/js/home_page.js"></script>
 </body>
 
-
 <?php
 unset($_SESSION['msg']);
 unset($_SESSION['message']);
+unset($_SESSION['loginerror']);
+unset($_SESSION['logout']);
 ?>
 
 </html>

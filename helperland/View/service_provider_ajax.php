@@ -14,23 +14,7 @@
 
         new_service_data(page, n, pet);
 
-        function new_service_data(page, n, pet) {
-            $.ajax({
-                type: 'POST',
-                url: "http://localhost/php/helperland/?controller=Helperland&function=new_service_data",
-                data: {
-                    page: page,
-                    no: n,
-                    pet: pet,
-                    userid: userid,
-                },
-                success: function(data) {
-                    //console.log(data);
-                    $('#new_service_db').html(data);
 
-                }
-            })
-        }
         $(document).on('click', 'input[type="checkbox"]', function() {
             if ($(this).prop("checked") == true) {
                 pet = 1;
@@ -52,10 +36,10 @@
         });
 
         $(document).on('click', '.accept', function() {
-
+            $.blockUI({
+                message: ' <img src="./Asset/image/preloader.gif" alt="."> '
+            });
             serviceid = $(this).attr('id');
-
-
             $.ajax({
                 type: 'POST',
                 url: "http://localhost/php/helperland/?controller=Helperland&function=accept_sp_service",
@@ -65,7 +49,8 @@
                     'serviceid': serviceid,
                 },
                 success: function(data) {
-                    console.log(data);
+                    //console.log(data);
+                    $.unblockUI();
                     if (data == 0) {
                         Swal.fire({
                             title: 'Service Already Accepted.',
@@ -99,11 +84,30 @@
                         });
                     }
                     new_service_data('1', n, pet);
+                    upcoming_service_data('1', n);
                 }
             })
         });
 
     });
+
+    function new_service_data(page, n, pet) {
+        $.ajax({
+            type: 'POST',
+            url: "http://localhost/php/helperland/?controller=Helperland&function=new_service_data",
+            data: {
+                page: page,
+                no: n,
+                pet: pet,
+                userid: userid,
+            },
+            success: function(data) {
+                //console.log(data);
+                $('#new_service_db').html(data);
+
+            }
+        })
+    }
 
 
     // ---------------------UPCOMING SERVICE AJAX-----------------
@@ -115,21 +119,7 @@
 
         upcoming_service_data(page, n);
 
-        function upcoming_service_data(page, n) {
-            $.ajax({
-                type: 'POST',
-                url: "http://localhost/php/helperland/?controller=Helperland&function=upcoming_service_data",
-                data: {
-                    page: page,
-                    no: n,
-                    userid: userid,
-                },
-                success: function(data) {
-                    //console.log(data);
-                    $('#upcoming_services').html(data);
-                }
-            })
-        }
+
 
         $(document).on("change", "#upcoming_service_no", function() {
             n = $("#upcoming_service_no option:selected").val();
@@ -169,12 +159,15 @@
                             confirmButtonText: 'Done'
                         });
                     }
+                    new_service_data('1', n, pet);
                 }
             })
         });
 
         $(document).on('click', '.cancel', function() {
-
+            $.blockUI({
+                message: ' <img src="./Asset/image/preloader.gif" alt="."> '
+            });
             id = $(this).attr('id');
             $.ajax({
                 type: 'POST',
@@ -183,6 +176,7 @@
                     serviceid: id,
                 },
                 success: function(data) {
+                    $.unblockUI();
                     upcoming_service_data('1', n);
                     if (data == 1) {
                         Swal.fire({
@@ -199,11 +193,28 @@
                             confirmButtonText: 'Done'
                         });
                     }
+                    new_service_data('1', n, pet);
                 }
             })
         });
 
     });
+
+    function upcoming_service_data(page, n) {
+        $.ajax({
+            type: 'POST',
+            url: "http://localhost/php/helperland/?controller=Helperland&function=upcoming_service_data",
+            data: {
+                page: page,
+                no: n,
+                userid: userid,
+            },
+            success: function(data) {
+                //console.log(data);
+                $('#upcoming_services').html(data);
+            }
+        })
+    }
 
 
 
@@ -252,17 +263,19 @@
     $(document).ready(function() {
         page = 1;
         n = 5;
+        r = 0;
 
-        rating_data(page, n);
+        rating_data(page, n, r);
 
-        function rating_data(page, n) {
+        function rating_data(page, n, r) {
             $.ajax({
                 type: 'POST',
                 url: "http://localhost/php/helperland/?controller=Helperland&function=rating_data",
                 data: {
-                    page: page,
-                    no: n,
-                    userid: userid,
+                    'page': page,
+                    'no': n,
+                    'userid': userid,
+                    'rating': r,
                 },
                 success: function(data) {
                     //console.log(data);
@@ -273,13 +286,18 @@
 
         $(document).on("change", "#rating_no", function() {
             n = $("#rating_no option:selected").val();
-            rating_data('1', n);
+            rating_data('1', n, r);
+        });
+
+        $(document).on("change", "#ratingFilter", function() {
+            r = $("#ratingFilter option:selected").val();
+            rating_data('1', n, r);
         });
 
 
         $(document).on("click", ".rating-btn", function() {
             page = $(this).attr("id");
-            rating_data(page, n);
+            rating_data(page, n, r);
         });
     });
 
@@ -686,6 +704,49 @@
             }
         })
 
+    });
+
+
+
+    // --------------------- SERVICE SCHEDULE-----------------
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('service_calender');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+
+
+            eventSources: [
+
+                {
+                    url: "http://localhost/php/helperland/?controller=Helperland&function=detail_for_calender&parameter=" + userid,
+                }
+
+            ],
+
+            eventClick: function(info) {
+                var eventObj = info.event;
+                var pincode = eventObj.id.substring(0, 6);
+                var id = eventObj.id.substring(6, 15)
+                console.log(pincode);
+
+                $.ajax({
+                    type: 'POST',
+                    url: "http://localhost/php/helperland/?controller=Helperland&function=detail_of_all_services",
+                    data: {
+                        "serviceid": id,
+                    },
+                    success: function(data) {
+                        // console.log(data);
+
+                        $('.show_all_details').html(data);
+                        $('#all_detail').modal('show');
+                        getMap(pincode);
+                    }
+                })
+            },
+        });
+        calendar.render();
     });
 
     function getMap(zipcode) {

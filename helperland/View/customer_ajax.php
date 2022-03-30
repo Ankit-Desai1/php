@@ -20,7 +20,7 @@
                     "userid": userid
                 },
                 success: function(data) {
-                    console.log(data);
+                    //console.log(data);
                     $('#dbrecord').html(data);
 
                 }
@@ -158,7 +158,9 @@
 
         });
         $(document).on('click', '#confirm_delete', function() {
-
+            $.blockUI({
+                message: ' <img src="./Asset/image/preloader.gif" alt="."> '
+            });
             id = $('#confirm_delete').val();
             // alert(id);
             $.ajax({
@@ -168,8 +170,7 @@
                     serviceid: id,
                 },
                 success: function(data) {
-                    console.log(data);
-                    // console.log("hello");
+                    $.unblockUI();
                     dashboard_data(page, n);
                 }
             })
@@ -189,20 +190,45 @@
             id = $('#confirm_reschedule').val();
             servicestartdate = $.trim($('#selected_date').val()) + " " +
                 $('#selected_time').val();
+            window.setTimeout(function() {
+                $('#rescheduleError').addClass('d-none');
+            }, 5000);
+            if ($.trim($('#selected_date').val()) == '') {
+                $('#reschedule_model').modal('show');
+                $("#rescheduleError").removeClass("alert-success d-none").addClass("alert-danger").text("Please Choose Service Date.");
+            } else {
+                $.blockUI({
+                    message: ' <img src="./Asset/image/preloader.gif" alt="."> '
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: "http://localhost/php/helperland/?controller=Helperland&function=reschedule_service",
+                    data: {
+                        'userid': userid,
+                        'serviceid': id,
+                        'servicestartdate': servicestartdate,
+                    },
+                    success: function(data) {
+                        //console.log(data);
+                        $.unblockUI();
 
-            $.ajax({
-                type: 'POST',
-                url: "http://localhost/php/helperland/?controller=Helperland&function=reschedule_service",
-                data: {
+                        if (data == 1) {
+                            $('#reschedule_model').modal('show');
+                            $("#rescheduleError").removeClass("alert-success d-none").addClass("alert-danger").text("This New Time Conflict With ServiceProviders Date & Time. So, Please choose Different Time.");
+                        }
 
-                    serviceid: id,
-                    servicestartdate: servicestartdate,
-                },
-                success: function(data) {
-                    //console.log(data);
-                    dashboard_data(page, n);
-                }
-            })
+                        if (data == 0) {
+                            Swal.fire({
+                                title: 'Service Reschedule Successfully.',
+                                text: '',
+                                icon: 'success',
+                                confirmButtonText: 'Done'
+                            });
+                        }
+                        dashboard_data(page, n);
+                    }
+                })
+            }
         });
     });
 
@@ -322,40 +348,67 @@
         monthofbirth = $('#dateofmonth').val();
         yearofbirth = $('#yearofbirth').val();
         language = $('#languageid').val();
-        $.ajax({
+        window.setTimeout(function() {
+            $('#user_error').addClass('d-none');
+        }, 5000);
+        validNumber = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+        if (firstname == "") {
+            $("#user_error").removeClass("alert-success d-none").addClass("alert-danger").text("First name is Required.");
+            $("#firstname").focus();
+        } else if (lastname == "") {
+            $("#user_error").removeClass("alert-success d-none").addClass("alert-danger").text("Last name is Required.");
+            $("#lastname").focus();
+        } else if (phonenumber == "") {
+            $("#user_error").removeClass("alert-success d-none").addClass("alert-danger").text("Mobile Number is Required.");
+            $("#phonenumber").focus();
+        } else if (phonenumber.length != 10 && !validNumber.test(phonenumber)) {
+            $("#user_error").removeClass("alert-success d-none").addClass("alert-danger").text("Invalid Mobile Number.");
+            $("#phonenumber").focus();
+        } else if (monthofbirth == "Month") {
+            $("#user_error").removeClass("alert-success d-none").addClass("alert-danger").text("Invalid Date Of Birth");
+            $("#dateofmonth").focus();
+        } else if (dateofbirth == "Day") {
+            $("#user_error").removeClass("alert-success d-none").addClass("alert-danger").text("Invalid Date Of Birth.");
+            $("#dateofbirth").focus();
+        } else if (yearofbirth == "Year") {
+            $("#user_error").removeClass("alert-success d-none").addClass("alert-danger").text("Invalid Date Of Birth");
+            $("#yearofbirth").focus();
+        } else {
+            $.ajax({
 
-            type: "POST",
-            url: "http://localhost/php/helperland/?controller=Helperland&function=update_details",
-            data: {
-                userid: userid,
-                firstname: firstname,
-                lastname: lastname,
-                phonenumber: phonenumber,
-                dateofbirth: dateofbirth,
-                monthofbirth: monthofbirth,
-                yearofbirth: yearofbirth,
-                language: language,
-            },
-            success: function(data) {
-                if (data == 1) {
-                    Swal.fire({
-                        title: 'Your Detail is Updated.',
-                        text: 'Service Request Id : ' + userid,
-                        icon: 'success',
-                        confirmButtonText: 'Done'
-                    });
-                }
-                if (data == 0) {
-                    Swal.fire({
-                        title: 'Details Are Not Updated. Please Try Again.',
-                        text: 'Service Request Id : ' + userid,
-                        icon: 'error',
-                        confirmButtonText: 'Done'
-                    });
-                }
+                type: "POST",
+                url: "http://localhost/php/helperland/?controller=Helperland&function=update_details",
+                data: {
+                    userid: userid,
+                    firstname: firstname,
+                    lastname: lastname,
+                    phonenumber: phonenumber,
+                    dateofbirth: dateofbirth,
+                    monthofbirth: monthofbirth,
+                    yearofbirth: yearofbirth,
+                    language: language,
+                },
+                success: function(data) {
+                    if (data == 1) {
+                        Swal.fire({
+                            title: 'Your Detail is Updated.',
+                            text: 'Service Request Id : ' + userid,
+                            icon: 'success',
+                            confirmButtonText: 'Done'
+                        });
+                    }
+                    if (data == 0) {
+                        Swal.fire({
+                            title: 'Details Are Not Updated. Please Try Again.',
+                            text: 'Service Request Id : ' + userid,
+                            icon: 'error',
+                            confirmButtonText: 'Done'
+                        });
+                    }
 
-            }
-        });
+                }
+            });
+        }
 
     })
 
@@ -368,48 +421,75 @@
         firstname = $("#firstname").val();
         lastname = $("#lastname").val();
         modifiedby = firstname + " " + lastname;
-        $.ajax({
-            type: "POST",
-            url: "http://localhost/php/helperland/?controller=Helperland&function=change_password",
-            data: {
-                'userid': userid,
-                'oldpassword': oldpassword,
-                'newpassword': newpassword,
-                'confirmpassword': confirmpassword,
-                'modifiedby': modifiedby,
-            },
-            success: function(data) {
-                $("#iframeloading").hide();
-                if (data == 1) {
-                    $("#newpassword").val("");
-                    $("#newpassword").removeClass('valid-input');
-                    $("#currentpassword").val("");
-                    $("#confirmpassword").val("");
-                    $("#confirmpassword").removeClass('valid-input');
 
-                    Swal.fire({
-                        title: 'Your Password Has Been Updated Successfully',
-                        text: '',
-                        icon: 'success',
-                        confirmButtonText: 'Done'
-                    });
+        window.setTimeout(function() {
+            $('#password_error').addClass('d-none');
+        }, 5000);
+        var paswordtest = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,14}$/;
+
+        if (oldpassword == "" && newpassword == "" && confirmpassword == "") {
+            $("#password_error").removeClass("alert-success d-none").addClass("alert-danger").text("All Fields are Required.");
+            $("#oldpassword").focus();
+        } else if (oldpassword == "") {
+            $("#password_error").removeClass("alert-success d-none").addClass("alert-danger").text("Old password is Required.");
+            $("#oldpassword").focus();
+        } else if (newpassword == "") {
+            $("#password_error").removeClass("alert-success d-none").addClass("alert-danger").text("New password is Required.");
+            $("#newpassword").focus();
+        } else if (!paswordtest.test(newpassword)) {
+            $("#password_error").removeClass("alert-success d-none").addClass("alert-danger").text("Password must contain at least 1 capital letter, 1 small letter, 1 number and one special character. Password length must be in between 6 to 14 characters.");
+            $("#newpassword").focus();
+        } else if (confirmpassword == "") {
+            $("#password_error").removeClass("alert-success d-none").addClass("alert-danger").text("Confirm password is Required.");
+            $("#confirmpassword").focus();
+        } else if (newpassword != confirmpassword) {
+            $("#password_error").removeClass("alert-success d-none").addClass("alert-danger").text("New Password and Confirm Password must be match.");
+            $("#confirmpassword").focus();
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/php/helperland/?controller=Helperland&function=change_password",
+                data: {
+                    'userid': userid,
+                    'oldpassword': oldpassword,
+                    'newpassword': newpassword,
+                    'confirmpassword': confirmpassword,
+                    'modifiedby': modifiedby,
+                },
+                success: function(data) {
+                    $("#iframeloading").hide();
+                    if (data == 1) {
+                        $("#newpassword").val("");
+                        $("#newpassword").removeClass('valid-input');
+                        $("#currentpassword").val("");
+                        $("#confirmpassword").val("");
+                        $("#confirmpassword").removeClass('valid-input');
+
+                        Swal.fire({
+                            title: 'Your Password Has Been Updated Successfully',
+                            text: '',
+                            icon: 'success',
+                            confirmButtonText: 'Done'
+                        });
+                    }
+                    if (data == 0) {
+                        $('.passworderror').text("Current Password is Invalid");
+                        $('.passworderror').show();
+                        setTimeout(function() {
+                            $(".passworderror").hide();
+                        }, 5000);
+                    }
+                    if (data == 2) {
+                        $('.passworderror').text("Password Not Updated");
+                        $('.passworderror').show();
+                        setTimeout(function() {
+                            $(".passworderror").hide();
+                        }, 5000);
+                    }
                 }
-                if (data == 0) {
-                    $('.passworderror').text("Current Password is Invalid");
-                    $('.passworderror').show();
-                    setTimeout(function() {
-                        $(".passworderror").hide();
-                    }, 5000);
-                }
-                if (data == 2) {
-                    $('.passworderror').text("Password Not Updated");
-                    $('.passworderror').show();
-                    setTimeout(function() {
-                        $(".passworderror").hide();
-                    }, 5000);
-                }
-            }
-        });
+            });
+
+        }
     });
 
 

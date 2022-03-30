@@ -54,7 +54,7 @@ $(document).ready(function() {
 $(document).ready(function() {
 
     $("#selected_date").datepicker({
-        dateFormat: "dd/mm/yy",
+        dateFormat: "yy/mm/dd",
         minDate: "+1d"
     });
 
@@ -143,8 +143,10 @@ $('#complete_booking').prop("disabled", true);
 $('input:checkbox').click(function() {
     if ($(this).is(':checked')) {
         $('#complete_booking').prop("disabled", false);
+        $('#complete_booking').css('cursor', 'pointer');
     } else {
-        $('#complete_booking').attr('disabled', true);
+        $('#complete_booking').prop('disabled', true);
+        $('#complete_booking').css('cursor', 'not-allowed');
     }
 });
 

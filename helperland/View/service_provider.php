@@ -12,6 +12,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"></script>
+
     <?php $base_url = 'http://localhost/php/helperland/'; ?>
     <script>
         var config = {
@@ -126,6 +129,7 @@
     <!-- welcome start -->
     <section class="welcome">
         <h1>Welcome, <span><?php echo $_SESSION['username']; ?>!</span> </h1>
+
     </section>
     <!-- welcome end -->
 
@@ -149,19 +153,26 @@
             <h3>Dashboard</h3>
         </div>
         <div class="show_all_details"></div>
+
+
         <div id="new_service_request" class="tabcontent">
 
             <span><input type="checkbox" class="form-check-input" name="" id="checkboxpet" value="checkedValue" checked>
             </span>
             <span>Include pet at home</span>
             <div id="new_service_db" class="mt-3"></div>
-
         </div>
+
+
         <div id="upcoming_services" class="tabcontent">
         </div>
+
+
         <div id="service_schedule" class="tabcontent">
-            <h3>Service Schedule</h3>
+            <div id="service_calender"></div>
         </div>
+
+
         <div id="service_history" class="tabcontent">
             <span class="paymentStatus">Payment Status
             </span>
@@ -171,16 +182,18 @@
             <button class="blue_button" id="export">Export</button>
             <div id="history_db"></div>
         </div>
+
+
         <div id="my_ratings" class="tabcontent">
-            <span>Rating
-            </span>
-            <select name="rating">
-                <option value="all">All </option>
-            </select>
+
             <div id="rating"></div>
         </div>
+
+
         <div id="block_customer" class="tabcontent">
         </div>
+
+
         <div id="my_setting" class="tabcontent">
             <div>
                 <ul class="nav nav-tabs nav-justified  mb-3" role="tablist" id="myTab11">
@@ -442,12 +455,22 @@
     ?>
     <!-- footer end -->
 
+    <div id="dvLoading"></div>
+
+    <!-- <div id="iframeloading" style="  top: -8%;
+    display: none;
+    position: fixed;
+    left: 0%;
+    height: 100%;">
+        <img src="./Asset/image/preloader.gif" alt="loading" />
+    </div> -->
+
+
     <script src="./Asset/js/service_provider.js"></script>
     <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.10/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-
 
     <?php
     include("service_provider_ajax.php");

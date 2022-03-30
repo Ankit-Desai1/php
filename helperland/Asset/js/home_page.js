@@ -63,3 +63,10 @@ $(document).ready(function() {
 
     });
 });
+
+
+$(document).ready(function() {
+    window.setTimeout(function() {
+        $('#loginerror').addClass('d-none');
+    }, 5000);
+});
