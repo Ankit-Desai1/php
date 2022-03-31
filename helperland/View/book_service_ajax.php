@@ -271,7 +271,6 @@
         } else {
             pets = 0;
         }
-        alert(serviceprovider);
         AddServiceRequest();
     });
 

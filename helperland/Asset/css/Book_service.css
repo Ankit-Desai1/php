@@ -63,6 +63,18 @@
         color: #FFFFFF;
     }
     
+    .tab button.active:after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-top: solid 10px #e15915;
+        border-left: solid 10px transparent;
+        border-right: solid 10px transparent;
+    }
+    
     .schedule h2 {
         font-size: 18px;
         font-weight: 700;

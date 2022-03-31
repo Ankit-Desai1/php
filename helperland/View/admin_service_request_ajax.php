@@ -205,6 +205,9 @@
                 $("#edit_error").removeClass("alert-success d-none").addClass("alert-danger").text("Enter Reason For Reschedule.");
                 $("#reason").focus();
             } else {
+                $.blockUI({
+                    message: ' <img src="./Asset/image/preloader.gif" alt="."> '
+                });
                 $('#editmodal').modal('hide');
                 $.ajax({
                     type: "POST",
@@ -220,6 +223,7 @@
                     },
                     success: function(data) {
                         //console.log(data);
+                        $.unblockUI();
                         if (data == 0) {
                             Swal.fire({
                                 title: '',
@@ -296,7 +300,8 @@
                         'refund': refund,
                     },
                     success: function(data) {
-                        console.log(data);
+                        //console.log(data);
+                        $('#refundmodal').modal('hide');
                         if (data == 0) {
                             Swal.fire({
                                 title: 'Refund Fail.',
@@ -313,7 +318,6 @@
                                 confirmButtonText: 'Done'
                             });
                         }
-                        $('#refundmodal').modal('hide');
                     }
                 });
             }
